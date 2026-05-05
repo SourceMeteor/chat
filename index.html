@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CzatSZKOLA - FINAL REPAIR</title>
+    <title>CzatSZKOLA PRO - Final Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Merriweather&family=Orbitron:wght@400;700&display=swap');
 
+        :root { --accent: #3b82f6; }
         body { 
             overflow: hidden; height: 100dvh; margin: 0; 
             background-color: #0f172a; background-size: cover; background-position: center; transition: 0.5s;
@@ -19,98 +20,129 @@
 
         .tab-content { display: none; height: calc(100dvh - 80px); width: 100%; overflow-y: auto; }
         .tab-content.active { display: flex; flex-direction: column; }
-        .glass { background: rgba(15, 23, 42, 0.96); backdrop-filter: blur(15px); border-top: 1px solid rgba(255,255,255,0.1); }
         
-        /* TAPETY */
-        .theme-1 { background-image: url('Assets/wall/1.png') !important; }
-        .theme-2 { background-image: url('Assets/wall/2.png') !important; }
-        .theme-3 { background-image: url('Assets/wall/3.png') !important; }
-        .theme-0 { background-color: #0f172a; background-image: none; }
-
-        /* CZAT */
-        #messages { flex: 1; padding: 20px; padding-bottom: 240px; display: flex; flex-direction: column; gap: 12px; }
-        .msg-container { display: flex; gap: 10px; max-width: 85%; align-self: flex-start; }
-        .msg-container.me { align-self: flex-end; flex-direction: row-reverse; }
-        
-        .msg-bubble { background: rgba(30, 41, 59, 0.9); padding: 12px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.1); position: relative; }
-        .me .msg-bubble { background: rgba(37, 99, 235, 0.3); border-color: rgba(37, 99, 235, 0.5); }
-        
-        .reaction-bar { display: flex; gap: 6px; margin-top: 8px; }
-        .reaction { cursor: pointer; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 10px; font-size: 11px; border: 1px solid rgba(255,255,255,0.1); }
-
+        .glass { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,0.1); }
         .input-area { position: fixed; bottom: 80px; left: 0; width: 100%; padding: 12px; z-index: 100; }
         
-        nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 80px; z-index: 200; display: flex; background: #0f172a; border-top: 1px solid #1e293b; }
-        nav button { flex: 1; height: 100%; font-size: 1.5rem; transition: 0.2s; opacity: 0.6; }
-        nav button.active-nav { opacity: 1; color: #3b82f6; border-top: 3px solid #3b82f6; }
+        /* Tapety */
+        .theme-1 { background-image: url('Assets/wall/1.png'); }
+        .theme-2 { background-image: url('Assets/wall/2.png'); }
+        .theme-3 { background-image: url('Assets/wall/3.png'); }
+        .theme-0 { background-color: #0f172a; }
+
+        /* Styl wiadomości */
+        #messages { flex: 1; padding: 20px; padding-bottom: 220px; display: flex; flex-direction: column; gap: 15px; }
+        .msg-container { display: flex; gap: 10px; max-width: 85%; align-self: flex-start; animation: fadeIn 0.3s ease; }
+        .msg-container.me { align-self: flex-end; flex-direction: row-reverse; }
+        
+        .msg-bubble { background: rgba(30, 41, 59, 0.9); padding: 12px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.1); position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .me .msg-bubble { background: rgba(37, 99, 235, 0.25); border-color: rgba(37, 99, 235, 0.4); }
+        
+        .reaction-bar { display: flex; gap: 5px; margin-top: 8px; }
+        .reaction { cursor: pointer; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 10px; font-size: 11px; border: 1px solid rgba(255,255,255,0.1); transition: 0.2s; }
+        .reaction:hover { background: rgba(255,255,255,0.1); }
+
+        .del-btn { position: absolute; top: -5px; right: -5px; background: #ef4444; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; opacity: 0; transition: 0.3s; }
+        .msg-bubble:hover .del-btn { opacity: 1; }
+
+        nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 80px; z-index: 200; display: flex; border-top: 1px solid rgba(255,255,255,0.1); background: #0f172a; }
+        nav button { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; font-size: 1.2rem; color: #64748b; transition: 0.3s; }
+        nav button.active-nav { color: #3b82f6; background: rgba(59, 130, 246, 0.05); }
+        nav button span { font-size: 10px; font-weight: bold; text-transform: uppercase; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body id="mainBody" class="theme-0 text-white font-modern">
 
+    <!-- NAGŁÓWEK -->
     <header class="h-[70px] border-b border-gray-800 flex justify-between items-center px-4 glass sticky top-0 z-[150]">
         <div class="flex items-center gap-3">
-            <img id="headerAvatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-10 h-10 rounded-full border-2 border-blue-500 object-cover">
-            <h1 id="headerNick" class="text-sm font-bold text-blue-400 italic truncate max-w-[150px]">Ładowanie...</h1>
+            <div class="relative">
+                <img id="headerAvatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-10 h-10 rounded-full border-2 border-blue-500 object-cover">
+                <div id="vipBadge" class="hidden absolute -top-1 -right-1 bg-yellow-500 text-[8px] px-1 rounded-full text-black font-bold">VIP</div>
+            </div>
+            <div>
+                <h1 id="headerNick" class="text-sm font-bold text-blue-400 italic leading-none">Ładowanie...</h1>
+                <p class="text-[9px] text-gray-500 uppercase tracking-tighter">Status: Online</p>
+            </div>
         </div>
-        <span id="coinCount" class="text-yellow-400 font-bold text-[13px] bg-gray-900/80 px-3 py-1 rounded-full border border-yellow-500/30">0 🪙</span>
+        <div class="flex flex-col items-end">
+            <span id="coinCount" class="text-yellow-400 font-bold text-[14px] bg-yellow-400/10 px-3 py-1 rounded-full border border-yellow-400/20 shadow-lg shadow-yellow-900/10">0 🪙</span>
+        </div>
     </header>
 
     <main class="relative h-full w-full">
-        <!-- CZAT -->
+        <!-- ZAKŁADKA: CZAT -->
         <section id="chatTab" class="tab-content active">
             <div id="messages"></div>
             <div class="input-area glass">
                 <div class="flex gap-2 max-w-5xl mx-auto">
-                    <input type="text" id="userInput" placeholder="Twoja wiadomość..." class="flex-1 bg-gray-800 p-4 rounded-2xl outline-none border border-gray-700">
-                    <button id="sendBtn" class="bg-blue-600 px-6 py-4 rounded-2xl font-bold">></button>
+                    <input type="text" id="userInput" placeholder="Napisz coś..." class="flex-1 bg-gray-800/50 p-4 rounded-2xl outline-none border border-gray-700 focus:border-blue-500 transition-all">
+                    <button id="sendBtn" class="bg-blue-600 hover:bg-blue-500 px-6 py-4 rounded-2xl font-bold transition-transform active:scale-90">wyslij</button>
                 </div>
             </div>
         </section>
 
-        <!-- SKLEP -->
+        <!-- ZAKŁADKA: SKLEP -->
         <section id="shopTab" class="tab-content p-6">
-            <h2 class="text-2xl font-black text-blue-400 mb-6 uppercase">Sklep</h2>
-            <div class="space-y-4">
-                <div class="bg-gray-800/80 p-5 rounded-3xl border border-red-500/50 flex justify-between items-center">
+            <h2 class="text-2xl font-black text-blue-400 mb-6 uppercase italic tracking-widest">Rynek Monet</h2>
+            <div class="grid gap-4 max-w-md mx-auto">
+                <div class="bg-gray-800/80 p-5 rounded-3xl border border-purple-500/30 flex justify-between items-center">
                     <div>
-                        <p class="font-bold text-lg text-red-400">❓ Legendarne Pudełko</p>
-                        <p class="text-[10px] text-gray-400">Znasz to bardzo dobrze...</p>
+                        <p class="font-bold text-lg text-purple-300">💎 Ranga VIP</p>
+                        <p class="text-[10px] text-gray-400">Specjalny znaczek i szacunek</p>
+                    </div>
+                    <button onclick="buyItem('vip', 5000)" class="bg-purple-600 px-5 py-2 rounded-xl text-xs font-bold">5,000</button>
+                </div>
+
+                <div class="bg-gray-800/80 p-5 rounded-3xl border border-red-500/50 flex justify-between items-center shadow-lg">
+                    <div>
+                        <p class="font-bold text-lg text-red-400">❓ Sekretny Box</p>
+                        <p class="text-[10px] text-gray-400">Nigdy Cię nie zawiedzie...</p>
                     </div>
                     <button onclick="rickRoll()" class="bg-red-600 px-5 py-2 rounded-xl text-xs font-bold uppercase">1 🪙</button>
                 </div>
-                <div class="bg-gray-800/80 p-5 rounded-3xl border border-purple-500/30 flex justify-between items-center opacity-50">
-                    <div>
-                        <p class="font-bold">💎 VIP Status</p>
-                        <p class="text-[10px] text-gray-400">Wkrótce dostępny</p>
-                    </div>
-                    <button class="bg-purple-600 px-4 py-2 rounded-xl text-xs font-bold">5K 🪙</button>
-                </div>
+                
+                <div class="p-6 text-center text-gray-600 text-xs italic">Więcej ulepszeń pojawi się wkrótce...</div>
             </div>
         </section>
 
-        <!-- PROFIL -->
+        <!-- ZAKŁADKA: PROFIL -->
         <section id="profileTab" class="tab-content p-6">
             <div class="max-w-sm mx-auto space-y-6">
-                <div class="bg-gray-900/50 p-5 rounded-3xl border border-gray-800">
-                    <p class="text-[10px] font-bold text-gray-500 uppercase text-center mb-4">Profil</p>
-                    <input type="text" id="nickInput" placeholder="Nowy Nick" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700 mb-3 text-sm">
-                    <input type="text" id="avatarInput" placeholder="Link do awatara" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700 mb-4 text-sm">
-                    <button onclick="updateProfile()" class="w-full bg-green-600 py-4 rounded-2xl font-bold uppercase text-xs">Zastosuj</button>
+                <div class="bg-gray-900/80 p-6 rounded-3xl border border-gray-800 shadow-2xl">
+                    <p class="text-[10px] font-bold text-gray-500 uppercase text-center mb-6 tracking-widest">Ustawienia Konta</p>
+                    <div class="space-y-4">
+                        <input type="text" id="nickInput" placeholder="Nowy Nick" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700 text-sm focus:border-blue-500">
+                        <input type="text" id="avatarInput" placeholder="URL Awatara (obrazek)" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700 text-sm focus:border-blue-500">
+                        <button onclick="updateProfile()" class="w-full bg-blue-600 py-4 rounded-2xl font-bold uppercase text-xs hover:bg-blue-500 transition-all">Zastosuj Zmiany</button>
+                    </div>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <button onclick="setTheme(0)" class="p-3 bg-slate-800 rounded-xl text-[10px]">STANDARD</button>
-                    <button onclick="setTheme(1)" class="p-3 bg-blue-900/40 border border-blue-500/50 rounded-xl text-[10px]">TAPETA 1</button>
-                    <button onclick="setTheme(2)" class="p-3 bg-purple-900/40 border border-purple-500/50 rounded-xl text-[10px]">TAPETA 2</button>
-                    <button onclick="setTheme(3)" class="p-3 bg-green-900/40 border border-green-500/50 rounded-xl text-[10px]">TAPETA 3</button>
+
+                <div class="space-y-4">
+                    <p class="text-center text-[10px] font-bold text-gray-500 uppercase">Wygląd Aplikacji</p>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="setFont('font-modern')" class="p-2 bg-gray-800 rounded-xl text-[9px] border border-gray-700">MODERN</button>
+                        <button onclick="setFont('font-classic')" class="p-2 bg-gray-800 rounded-xl text-[9px] border border-gray-700">CLASSIC</button>
+                        <button onclick="setFont('font-gaming')" class="p-2 bg-gray-800 rounded-xl text-[9px] border border-gray-700">GAMER</button>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="setTheme(0)" class="p-3 bg-slate-800 rounded-xl text-[10px]">STANDARD</button>
+                        <button onclick="setTheme(1)" class="p-3 bg-blue-900/20 border border-blue-500/50 rounded-xl text-[10px]">TŁO 1</button>
+                        <button onclick="setTheme(2)" class="p-3 bg-purple-900/20 border border-purple-500/50 rounded-xl text-[10px]">TŁO 2</button>
+                        <button onclick="setTheme(3)" class="p-3 bg-green-900/20 border border-green-500/50 rounded-xl text-[10px]">TŁO 3</button>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <nav>
-        <button id="nav-chat" class="active-nav" onclick="showTab('chat')">💬</button>
-        <button id="nav-shop" onclick="showTab('shop')">🛒</button>
-        <button id="nav-profile" onclick="showTab('profile')">⚙️</button>
+    <!-- NAWIGACJA -->
+    <nav class="glass">
+        <button id="nav-chat" class="active-nav" onclick="showTab('chat')">💬<span>Czat</span></button>
+        <button id="nav-shop" onclick="showTab('shop')">🛒<span>Sklep</span></button>
+        <button id="nav-profile" onclick="showTab('profile')">⚙️<span>Profil</span></button>
     </nav>
 
     <script type="module">
@@ -132,71 +164,68 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        let userData = { coins: 0 };
+        let userData = { coins: 0, nick: 'Anonim', avatar: '' };
 
+        // MONITOROWANIE STANU LOGOWANIA I DANYCH
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 onValue(ref(db, `users/${user.uid}`), (s) => {
-                    userData = s.val() || { coins: 0 };
-                    document.getElementById('headerNick').innerText = userData.nick || user.email.split('@')[0];
-                    document.getElementById('coinCount').innerText = `${(userData.coins || 0).toLocaleString()} 🪙`;
-                    document.getElementById('headerAvatar').src = userData.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+                    userData = s.val() || { coins: 0, nick: user.email.split('@')[0], avatar: '' };
+                    updateUI();
                 });
                 loadMessages();
             }
         });
 
-        window.showTab = (tab) => {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-nav'));
-            document.getElementById(tab + 'Tab').classList.add('active');
-            document.getElementById('nav-' + tab).classList.add('active-nav');
-        };
+        function updateUI() {
+            document.getElementById('headerNick').innerText = userData.nick || "Anonim";
+            document.getElementById('coinCount').innerText = `${(userData.coins || 0).toLocaleString()} 🪙`;
+            document.getElementById('headerAvatar').src = userData.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+            if(userData.vip) document.getElementById('vipBadge').classList.remove('hidden');
+        }
 
-        window.updateProfile = () => {
-            const nick = document.getElementById('nickInput').value.trim();
-            const avatar = document.getElementById('avatarInput').value.trim();
-            const up = {};
-            if(nick) up.nick = nick;
-            if(avatar) up.avatar = avatar;
-            update(ref(db, `users/${auth.currentUser.uid}`), up).then(() => alert("Zapisano!"));
-        };
-
+        // OBSŁUGA CZATU
         const sendMessage = async () => {
             const input = document.getElementById('userInput');
             let text = input.value.trim();
-            if(!text) return;
+            if(!text || !auth.currentUser) return;
 
-            await push(ref(db, "messages"), {
+            const msgData = {
                 text: text,
-                nick: userData.nick || auth.currentUser.email.split('@')[0],
+                nick: userData.nick,
                 avatar: userData.avatar || '',
                 uid: auth.currentUser.uid,
-                reactions: { heart: 0, fire: 0 },
+                reactions: { heart: 0, fire: 0, cry: 0 },
                 time: serverTimestamp()
-            });
-            update(ref(db, `users/${auth.currentUser.uid}`), { coins: increment(10) });
+            };
+
+            await push(ref(db, "messages"), msgData);
+            await update(ref(db, `users/${auth.currentUser.uid}`), { coins: increment(10) });
             input.value = '';
         };
 
         function loadMessages() {
             const mBox = document.getElementById('messages');
+            mBox.innerHTML = ''; // Czyścimy przed startem
+
             onChildAdded(ref(db, "messages"), (s) => {
                 const d = s.val();
                 const id = s.key;
                 const isMe = d.uid === auth.currentUser.uid;
+                
                 const div = document.createElement('div');
                 div.id = `msg-${id}`;
                 div.className = `msg-container ${isMe ? 'me' : ''}`;
                 div.innerHTML = `
                     <img src="${d.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}" class="w-8 h-8 rounded-full object-cover">
                     <div class="msg-bubble">
-                        ${isMe ? `<div class="absolute -top-2 -right-2 bg-red-500 w-5 h-5 rounded-full flex items-center justify-center text-[10px] cursor-pointer" onclick="deleteMsg('${id}')">×</div>` : ''}
+                        ${isMe ? `<div class="del-btn" onclick="deleteMsg('${id}')">×</div>` : ''}
                         <p class="text-[9px] font-bold text-blue-400 mb-1">${d.nick}</p>
                         <p class="text-sm">${d.text}</p>
                         <div class="reaction-bar" id="re-${id}">
                             <span class="reaction" onclick="addReaction('${id}', 'heart')">❤️ ${d.reactions?.heart || 0}</span>
                             <span class="reaction" onclick="addReaction('${id}', 'fire')">🔥 ${d.reactions?.fire || 0}</span>
+                            <span class="reaction" onclick="addReaction('${id}', 'cry')">😂 ${d.reactions?.cry || 0}</span>
                         </div>
                     </div>`;
                 mBox.appendChild(div);
@@ -209,7 +238,8 @@
                 if(bar) {
                     bar.innerHTML = `
                         <span class="reaction" onclick="addReaction('${s.key}', 'heart')">❤️ ${d.reactions?.heart || 0}</span>
-                        <span class="reaction" onclick="addReaction('${s.key}', 'fire')">🔥 ${d.reactions?.fire || 0}</span>`;
+                        <span class="reaction" onclick="addReaction('${s.key}', 'fire')">🔥 ${d.reactions?.fire || 0}</span>
+                        <span class="reaction" onclick="addReaction('${s.key}', 'cry')">😂 ${d.reactions?.cry || 0}</span>`;
                 }
             });
 
@@ -218,30 +248,66 @@
             });
         }
 
+        // AKCJE GLOBALNE (WINDOW)
+        window.showTab = (tab) => {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-nav'));
+            document.getElementById(tab + 'Tab').classList.add('active');
+            document.getElementById('nav-' + tab).classList.add('active-nav');
+        };
+
         window.addReaction = (id, type) => {
             update(ref(db, `messages/${id}/reactions`), { [type]: increment(1) });
         };
 
         window.deleteMsg = (id) => {
-            if(confirm("Usunąć?")) remove(ref(db, `messages/${id}`));
+            if(confirm("Usunąć tę wiadomość?")) remove(ref(db, `messages/${id}`));
+        };
+
+        window.updateProfile = () => {
+            const nick = document.getElementById('nickInput').value.trim();
+            const avatar = document.getElementById('avatarInput').value.trim();
+            const up = {};
+            if(nick) up.nick = nick;
+            if(avatar) up.avatar = avatar;
+            update(ref(db, `users/${auth.currentUser.uid}`), up).then(() => alert("Profil zaktualizowany!"));
+        };
+
+        window.buyItem = async (type, price) => {
+            if((userData.coins || 0) < price) return alert("Za mało monet!");
+            const updates = {};
+            updates[`users/${auth.currentUser.uid}/coins`] = increment(-price);
+            if(type === 'vip') updates[`users/${auth.currentUser.uid}/vip`] = true;
+            await update(ref(db), updates);
+            alert("Zakup pomyślny!");
         };
 
         window.rickRoll = () => {
-            if((userData.coins || 0) < 1) return alert("Za mało monet!");
-            update(ref(db, `users/${auth.currentUser.uid}`), { coins: increment(-1) });
-            window.open("https://www.youtube.com/watch?v=QDia3e12czc", "_blank");
+            if((userData.coins || 0) < 1) return alert("Nie masz nawet 1 monety!");
+            if(confirm("Kupujesz sekret za 1 monete?")) {
+                update(ref(db, `users/${auth.currentUser.uid}`), { coins: increment(-1) });
+                window.open("https://www.youtube.com/watch?v=QDia3e12czc", "_blank");
+            }
         };
 
         window.setTheme = (n) => {
-            document.getElementById('mainBody').className = `text-white theme-${n} font-modern`;
-            localStorage.setItem('user_theme', n);
+            document.getElementById('mainBody').className = `${document.body.classList[0]} text-white theme-${n}`;
+            localStorage.setItem('chat_theme', n);
         };
 
+        window.setFont = (f) => {
+            document.body.classList.remove('font-modern', 'font-classic', 'font-gaming');
+            document.body.classList.add(f);
+            localStorage.setItem('chat_font', f);
+        };
+
+        // EVENTY
         document.getElementById('sendBtn').onclick = sendMessage;
         document.getElementById('userInput').onkeypress = (e) => { if(e.key === 'Enter') sendMessage(); };
         
-        const savedTheme = localStorage.getItem('user_theme');
-        if(savedTheme) setTheme(savedTheme);
+        // WCZYTYWANIE USTAWIEŃ
+        const savedTheme = localStorage.getItem('chat_theme'); if(savedTheme) setTheme(savedTheme);
+        const savedFont = localStorage.getItem('chat_font'); if(savedFont) setFont(savedFont);
     </script>
 </body>
 </html>
