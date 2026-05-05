@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CzatSZKOLA - 4K Rickroll & Mod Edition</title>
+    <title>CzatSZKOLA - No Escape Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
@@ -72,7 +72,7 @@
                 <h3 class="text-xl font-black text-blue-400 uppercase italic">Sklep</h3>
                 <div class="grid gap-4">
                     <button onclick="buyItem('rickroll', 5000)" class="flex justify-between items-center bg-gray-800 p-4 rounded-2xl border border-pink-500">
-                        <span class="text-left"><b class="block text-pink-500">🎤 Rickroll Ultimate (4K)</b> <small class="text-gray-400">Globalny troll w 60FPS</small></span>
+                        <span class="text-left"><b class="block text-pink-500">🎤 Rickroll Ultimate (20s)</b> <small class="text-gray-400">Brak przycisku zamknij!</small></span>
                         <span class="bg-pink-600 px-3 py-1 rounded-lg text-xs font-bold">5k 🪙</span>
                     </button>
                     <button onclick="buyItem('confetti', 100)" class="flex justify-between items-center bg-gray-800 p-4 rounded-2xl border border-blue-500">
@@ -104,7 +104,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getDatabase, ref, push, onChildAdded, onChildRemoved, set, onValue, serverTimestamp, update, increment, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.app/";
+        import { getDatabase, ref, push, onChildAdded, onChildRemoved, set, onValue, serverTimestamp, update, increment, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
         import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
         const firebaseConfig = {
@@ -149,15 +149,18 @@
                     const a = s.val(); if(!a) return;
                     if(a.type === 'confetti' && a.time > Date.now() - 4000) confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
                     
-                    // NOWY RICKROLL 4K
+                    // RICKROLL 20 SEKUND BEZ PRZYCISKU ZAMKNIJ
                     if(a.type === 'rickroll_trigger' && a.time > Date.now() - 4000) {
                         const r = document.createElement('div');
                         r.style = "position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9999;background:black;";
                         r.innerHTML = `
-                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/QDia3e12czc?autoplay=1&controls=0" frameborder="0" allow="autoplay"></iframe>
-                            <button onclick="this.parentElement.remove()" style="position:absolute;top:20px;right:20px;background:white;color:black;padding:10px 20px;border-radius:10px;font-weight:bold;z-index:10000;">ZAMKNIJ (X)</button>
+                            <iframe width="100%" height="100%" 
+                                src="https://www.youtube.com/embed/QDia3e12czc?autoplay=1&controls=0" 
+                                frameborder="0" allow="autoplay">
+                            </iframe>
                         `;
                         document.body.appendChild(r);
+                        // Znika automatycznie po 20 sekundach
                         setTimeout(() => r.remove(), 20000);
                     }
                 });
