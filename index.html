@@ -3,117 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CzatSZKOLA - Premium & Cooldown Edition</title>
+    <title>CzatSZKOLA - Fixed Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        body { overflow: hidden; height: 100dvh; background: #0f172a; margin: 0; font-family: sans-serif; position: fixed; width: 100%; }
+        body { overflow: hidden; height: 100dvh; background: #0f172a; margin: 0; font-family: sans-serif; }
         .tab-content { display: none; height: calc(100dvh - 165px); flex-direction: column; }
         .tab-content.active { display: flex; }
-        #messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 160px; }
+        #messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
         .glass { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(15px); }
-        .chat-input-area { bottom: 85px; position: fixed; width: 100%; z-index: 100; border-top: 1px solid rgba(255,255,255,0.1); }
-        button:disabled { background-color: #4b5563 !important; cursor: not-allowed; opacity: 0.7; }
-        .ai-msg { border-left: 4px solid #a855f7 !important; background: rgba(168, 85, 247, 0.1) !important; }
         .premium-border { border: 2px solid #a855f7 !important; box-shadow: 0 0 10px rgba(168, 85, 247, 0.3); }
     </style>
 </head>
 <body class="text-white">
 
-    <header class="p-4 border-b border-gray-800 flex justify-between items-center glass z-[110] relative">
+    <!-- EKRAN LOGOWANIA -->
+    <div id="loginScreen" class="fixed inset-0 z-[1000] bg-gray-900 flex items-center justify-center p-6">
+        <div class="w-full max-w-sm space-y-4 bg-gray-800 p-8 rounded-3xl shadow-2xl">
+            <h2 class="text-3xl font-black text-blue-500 text-center uppercase italic">CzatSZKOLA</h2>
+            <p class="text-gray-400 text-center text-xs">Zaloguj się, aby zacząć pisać</p>
+            <input type="email" id="emailInput" placeholder="E-mail" class="w-full p-4 bg-gray-700 rounded-2xl outline-none border border-gray-600 focus:border-blue-500 transition-all">
+            <input type="password" id="passwordInput" placeholder="Hasło" class="w-full p-4 bg-gray-700 rounded-2xl outline-none border border-gray-600 focus:border-blue-500 transition-all">
+            <button id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-2xl font-bold transition-all transform active:scale-95">Zaloguj</button>
+            <button id="registerBtn" class="w-full bg-gray-600 hover:bg-gray-500 py-3 rounded-xl text-xs font-bold transition-all">Stwórz nowe konto</button>
+            <p id="authError" class="text-red-500 text-[10px] text-center mt-2 font-bold"></p>
+        </div>
+    </div>
+
+    <!-- NAGŁÓWEK -->
+    <header class="p-4 border-b border-gray-800 flex justify-between items-center glass relative z-50">
         <div class="flex items-center gap-3">
-            <img id="headerAvatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-10 h-10 rounded-full object-cover border-2 border-blue-500">
+            <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center font-bold">C</div>
             <div>
-                <h1 class="text-lg font-black text-blue-500 uppercase tracking-tighter">CzatSZKOLA</h1>
-                <div class="flex items-center gap-2">
+                <h1 class="text-lg font-black text-blue-500 uppercase tracking-tighter leading-none">CzatSZKOLA</h1>
+                <div class="flex items-center gap-2 mt-1">
                     <span id="coinCount" class="text-yellow-400 font-bold text-xs">0 🪙</span>
-                    <div id="badgesContainer" class="flex gap-1">
-                        <span id="roleBadge" class="text-[9px] px-1.5 py-0.5 rounded font-bold uppercase hidden"></span>
-                        <span id="premiumBadge" class="text-[9px] px-1.5 py-0.5 rounded font-bold uppercase bg-purple-600 hidden">PREMIUM</span>
-                    </div>
+                    <span id="roleBadge" class="text-[9px] px-1.5 py-0.5 rounded font-bold uppercase hidden"></span>
+                    <span id="premiumBadge" class="text-[9px] px-1.5 py-0.5 rounded font-bold uppercase bg-purple-600 hidden">PREMIUM</span>
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="relative h-full">
-        <!-- LOGIN -->
-        <div id="loginScreen" class="absolute inset-0 z-[200] bg-gray-900 flex items-center justify-center p-6">
-            <div class="w-full max-w-sm space-y-4">
-                <h2 class="text-4xl font-black text-blue-500 text-center uppercase italic">Witaj</h2>
-                <input type="email" id="emailInput" placeholder="E-mail" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700">
-                <input type="password" id="passwordInput" placeholder="Hasło" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700">
-                <button id="loginBtn" class="w-full bg-blue-600 py-4 rounded-2xl font-bold">Zaloguj</button>
-                <button id="registerBtn" class="w-full bg-gray-700 py-3 rounded-xl text-xs text-gray-300">Stwórz konto</button>
-            </div>
-        </div>
-
-        <!-- TAB: CZAT -->
+    <main class="h-full">
+        <!-- CZAT -->
         <section id="chatTab" class="tab-content active">
             <div id="messages"></div>
-            <div class="chat-input-area p-4 glass">
-                <div class="flex items-center gap-2 max-w-5xl mx-auto">
-                    <input type="text" id="userInput" placeholder="Napisz wiadomość..." class="flex-1 bg-gray-800 p-4 rounded-2xl outline-none border border-gray-700 text-sm">
+            <div class="p-4 glass border-t border-gray-800 mb-20">
+                <div class="flex gap-2 max-w-5xl mx-auto">
+                    <input type="text" id="userInput" placeholder="Napisz coś..." class="flex-1 bg-gray-800 p-4 rounded-2xl outline-none border border-gray-700 text-sm">
                     <button id="sendBtn" class="bg-blue-600 px-6 py-4 rounded-2xl font-bold">Wyślij</button>
                 </div>
             </div>
         </section>
 
-        <!-- TAB: SKLEP -->
+        <!-- SKLEP -->
         <section id="settingsTab" class="tab-content p-6 overflow-y-auto">
-            <div class="max-w-2xl mx-auto space-y-6 pb-40">
-                <div class="bg-gradient-to-br from-yellow-500 to-amber-600 p-6 rounded-3xl shadow-xl text-black text-center">
-                    <p class="text-xs font-bold uppercase opacity-70">Portfel</p>
-                    <h2 class="text-4xl font-black"><span id="shopCoins">0</span> 🪙</h2>
-                </div>
-                
-                <h3 class="text-xl font-black text-blue-400 uppercase italic">Sklep Premium</h3>
-                <div class="grid gap-4">
-                    <!-- PREMIUM -->
-                    <div class="bg-gray-800 p-4 rounded-2xl border-2 border-purple-500 flex justify-between items-center">
-                        <div>
-                            <h4 class="font-bold text-purple-400 italic">💎 RANGA PREMIUM</h4>
-                            <p class="text-[10px] text-gray-400">Specjalna ramka i odznaka na czacie.</p>
-                        </div>
-                        <button onclick="buyItem('premium', 10000)" class="bg-purple-600 px-4 py-2 rounded-xl font-bold text-xs">10k 🪙</button>
+            <div class="max-w-2xl mx-auto space-y-4 pb-32">
+                <h3 class="text-xl font-black text-blue-400 uppercase italic">Sklep</h3>
+                <div class="bg-gray-800 p-4 rounded-2xl border-2 border-purple-500 flex justify-between items-center">
+                    <div>
+                        <h4 class="font-bold text-purple-400">💎 PREMIUM</h4>
+                        <p class="text-[10px] text-gray-400">Ramka i ranga na czacie</p>
                     </div>
-
-                    <!-- RICKROLL -->
-                    <button onclick="buyItem('rickroll', 5000)" class="flex justify-between items-center bg-gray-800 p-4 rounded-2xl border border-pink-500">
-                        <span class="text-left"><b class="block text-pink-500">🎤 Rickroll Ultimate (20s)</b> <small class="text-gray-400">Brak ucieczki!</small></span>
-                        <span class="bg-pink-600 px-3 py-1 rounded-lg text-xs font-bold">5k 🪙</span>
-                    </button>
-
-                    <!-- KONFETTI -->
-                    <button id="confettiBtn" onclick="buyItem('confetti', 100)" class="flex justify-between items-center bg-gray-800 p-4 rounded-2xl border border-blue-500">
-                        <span><b>🎉 Konfetti</b></span>
-                        <div class="flex flex-col items-end">
-                            <span class="bg-blue-600 px-3 py-1 rounded-lg text-xs font-bold">100 🪙</span>
-                            <small id="confettiTimer" class="text-[9px] text-gray-500 mt-1 hidden">Czekaj...</small>
-                        </div>
-                    </button>
+                    <button onclick="buyItem('premium', 10000)" class="bg-purple-600 px-4 py-2 rounded-xl font-bold text-xs">10k 🪙</button>
                 </div>
+                <button id="confettiBtn" onclick="buyItem('confetti', 100)" class="w-full flex justify-between items-center bg-gray-800 p-4 rounded-2xl border border-blue-500">
+                    <span><b>🎉 Konfetti</b> (30s Cooldown)</span>
+                    <span id="confettiPrice" class="bg-blue-600 px-3 py-1 rounded-lg text-xs font-bold">100 🪙</span>
+                </button>
+                <button onclick="buyItem('rickroll', 5000)" class="w-full flex justify-between items-center bg-gray-800 p-4 rounded-2xl border border-pink-500">
+                    <span><b>🎤 Rickroll</b> (20s - No Close)</span>
+                    <span class="bg-pink-600 px-3 py-1 rounded-lg text-xs font-bold">5k 🪙</span>
+                </button>
             </div>
         </section>
 
-        <!-- TAB: OPCJE -->
-        <section id="profileTab" class="tab-content p-6 overflow-y-auto">
-            <div class="max-w-2xl mx-auto space-y-6 pb-40">
-                <button id="logoutBtn" class="w-full py-4 text-red-500 font-bold bg-red-900/10 rounded-2xl">WYLOGUJ</button>
-            </div>
+        <!-- PROFIL -->
+        <section id="profileTab" class="tab-content p-6 items-center justify-center text-center">
+            <p id="userMailDisplay" class="mb-4 opacity-50 text-sm"></p>
+            <button id="logoutBtn" class="bg-red-600/20 text-red-500 px-8 py-3 rounded-2xl font-bold border border-red-500/50">WYLOGUJ SIĘ</button>
         </section>
     </main>
 
-    <nav class="fixed bottom-0 w-full h-[85px] glass border-t border-gray-800 flex justify-around items-center z-[150] pb-2 text-2xl">
+    <!-- NAWIGACJA -->
+    <nav class="fixed bottom-0 w-full h-[80px] glass border-t border-gray-800 flex justify-around items-center z-[150] text-2xl">
         <button onclick="showTab('chat')">💬</button>
         <button onclick="showTab('settings')">🛒</button>
         <button onclick="showTab('profile')">⚙️</button>
     </nav>
 
     <script type="module">
+        // Importy z UNPKG - bardziej stabilne niż gstatic w niektórych środowiskach
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getDatabase, ref, push, onChildAdded, onChildRemoved, set, onValue, serverTimestamp, update, increment, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, push, onChildAdded, onValue, serverTimestamp, update, increment, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCQXm-oMsOZg80gMrANDwxEbr2jWoV2I8A",
@@ -134,9 +118,12 @@
         let hasPremium = false;
         let isConfettiCooldown = false;
 
+        // AUTH SYSTEM
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('userMailDisplay').innerText = `Zalogowany jako: ${user.email}`;
+                
                 onValue(ref(db, `users/${user.uid}`), (s) => {
                     const d = s.val() || {};
                     userCoins = d.coins || 0;
@@ -144,24 +131,27 @@
                     hasPremium = d.premium === true;
                     
                     document.getElementById('coinCount').innerText = `${userCoins.toLocaleString()} 🪙`;
-                    document.getElementById('shopCoins').innerText = userCoins.toLocaleString();
                     
-                    // Odznaki
                     const rBadge = document.getElementById('roleBadge');
                     const pBadge = document.getElementById('premiumBadge');
                     
-                    if(userRole === 'mod' || auth.currentUser.email === 'materioslivers@gmail.com') {
-                        rBadge.innerText = auth.currentUser.email === 'materioslivers@gmail.com' ? 'ADMIN' : 'MOD';
-                        rBadge.className = `text-[9px] px-1.5 py-0.5 rounded font-bold uppercase ${userRole === 'mod' ? 'bg-green-600' : 'bg-red-600'}`;
+                    if(user.email === 'materioslivers@gmail.com') {
+                        rBadge.innerText = 'ADMIN';
+                        rBadge.className = "text-[9px] px-1.5 py-0.5 rounded font-bold bg-red-600";
+                        rBadge.classList.remove('hidden');
+                    } else if(userRole === 'mod') {
+                        rBadge.innerText = 'MOD';
+                        rBadge.className = "text-[9px] px-1.5 py-0.5 rounded font-bold bg-green-600";
                         rBadge.classList.remove('hidden');
                     }
+                    
                     if(hasPremium) pBadge.classList.remove('hidden');
                 });
 
                 onValue(ref(db, `global_actions`), (s) => {
                     const a = s.val(); if(!a) return;
-                    if(a.type === 'confetti' && a.time > Date.now() - 4000) confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                    if(a.type === 'rickroll_trigger' && a.time > Date.now() - 4000) {
+                    if(a.type === 'confetti' && a.time > Date.now() - 5000) confetti({ particleCount: 150, spread: 70 });
+                    if(a.type === 'rickroll_trigger' && a.time > Date.now() - 5000) {
                         const r = document.createElement('div');
                         r.style = "position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9999;background:black;";
                         r.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/QDia3e12czc?autoplay=1&controls=0" frameborder="0" allow="autoplay"></iframe>`;
@@ -169,96 +159,101 @@
                         setTimeout(() => r.remove(), 20000);
                     }
                 });
+
                 loadMessages();
             } else {
                 document.getElementById('loginScreen').style.display = 'flex';
             }
         });
 
+        // ACTIONS
         const sendMessage = async () => {
             const input = document.getElementById('userInput');
-            const text = input.value.trim();
-            if(!text) return;
-
-            await push(ref(db, "messages"), { 
-                text: text, 
-                user: auth.currentUser.email, 
+            if(!input.value.trim()) return;
+            await push(ref(db, "messages"), {
+                text: input.value,
+                user: auth.currentUser.email,
                 time: serverTimestamp(),
-                isPremium: hasPremium 
+                isPremium: hasPremium
             });
             await update(ref(db, `users/${auth.currentUser.uid}`), { coins: increment(5) });
             input.value = '';
         };
 
-        document.getElementById('sendBtn').onclick = sendMessage;
-        document.getElementById('userInput').onkeypress = (e) => { if(e.key === 'Enter') sendMessage(); };
+        window.buyItem = async (type, price) => {
+            if(type === 'confetti' && isConfettiCooldown) return alert("Cooldown! Czekaj 30s.");
+            if(userCoins < price) return alert("Brak monet!");
+
+            const updates = {};
+            updates[`users/${auth.currentUser.uid}/coins`] = increment(-price);
+            
+            if(type === 'premium') {
+                updates[`users/${auth.currentUser.uid}/premium`] = true;
+            } else {
+                updates[`global_actions`] = { type: type === 'rickroll' ? 'rickroll_trigger' : 'confetti', time: Date.now() };
+            }
+
+            try {
+                await update(ref(db), updates);
+                if(type === 'confetti') startConfettiCooldown();
+            } catch(e) { alert("Błąd zakupu: " + e.message); }
+        };
+
+        function startConfettiCooldown() {
+            isConfettiCooldown = true;
+            const btn = document.getElementById('confettiBtn');
+            const priceLabel = document.getElementById('confettiPrice');
+            btn.classList.add('opacity-50');
+            let sec = 30;
+            const timer = setInterval(() => {
+                priceLabel.innerText = `${sec}s`;
+                if(sec-- <= 0) {
+                    clearInterval(timer);
+                    isConfettiCooldown = false;
+                    btn.classList.remove('opacity-50');
+                    priceLabel.innerText = "100 🪙";
+                }
+            }, 1000);
+        }
 
         function loadMessages() {
             const mBox = document.getElementById('messages');
+            mBox.innerHTML = '';
             onChildAdded(ref(db, "messages"), (s) => {
                 const d = s.val();
                 const isMe = d.user === auth.currentUser.email;
-                const canManage = auth.currentUser.email === 'materioslivers@gmail.com' || userRole === 'mod';
                 const div = document.createElement('div');
-                div.id = `msg-${s.key}`;
                 div.className = `flex flex-col ${isMe ? 'items-end' : 'items-start'} mb-2`;
                 div.innerHTML = `
-                    <div class="p-3 rounded-2xl max-w-[85%] ${isMe ? 'bg-blue-600' : 'bg-gray-800'} ${d.isPremium ? 'premium-border' : ''} relative group">
-                        ${canManage ? `<button onclick="deleteMsg('${s.key}')" class="absolute -top-2 -right-2 bg-red-600 text-[10px] w-5 h-5 rounded-full hidden group-hover:block">✕</button>` : ''}
-                        <p class="text-[8px] opacity-50 font-bold">${d.isPremium ? '💎 ' : ''}${d.user}</p>
+                    <div class="p-3 rounded-2xl max-w-[85%] ${isMe ? 'bg-blue-600' : 'bg-gray-800'} ${d.isPremium ? 'premium-border' : ''}">
+                        <p class="text-[8px] opacity-50 font-bold mb-1">${d.user}</p>
                         <p class="text-sm">${d.text}</p>
                     </div>`;
                 mBox.appendChild(div);
                 mBox.scrollTop = mBox.scrollHeight;
             });
-            onChildRemoved(ref(db, "messages"), (s) => { document.getElementById(`msg-${s.key}`)?.remove(); });
         }
 
-        window.deleteMsg = (id) => { if(confirm("Usunąć?")) remove(ref(db, `messages/${id}`)); };
-
-        window.buyItem = async (type, price) => {
-            if(type === 'confetti' && isConfettiCooldown) return alert("Zwolnij! Konfetti ma cooldown.");
-            if(userCoins < price) return alert("Brak monet!");
-
-            const up = {};
-            up[`users/${auth.currentUser.uid}/coins`] = increment(-price);
-            
-            if(type === 'premium') {
-                up[`users/${auth.currentUser.uid}/premium`] = true;
-            } else {
-                up[`global_actions`] = { type: type === 'rickroll' ? 'rickroll_trigger' : 'confetti', time: Date.now() + Math.random() };
-            }
-
-            await update(ref(db), up);
-            
-            if(type === 'confetti') {
-                isConfettiCooldown = true;
-                const btn = document.getElementById('confettiBtn');
-                const timer = document.getElementById('confettiTimer');
-                btn.disabled = true;
-                timer.classList.remove('hidden');
-                let timeLeft = 30;
-                const interval = setInterval(() => {
-                    timer.innerText = `${timeLeft}s`;
-                    if(timeLeft-- <= 0) {
-                        clearInterval(interval);
-                        isConfettiCooldown = false;
-                        btn.disabled = false;
-                        timer.classList.add('hidden');
-                    }
-                }, 1000);
-            }
-            confetti({ particleCount: 100, spread: 70 });
-        };
-
+        // TABS & BUTTONS
         window.showTab = (t) => {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.getElementById(t + 'Tab').classList.add('active');
         };
 
-        document.getElementById('loginBtn').onclick = () => signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value).catch(e => alert("Błąd: " + e.message));
-        document.getElementById('registerBtn').onclick = () => createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value).catch(e => alert("Błąd: " + e.message));
-        document.getElementById('logoutBtn').onclick = () => signOut(auth).then(() => location.reload());
+        document.getElementById('loginBtn').onclick = () => {
+            const e = document.getElementById('emailInput').value;
+            const p = document.getElementById('passwordInput').value;
+            signInWithEmailAndPassword(auth, e, p).catch(err => document.getElementById('authError').innerText = "Błąd: " + err.message);
+        };
+
+        document.getElementById('registerBtn').onclick = () => {
+            const e = document.getElementById('emailInput').value;
+            const p = document.getElementById('passwordInput').value;
+            createUserWithEmailAndPassword(auth, e, p).catch(err => document.getElementById('authError').innerText = "Błąd: " + err.message);
+        };
+
+        document.getElementById('logoutBtn').onclick = () => signOut(auth);
+        document.getElementById('sendBtn').onclick = sendMessage;
     </script>
 </body>
 </html>
