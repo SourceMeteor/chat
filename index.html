@@ -3,106 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CzatSZKOLA - Full Profile Edition</title>
+    <title>CzatSZKOLA - Final Fix</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        body { overflow: hidden; height: 100dvh; margin: 0; font-family: sans-serif; background-color: #0f172a; transition: background 0.5s ease; }
-        .tab-content { display: none; height: calc(100dvh - 165px); flex-direction: column; }
-        .tab-content.active { display: flex; }
-        #messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
-        .glass { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(15px); }
+        body { overflow: hidden; height: 100dvh; margin: 0; font-family: sans-serif; background: #0f172a; color: white; }
+        .tab-content { display: none; height: calc(100dvh - 160px); width: 100%; overflow-y: auto; padding-bottom: 100px; }
+        .tab-content.active { display: flex; flex-direction: column; }
+        .glass { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.1); }
         .premium-border { border: 2px solid #a855f7 !important; box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); }
-        
-        /* Tapety */
-        .bg-space { background: radial-gradient(circle at center, #1e293b, #0f172a); }
+        nav button { flex: 1; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: background 0.2s; }
+        nav button:active { background: rgba(255,255,255,0.1); }
+        #messages { flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 20px; }
+        .bg-space { background: #0f172a; }
         .bg-sunset { background: linear-gradient(to bottom, #4c1d95, #831843); }
         .bg-forest { background: linear-gradient(to bottom, #064e3b, #022c22); }
-        .bg-matrix { background: black; border-top: 2px solid #10b981; }
+        .bg-matrix { background: #000; border-top: 2px solid #00ff41; }
     </style>
 </head>
-<body id="mainBody" class="text-white bg-space">
+<body id="mainBody" class="bg-space">
 
-    <div id="loginScreen" class="fixed inset-0 z-[1000] bg-gray-900 flex items-center justify-center p-6">
-        <div class="w-full max-w-sm space-y-4 bg-gray-800 p-8 rounded-3xl shadow-2xl">
-            <h2 class="text-3xl font-black text-blue-500 text-center uppercase italic">CzatSZKOLA</h2>
-            <input type="email" id="emailInput" placeholder="E-mail" class="w-full p-4 bg-gray-700 rounded-2xl outline-none border border-gray-600">
-            <input type="password" id="passwordInput" placeholder="Hasło" class="w-full p-4 bg-gray-700 rounded-2xl outline-none border border-gray-600">
+    <!-- LOGIN -->
+    <div id="loginScreen" class="fixed inset-0 z-[1000] bg-gray-900 flex items-center justify-center p-6" style="display: none;">
+        <div class="w-full max-w-sm space-y-4 bg-gray-800 p-8 rounded-3xl">
+            <h2 class="text-3xl font-black text-blue-500 text-center italic">CzatSZKOLA</h2>
+            <input type="email" id="emailInput" placeholder="E-mail" class="w-full p-4 bg-gray-700 rounded-2xl outline-none">
+            <input type="password" id="passwordInput" placeholder="Hasło" class="w-full p-4 bg-gray-700 rounded-2xl outline-none">
             <button id="loginBtn" class="w-full bg-blue-600 py-4 rounded-2xl font-bold">Zaloguj</button>
             <button id="registerBtn" class="w-full bg-gray-700 py-3 rounded-xl text-xs">Rejestracja</button>
-            <p id="authError" class="text-red-500 text-[10px] text-center mt-2"></p>
         </div>
     </div>
 
-    <header class="p-4 border-b border-gray-800 flex justify-between items-center glass relative z-50">
+    <!-- HEADER -->
+    <header class="h-[70px] border-b border-gray-800 flex justify-between items-center px-4 glass sticky top-0 z-[500]">
         <div class="flex items-center gap-3">
             <img id="headerAvatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-10 h-10 rounded-full border-2 border-blue-500 object-cover">
             <div>
-                <h1 id="headerNick" class="text-lg font-black text-blue-400 leading-none">Ładowanie...</h1>
-                <div class="flex items-center gap-2 mt-1">
-                    <span id="coinCount" class="text-yellow-400 font-bold text-xs">0 🪙</span>
-                    <span id="roleBadge" class="hidden text-[9px] px-1.5 py-0.5 rounded font-bold uppercase"></span>
-                    <span id="premiumBadge" class="hidden text-[9px] px-1.5 py-0.5 rounded font-bold uppercase bg-purple-600">PREMIUM</span>
+                <h1 id="headerNick" class="text-sm font-bold text-blue-400">Ładowanie...</h1>
+                <div class="flex gap-2">
+                    <span id="coinCount" class="text-yellow-400 font-bold text-[10px]">0 🪙</span>
+                    <span id="premiumBadge" class="hidden text-[8px] bg-purple-600 px-1 rounded font-bold uppercase">Premium</span>
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="h-full">
+    <main class="relative h-full w-full">
         <!-- CZAT -->
         <section id="chatTab" class="tab-content active">
             <div id="messages"></div>
-            <div class="p-4 glass border-t border-gray-800 mb-20">
+            <div class="fixed bottom-[80px] left-0 w-full p-4 glass z-[400]">
                 <div class="flex gap-2 max-w-5xl mx-auto">
-                    <input type="text" id="userInput" placeholder="Napisz coś..." class="flex-1 bg-gray-800/50 p-4 rounded-2xl outline-none border border-gray-700 text-sm">
-                    <button id="sendBtn" class="bg-blue-600 px-6 py-4 rounded-2xl font-bold">Wyslij</button>
+                    <input type="text" id="userInput" placeholder="Napisz..." class="flex-1 bg-gray-800 p-4 rounded-2xl outline-none text-sm border border-gray-700">
+                    <button id="sendBtn" class="bg-blue-600 px-6 py-4 rounded-2xl font-bold">></button>
                 </div>
             </div>
         </section>
 
         <!-- SKLEP -->
-        <section id="settingsTab" class="tab-content p-6 overflow-y-auto">
-            <div class="max-w-2xl mx-auto space-y-4 pb-32">
-                <h3 class="text-xl font-black text-blue-400 uppercase italic">Sklep</h3>
+        <section id="settingsTab" class="tab-content p-6">
+            <h3 class="text-xl font-black text-blue-400 mb-4 uppercase italic">Sklep</h3>
+            <div class="space-y-4">
                 <div class="bg-gray-800 p-4 rounded-2xl border-2 border-purple-500 flex justify-between items-center">
-                    <div><h4 class="font-bold text-purple-400">💎 Ranga PREMIUM</h4><p class="text-[10px]">Specjalna ramka wiadomości</p></div>
-                    <button onclick="buyItem('premium', 10000)" class="bg-purple-600 px-4 py-2 rounded-xl text-xs font-bold">10k 🪙</button>
+                    <span>💎 Premium (10k)</span>
+                    <button onclick="buyItem('premium', 10000)" class="bg-purple-600 px-4 py-2 rounded-xl text-xs">Kup</button>
                 </div>
-                <button id="confettiBtn" onclick="buyItem('confetti', 100)" class="w-full flex justify-between items-center bg-gray-800 p-4 rounded-2xl border border-blue-500">
-                    <span>🎉 Konfetti</span><span id="confettiPrice" class="font-bold">100 🪙</span>
-                </button>
-                <button onclick="buyItem('rickroll', 5000)" class="w-full flex justify-between items-center bg-gray-800 p-4 rounded-2xl border border-pink-500">
-                    <span>🎤 Rickroll (20s)</span><span class="font-bold">5k 🪙</span>
+                <button onclick="buyItem('confetti', 100)" class="w-full bg-gray-800 p-4 rounded-2xl border border-blue-500 flex justify-between">
+                    <span>🎉 Konfetti (30s CD)</span><span id="confettiPrice">100 🪙</span>
                 </button>
             </div>
         </section>
 
-        <!-- PROFIL / OPCJE -->
-        <section id="profileTab" class="tab-content p-6 overflow-y-auto">
-            <div class="max-w-md mx-auto space-y-6 pb-32">
-                <div class="space-y-4">
-                    <h3 class="text-xl font-black text-blue-400 uppercase">Twoje Dane</h3>
-                    <input type="text" id="nickInput" placeholder="Twój Nick" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700">
-                    <input type="text" id="avatarInput" placeholder="Link do Awatara (URL)" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700">
-                    <button onclick="saveProfile()" class="w-full bg-green-600 py-4 rounded-2xl font-bold uppercase italic">Zapisz Zmiany</button>
+        <!-- PROFIL -->
+        <section id="profileTab" class="tab-content p-6 text-center">
+            <div class="space-y-6 max-w-sm mx-auto">
+                <h3 class="text-xl font-black text-blue-400 uppercase">Ustawienia</h3>
+                <input type="text" id="nickInput" placeholder="Nick" class="w-full p-4 bg-gray-800 rounded-2xl outline-none">
+                <input type="text" id="avatarInput" placeholder="Link do zdjęcia" class="w-full p-4 bg-gray-800 rounded-2xl outline-none">
+                <button onclick="saveProfile()" class="w-full bg-green-600 py-4 rounded-2xl font-bold">Zapisz profil</button>
+                
+                <div class="grid grid-cols-2 gap-2 pt-4">
+                    <button onclick="setTheme('space')" class="p-2 bg-slate-800 rounded-lg text-xs">Kosmos</button>
+                    <button onclick="setTheme('sunset')" class="p-2 bg-pink-900 rounded-lg text-xs">Zachód</button>
+                    <button onclick="setTheme('forest')" class="p-2 bg-emerald-900 rounded-lg text-xs">Las</button>
+                    <button onclick="setTheme('matrix')" class="p-2 bg-black border border-green-500 rounded-lg text-xs">Matrix</button>
                 </div>
-
-                <div class="space-y-4 pt-6 border-t border-gray-800">
-                    <h3 class="text-xl font-black text-blue-400 uppercase">Tapeta</h3>
-                    <div class="grid grid-cols-2 gap-3">
-                        <button onclick="setTheme('space')" class="p-3 bg-slate-700 rounded-xl text-xs">Domyślna</button>
-                        <button onclick="setTheme('sunset')" class="p-3 bg-pink-900 rounded-xl text-xs">Zachód</button>
-                        <button onclick="setTheme('forest')" class="p-3 bg-emerald-900 rounded-xl text-xs">Las</button>
-                        <button onclick="setTheme('matrix')" class="p-3 bg-green-950 rounded-xl text-xs font-mono">Matrix</button>
-                    </div>
-                </div>
-
-                <button id="logoutBtn" class="w-full bg-red-900/30 text-red-500 py-4 rounded-2xl font-bold border border-red-500/50 mt-10">Wyloguj</button>
+                
+                <button id="logoutBtn" class="w-full mt-8 text-red-500 text-xs font-bold uppercase tracking-widest">Wyloguj Się</button>
             </div>
         </section>
     </main>
 
-    <nav class="fixed bottom-0 w-full h-[80px] glass border-t border-gray-800 flex justify-around items-center z-[150] text-2xl">
+    <!-- MENU DOLNE -->
+    <nav class="fixed bottom-0 left-0 w-full h-[80px] glass flex justify-around items-center z-[600]">
         <button onclick="showTab('chat')">💬</button>
         <button onclick="showTab('settings')">🛒</button>
         <button onclick="showTab('profile')">⚙️</button>
@@ -128,63 +121,41 @@
         const db = getDatabase(app);
 
         let userCoins = 0;
-        let userData = { nick: '', avatar: '', premium: false, role: 'user' };
+        let userData = {};
         let isConfettiCooldown = false;
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 document.getElementById('loginScreen').style.display = 'none';
-                
-                // Pobieranie danych użytkownika
                 onValue(ref(db, `users/${user.uid}`), (s) => {
                     const d = s.val() || {};
                     userData = d;
                     userCoins = d.coins || 0;
-                    
                     document.getElementById('coinCount').innerText = `${userCoins.toLocaleString()} 🪙`;
-                    document.getElementById('headerNick').innerText = d.nick || user.email.split('@')[0];
+                    document.getElementById('headerNick').innerText = d.nick || user.email;
                     document.getElementById('headerAvatar').src = d.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
-                    
-                    // Odznaki
-                    const rBadge = document.getElementById('roleBadge');
-                    const pBadge = document.getElementById('premiumBadge');
-                    
-                    if(user.email === 'materioslivers@gmail.com' || d.role === 'admin') {
-                        rBadge.innerText = 'ADMIN'; rBadge.className = "text-[9px] px-1.5 py-0.5 rounded font-bold bg-red-600 block";
-                    } else if(d.role === 'mod') {
-                        rBadge.innerText = 'MOD'; rBadge.className = "text-[9px] px-1.5 py-0.5 rounded font-bold bg-green-600 block";
-                    } else { rBadge.classList.add('hidden'); }
-                    
-                    if(d.premium) pBadge.classList.remove('hidden'); else pBadge.classList.add('hidden');
-
-                    // Wypełnij pola w profilu, jeśli są puste
-                    if(!document.getElementById('nickInput').value) document.getElementById('nickInput').value = d.nick || '';
-                    if(!document.getElementById('avatarInput').value) document.getElementById('avatarInput').value = d.avatar || '';
+                    if(d.premium) document.getElementById('premiumBadge').classList.remove('hidden');
                 });
-
-                // Globalne akcje (Rickroll/Konfetti)
-                onValue(ref(db, `global_actions`), (s) => {
-                    const a = s.val(); if(!a) return;
-                    if(a.type === 'confetti' && a.time > Date.now() - 5000) confetti({ particleCount: 150, spread: 70 });
-                    if(a.type === 'rickroll_trigger' && a.time > Date.now() - 5000) triggerRickroll();
-                });
-
                 loadMessages();
             } else {
                 document.getElementById('loginScreen').style.display = 'flex';
             }
         });
 
-        // WYSYŁANIE WIADOMOŚCI
+        window.showTab = (tab) => {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.getElementById(tab + 'Tab').classList.add('active');
+        };
+
         const sendMessage = async () => {
             const input = document.getElementById('userInput');
             if(!input.value.trim()) return;
             await push(ref(db, "messages"), {
                 text: input.value,
-                userNick: userData.nick || auth.currentUser.email.split('@')[0],
-                userAvatar: userData.avatar || '',
-                time: serverTimestamp(),
-                isPremium: userData.premium || false
+                nick: userData.nick || auth.currentUser.email,
+                avatar: userData.avatar || '',
+                isPremium: userData.premium || false,
+                time: serverTimestamp()
             });
             await update(ref(db, `users/${auth.currentUser.uid}`), { coins: increment(5) });
             input.value = '';
@@ -195,13 +166,12 @@
             mBox.innerHTML = '';
             onChildAdded(ref(db, "messages"), (s) => {
                 const d = s.val();
-                const isMe = d.userNick === (userData.nick || auth.currentUser.email.split('@')[0]);
                 const div = document.createElement('div');
-                div.className = `flex gap-2 ${isMe ? 'flex-row-reverse' : 'flex-row'} mb-2 items-end`;
+                div.className = `flex gap-2 mb-2 ${d.nick === (userData.nick || auth.currentUser.email) ? 'flex-row-reverse' : ''}`;
                 div.innerHTML = `
-                    <img src="${d.userAvatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}" class="w-6 h-6 rounded-full border border-gray-600">
-                    <div class="p-3 rounded-2xl max-w-[75%] ${isMe ? 'bg-blue-600' : 'bg-gray-800'} ${d.isPremium ? 'premium-border' : ''}">
-                        <p class="text-[8px] opacity-70 font-bold mb-1">${d.userNick}</p>
+                    <img src="${d.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}" class="w-6 h-6 rounded-full">
+                    <div class="p-3 rounded-2xl max-w-[70%] bg-gray-800 ${d.isPremium ? 'premium-border' : ''}">
+                        <p class="text-[8px] opacity-50">${d.nick}</p>
                         <p class="text-sm">${d.text}</p>
                     </div>`;
                 mBox.appendChild(div);
@@ -209,71 +179,33 @@
             });
         }
 
-        // ZAPIS PROFILU
         window.saveProfile = () => {
-            const newNick = document.getElementById('nickInput').value;
-            const newAvatar = document.getElementById('avatarInput').value;
-            update(ref(db, `users/${auth.currentUser.uid}`), { 
-                nick: newNick, 
-                avatar: newAvatar 
-            }).then(() => alert("Profil zaktualizowany!"));
+            update(ref(db, `users/${auth.currentUser.uid}`), {
+                nick: document.getElementById('nickInput').value,
+                avatar: document.getElementById('avatarInput').value
+            }).then(() => alert("Zapisano!"));
         };
 
-        // MOTYWY
-        window.setTheme = (theme) => {
-            const body = document.getElementById('mainBody');
-            body.className = `text-white bg-${theme}`;
-            localStorage.setItem('chat_theme', theme);
+        window.setTheme = (t) => {
+            document.getElementById('mainBody').className = 'bg-' + t;
+            localStorage.setItem('theme', t);
         };
 
-        // SKLEP
         window.buyItem = async (type, price) => {
-            if(type === 'confetti' && isConfettiCooldown) return;
-            if(userCoins < price) return alert("Za mało monet!");
-
-            const updates = {};
-            updates[`users/${auth.currentUser.uid}/coins`] = increment(-price);
-            if(type === 'premium') updates[`users/${auth.currentUser.uid}/premium`] = true;
-            else updates[`global_actions`] = { type: type === 'rickroll' ? 'rickroll_trigger' : 'confetti', time: Date.now() };
-
-            await update(ref(db), updates);
-            if(type === 'confetti') startCooldown();
+            if(userCoins < price) return alert("Brak monet!");
+            const up = {};
+            up[`users/${auth.currentUser.uid}/coins`] = increment(-price);
+            if(type === 'premium') up[`users/${auth.currentUser.uid}/premium`] = true;
+            await update(ref(db), up);
+            alert("Kupiono!");
         };
 
-        function triggerRickroll() {
-            const r = document.createElement('div');
-            r.style = "position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9999;background:black;";
-            r.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/QDia3e12czc?autoplay=1&controls=0" frameborder="0"></iframe>`;
-            document.body.appendChild(r);
-            setTimeout(() => r.remove(), 20000);
-        }
-
-        function startCooldown() {
-            isConfettiCooldown = true;
-            const label = document.getElementById('confettiPrice');
-            let s = 30;
-            const i = setInterval(() => {
-                label.innerText = `${s--}s`;
-                if(s < 0) { clearInterval(i); isConfettiCooldown = false; label.innerText = "100 🪙"; }
-            }, 1000);
-        }
-
-        // TABS
-        window.showTab = (t) => {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.getElementById(t + 'Tab').classList.add('active');
-        };
-
-        // LISTENERS
-        document.getElementById('loginBtn').onclick = () => signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value).catch(e => authError.innerText = e.message);
-        document.getElementById('registerBtn').onclick = () => createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value).catch(e => authError.innerText = e.message);
-        document.getElementById('logoutBtn').onclick = () => signOut(auth).then(() => location.reload());
         document.getElementById('sendBtn').onclick = sendMessage;
+        document.getElementById('loginBtn').onclick = () => signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
+        document.getElementById('registerBtn').onclick = () => createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
+        document.getElementById('logoutBtn').onclick = () => signOut(auth).then(() => location.reload());
 
-        // Wczytaj zapisany motyw
-        const savedTheme = localStorage.getItem('chat_theme');
-        if(savedTheme) setTheme(savedTheme);
-
+        if(localStorage.getItem('theme')) setTheme(localStorage.getItem('theme'));
     </script>
 </body>
 </html>
