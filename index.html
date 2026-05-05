@@ -9,17 +9,17 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Merriweather&family=Orbitron:wght@400;700&display=swap');
 
         * { box-sizing: border-box; }
-        body { 
-            overflow: hidden; height: 100dvh; margin: 0; 
+        body {
+            overflow: hidden; height: 100dvh; margin: 0;
             background-color: #0a0f1e;
             font-family: 'Inter', sans-serif;
         }
-        
+
         .font-modern { font-family: 'Inter', sans-serif; }
         .font-classic { font-family: 'Merriweather', serif; }
         .font-gaming { font-family: 'Orbitron', sans-serif; }
 
-        /* ===== EKRAN LOGOWANIA ===== */
+        /* ===== AUTH ===== */
         #authScreen {
             position: fixed; inset: 0; z-index: 1000;
             background: #0a0f1e;
@@ -30,42 +30,32 @@
 
         .auth-card {
             width: 100%; max-width: 380px;
-            background: rgba(15, 23, 42, 0.98);
-            border: 1px solid rgba(59, 130, 246, 0.25);
-            border-radius: 28px;
-            padding: 36px 28px;
-            box-shadow: 0 0 60px rgba(59,130,246,0.12), 0 0 120px rgba(59,130,246,0.05);
+            background: rgba(15,23,42,0.98);
+            border: 1px solid rgba(59,130,246,0.25);
+            border-radius: 28px; padding: 36px 28px;
+            box-shadow: 0 0 60px rgba(59,130,246,0.12);
         }
         .auth-logo { text-align: center; margin-bottom: 28px; }
         .auth-logo .logo-icon { font-size: 2.8rem; display: block; margin-bottom: 8px; filter: drop-shadow(0 0 12px rgba(59,130,246,0.6)); }
         .auth-logo h1 { font-size: 1.4rem; font-weight: 900; color: #60a5fa; letter-spacing: -0.5px; }
         .auth-logo p { font-size: 0.7rem; color: #475569; text-transform: uppercase; letter-spacing: 2px; margin-top: 2px; }
-
         .auth-tabs { display: flex; gap: 4px; background: rgba(255,255,255,0.04); border-radius: 14px; padding: 4px; margin-bottom: 24px; }
         .auth-tab { flex: 1; padding: 10px; border: none; cursor: pointer; border-radius: 10px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; background: transparent; color: #64748b; transition: all 0.2s; }
         .auth-tab.active { background: #2563eb; color: white; box-shadow: 0 4px 12px rgba(37,99,235,0.4); }
-
         .auth-form { display: flex; flex-direction: column; gap: 12px; }
         .auth-form.gone { display: none; }
-
         .auth-input { width: 100%; padding: 14px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; color: white; font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
         .auth-input:focus { border-color: #3b82f6; background: rgba(59,130,246,0.06); }
         .auth-input::placeholder { color: #475569; }
-
-        .auth-btn { padding: 15px; border: none; border-radius: 14px; font-size: 0.85rem; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; box-shadow: 0 4px 20px rgba(37,99,235,0.4); transition: all 0.2s; margin-top: 4px; }
-        .auth-btn:active { transform: scale(0.97); opacity: 0.9; }
+        .auth-btn { padding: 15px; border: none; border-radius: 14px; font-size: 0.85rem; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; background: linear-gradient(135deg,#2563eb,#1d4ed8); color: white; box-shadow: 0 4px 20px rgba(37,99,235,0.4); transition: all 0.2s; margin-top: 4px; }
+        .auth-btn:active { transform: scale(0.97); }
         .auth-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
         .auth-error { padding: 10px 14px; background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); border-radius: 10px; color: #f87171; font-size: 0.75rem; text-align: center; display: none; }
         .auth-error.show { display: block; }
 
-        /* ===== GŁÓWNA APLIKACJA ===== */
+        /* ===== APP ===== */
         #appScreen { height: 100dvh; background-color: #0f172a; background-size: cover; background-position: center; transition: background 0.5s; }
         #appScreen.gone { display: none; }
-
-        .theme-1 { background-image: url('Assets/wall/1.png') !important; }
-        .theme-2 { background-image: url('Assets/wall/2.png') !important; }
-        .theme-3 { background-image: url('Assets/wall/3.png') !important; }
 
         .tab-content { display: none; height: calc(100dvh - 150px); width: 100%; overflow-y: auto; padding-top: 10px; }
         .tab-content.active { display: flex; flex-direction: column; }
@@ -78,17 +68,29 @@
         .msg-bubble { background: rgba(30,41,59,0.9); padding: 12px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.1); position: relative; }
         .me .msg-bubble { background: rgba(37,99,235,0.3); border-color: rgba(37,99,235,0.5); }
 
-        .reaction-bar { display: flex; gap: 6px; margin-top: 8px; align-items: center; flex-wrap: wrap; }
-        .reaction { cursor: pointer; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 10px; font-size: 11px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s; user-select: none; }
-        .reaction:active { transform: scale(0.9); }
+        /* Złoty nick */
+        .gold-nick { color: #fbbf24 !important; text-shadow: 0 0 8px rgba(251,191,36,0.6); }
 
-        .heart-btn { cursor: pointer; padding: 3px 10px; background: rgba(255,255,255,0.05); border-radius: 20px; font-size: 12px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1); user-select: none; display: inline-flex; align-items: center; gap: 4px; }
-        .heart-btn:active { transform: scale(0.85); }
-        .heart-btn.liked { background: rgba(239,68,68,0.2); border-color: rgba(239,68,68,0.6); color: #f87171; box-shadow: 0 0 10px rgba(239,68,68,0.3); }
-        .heart-btn.liked .heart-icon { animation: heartPop 0.35s cubic-bezier(0.34,1.56,0.64,1); }
-        @keyframes heartPop { 0%{transform:scale(1)} 40%{transform:scale(1.5)} 70%{transform:scale(0.9)} 100%{transform:scale(1.15)} }
-        .heart-btn.already-liked { cursor: not-allowed; opacity: 0.85; }
-        .heart-btn.shake { animation: shake 0.35s ease; }
+        .reaction-bar { display: flex; gap: 6px; margin-top: 8px; align-items: center; flex-wrap: wrap; }
+
+        /* Wspólny styl dla wszystkich reakcji (serduszko, funny, fire) */
+        .rxn-btn {
+            cursor: pointer; padding: 3px 9px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px; font-size: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+            user-select: none; display: inline-flex; align-items: center; gap: 4px;
+        }
+        .rxn-btn:active { transform: scale(0.85); }
+        .rxn-btn.used { cursor: not-allowed; opacity: 0.8; }
+        /* Kolory per typ */
+        .rxn-btn.used[data-type="heart"] { background: rgba(239,68,68,0.2); border-color: rgba(239,68,68,0.6); color: #f87171; box-shadow: 0 0 8px rgba(239,68,68,0.3); }
+        .rxn-btn.used[data-type="funny"] { background: rgba(234,179,8,0.2);  border-color: rgba(234,179,8,0.6);  color: #fde047; box-shadow: 0 0 8px rgba(234,179,8,0.25); }
+        .rxn-btn.used[data-type="fire"]  { background: rgba(249,115,22,0.2); border-color: rgba(249,115,22,0.6); color: #fb923c; box-shadow: 0 0 8px rgba(249,115,22,0.25); }
+        .rxn-btn.pop .rxn-icon { animation: rxnPop 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+        @keyframes rxnPop { 0%{transform:scale(1)} 40%{transform:scale(1.55)} 70%{transform:scale(0.9)} 100%{transform:scale(1.1)} }
+        .rxn-btn.shake { animation: shake 0.35s ease; }
         @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
 
         .del-btn { position: absolute; top: -5px; right: -5px; background: #ef4444; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; font-weight: bold; }
@@ -98,13 +100,51 @@
         nav button:active { background: rgba(255,255,255,0.1); transform: scale(0.9); }
         nav button.active-nav { border-top: 3px solid #3b82f6; background: rgba(59,130,246,0.1); }
 
-        .logout-btn { width: 100%; padding: 14px; border: 1px solid rgba(239,68,68,0.3); border-radius: 14px; background: rgba(239,68,68,0.08); color: #f87171; font-size: 0.8rem; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; }
+        .logout-btn { width: 100%; padding: 13px; border: 1px solid rgba(239,68,68,0.3); border-radius: 14px; background: rgba(239,68,68,0.08); color: #f87171; font-size: 0.78rem; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; }
         .logout-btn:active { background: rgba(239,68,68,0.2); }
+        .delete-btn { width: 100%; padding: 13px; border: 1px solid rgba(239,68,68,0.6); border-radius: 14px; background: rgba(239,68,68,0.15); color: #fca5a5; font-size: 0.78rem; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; }
+        .delete-btn:active { background: rgba(239,68,68,0.35); }
+
+        /* ===== RICKROLL OVERLAY ===== */
+        #rickrollOverlay {
+            display: none;
+            position: fixed; inset: 0; z-index: 9999;
+            background: rgba(0,0,0,0.92);
+            flex-direction: column; align-items: center; justify-content: center;
+            gap: 16px;
+        }
+        #rickrollOverlay.active { display: flex; }
+        #rickrollOverlay h2 {
+            color: #f87171; font-size: 1.4rem; font-weight: 900;
+            text-transform: uppercase; letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(239,68,68,0.8);
+            animation: glitch 0.15s infinite alternate;
+        }
+        @keyframes glitch {
+            0%  { transform: translate(0); }
+            25% { transform: translate(-2px, 1px) skewX(1deg); }
+            50% { transform: translate(2px, -1px) skewX(-1deg); }
+            75% { transform: translate(-1px, 2px); }
+        }
+        #rickrollFrame { width: min(90vw, 640px); aspect-ratio: 16/9; border: 3px solid #ef4444; border-radius: 12px; box-shadow: 0 0 40px rgba(239,68,68,0.5); }
+        #rickrollTimer { color: #94a3b8; font-size: 0.8rem; }
+        #rickrollTimer span { color: #f87171; font-weight: 900; font-size: 1rem; }
     </style>
 </head>
 <body class="text-white">
 
-    <!-- ===== EKRAN LOGOWANIA / REJESTRACJI ===== -->
+    <!-- ===== RICKROLL OVERLAY ===== -->
+    <div id="rickrollOverlay">
+        <h2>💀 ULTIMATE DESTRUCTION 💀</h2>
+        <iframe id="rickrollFrame"
+            src=""
+            allow="autoplay; encrypted-media"
+            allowfullscreen>
+        </iframe>
+        <p id="rickrollTimer">Zamyka się za <span id="rrCount">10</span> sekund...</p>
+    </div>
+
+    <!-- ===== AUTH ===== -->
     <div id="authScreen">
         <div class="auth-card">
             <div class="auth-logo">
@@ -112,21 +152,16 @@
                 <h1>CzatSZKOLA</h1>
                 <p>Zaloguj się, aby rozmawiać</p>
             </div>
-
             <div class="auth-tabs">
                 <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Logowanie</button>
                 <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Rejestracja</button>
             </div>
-
-            <!-- LOGOWANIE -->
             <div class="auth-form" id="loginForm">
                 <input type="email" id="loginEmail" class="auth-input" placeholder="Adres e-mail">
                 <input type="password" id="loginPassword" class="auth-input" placeholder="Hasło">
                 <div class="auth-error" id="loginError"></div>
                 <button class="auth-btn" id="loginBtn" onclick="doLogin()">Zaloguj się →</button>
             </div>
-
-            <!-- REJESTRACJA -->
             <div class="auth-form gone" id="registerForm">
                 <input type="text" id="regNick" class="auth-input" placeholder="Nick (wyświetlana nazwa)">
                 <input type="email" id="regEmail" class="auth-input" placeholder="Adres e-mail">
@@ -138,7 +173,7 @@
         </div>
     </div>
 
-    <!-- ===== GŁÓWNA APLIKACJA ===== -->
+    <!-- ===== APP ===== -->
     <div id="appScreen" class="gone">
 
         <header class="h-[70px] border-b border-gray-800 flex justify-between items-center px-4 glass sticky top-0 z-[150]">
@@ -150,6 +185,8 @@
         </header>
 
         <main class="relative h-full w-full">
+
+            <!-- CZAT -->
             <section id="chatTab" class="tab-content active">
                 <div id="messages"></div>
                 <div class="input-area glass">
@@ -160,27 +197,42 @@
                 </div>
             </section>
 
+            <!-- SKLEP -->
             <section id="shopTab" class="tab-content p-6">
                 <h2 class="text-2xl font-black text-blue-400 mb-6 uppercase italic tracking-wider">Sklep Monet</h2>
                 <div class="grid gap-4">
+
                     <div class="bg-gray-800/80 p-5 rounded-3xl border border-purple-500/50 flex justify-between items-center">
                         <div>
                             <p class="font-bold text-lg text-purple-300">💎 Ranga VIP</p>
                             <p class="text-[10px] text-gray-400">Specjalna odznaka przy nicku</p>
                         </div>
-                        <button onclick="buyItem('vip',5000)" class="bg-purple-600 px-5 py-2 rounded-xl text-xs font-bold">5,000 🪙</button>
+                        <button onclick="buyItem('vip',5000,'Ranga VIP')" class="bg-purple-600 px-5 py-2 rounded-xl text-xs font-bold">5,000 🪙</button>
                     </div>
+
                     <div class="bg-gray-800/80 p-5 rounded-3xl border border-yellow-500/50 flex justify-between items-center">
                         <div>
                             <p class="font-bold text-lg text-yellow-400">✨ Złoty Nick</p>
-                            <p class="text-[10px] text-gray-400">Zmień kolor swojej nazwy</p>
+                            <p class="text-[10px] text-gray-400">Twój nick świeci złotem</p>
                         </div>
-                        <button onclick="buyItem('gold_nick',2500)" class="bg-yellow-600 px-5 py-2 rounded-xl text-xs font-bold">2,500 🪙</button>
+                        <button onclick="buyItem('gold_nick',2500,'Złoty Nick')" class="bg-yellow-600 px-5 py-2 rounded-xl text-xs font-bold">2,500 🪙</button>
                     </div>
+
+                    <!-- RICKROLL -->
+                    <div class="bg-gray-900/90 p-5 rounded-3xl border-2 border-red-500/70 flex justify-between items-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-r from-red-900/20 to-transparent pointer-events-none"></div>
+                        <div class="relative">
+                            <p class="font-black text-lg text-red-400 uppercase tracking-wide">☠️ Rickroll Ultimate Destruction</p>
+                            <p class="text-[10px] text-gray-400 mt-0.5">Odpala Rickrolla WSZYSTKIM użytkownikom na 10 sekund</p>
+                        </div>
+                        <button onclick="buyItem('rickroll',10000,'Rickroll Ultimate Destruction')" class="relative bg-red-700 hover:bg-red-600 px-4 py-2 rounded-xl text-xs font-black border border-red-500 shadow-lg shadow-red-900/50 whitespace-nowrap ml-3">10,000 🪙</button>
+                    </div>
+
                     <div class="p-4 text-center text-gray-500 text-[10px] uppercase font-bold">Więcej przedmiotów wkrótce...</div>
                 </div>
             </section>
 
+            <!-- PROFIL -->
             <section id="profileTab" class="tab-content p-6">
                 <div class="max-w-sm mx-auto space-y-6">
                     <div class="space-y-3 bg-gray-900/50 p-5 rounded-3xl border border-gray-800">
@@ -206,7 +258,12 @@
                             <button onclick="setTheme(3)" class="p-3 bg-green-900/40 border border-green-500 rounded-xl text-[10px]">TAPETA 3</button>
                         </div>
                     </div>
-                    <button class="logout-btn" onclick="doLogout()">🚪 Wyloguj się</button>
+                    <!-- Konto -->
+                    <div class="space-y-3 pt-2 border-t border-gray-800">
+                        <p class="text-[10px] font-bold text-gray-500 uppercase text-center">Konto</p>
+                        <button class="logout-btn" onclick="doLogout()">🚪 Wyloguj się</button>
+                        <button class="delete-btn" onclick="doDeleteAccount()">🗑️ Usuń konto na zawsze</button>
+                    </div>
                 </div>
             </section>
         </main>
@@ -220,8 +277,8 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getDatabase, ref, push, onChildAdded, onChildRemoved, onChildChanged, remove, update, get, increment, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getDatabase, ref, push, onChildAdded, onChildRemoved, onChildChanged, remove, update, get, increment, onValue, set, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCQXm-oMsOZg80gMrANDwxEbr2jWoV2I8A",
@@ -237,151 +294,223 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        const badWords = ["dupa", "kurde", "brzydkie"];
-        let userData = {}, myLikes = {}, messagesLoaded = false;
+        const badWords = ["dupa","kurde","brzydkie"];
+        let userData = {}, myReactions = {}, messagesLoaded = false;
 
-        // ===== TŁUMACZENIE BŁĘDÓW =====
+        // ===== BŁĘDY =====
         function translateError(code) {
-            const map = {
-                'auth/invalid-email':          'Nieprawidłowy adres e-mail.',
-                'auth/user-not-found':         'Nie znaleziono konta z tym e-mailem.',
-                'auth/wrong-password':         'Nieprawidłowe hasło.',
-                'auth/email-already-in-use':   'Ten e-mail jest już zajęty.',
-                'auth/weak-password':          'Hasło jest za słabe (min. 6 znaków).',
-                'auth/too-many-requests':      'Za dużo prób. Spróbuj później.',
-                'auth/invalid-credential':     'Nieprawidłowy e-mail lub hasło.',
-                'auth/network-request-failed': 'Brak połączenia z siecią.',
+            const m = {
+                'auth/invalid-email':'Nieprawidłowy adres e-mail.',
+                'auth/user-not-found':'Nie znaleziono konta z tym e-mailem.',
+                'auth/wrong-password':'Nieprawidłowe hasło.',
+                'auth/email-already-in-use':'Ten e-mail jest już zajęty.',
+                'auth/weak-password':'Hasło jest za słabe (min. 6 znaków).',
+                'auth/too-many-requests':'Za dużo prób. Spróbuj później.',
+                'auth/invalid-credential':'Nieprawidłowy e-mail lub hasło.',
+                'auth/network-request-failed':'Brak połączenia z siecią.',
+                'auth/requires-recent-login':'Wyloguj się i zaloguj ponownie, a potem spróbuj usunąć konto.',
             };
-            return map[code] || 'Wystąpił błąd. Spróbuj ponownie.';
+            return m[code] || 'Wystąpił błąd. Spróbuj ponownie.';
         }
-
-        function showErr(id, msg) {
-            const el = document.getElementById(id);
-            el.textContent = msg; el.classList.add('show');
-        }
+        function showErr(id, msg) { const el=document.getElementById(id); el.textContent=msg; el.classList.add('show'); }
         function setLoading(btnId, on) {
-            const btn = document.getElementById(btnId);
-            btn.disabled = on;
-            btn.textContent = on ? 'Proszę czekać...' : (btnId === 'loginBtn' ? 'Zaloguj się →' : 'Utwórz konto →');
+            const btn=document.getElementById(btnId); btn.disabled=on;
+            btn.textContent = on ? 'Proszę czekać...' : (btnId==='loginBtn'?'Zaloguj się →':'Utwórz konto →');
         }
 
         // ===== AUTH TABS =====
         window.switchAuthTab = (tab) => {
             ['login','register'].forEach(t => {
-                document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.toggle('active', t === tab);
-                document.getElementById(t + 'Form').classList.toggle('gone', t !== tab);
+                document.getElementById('tab'+t.charAt(0).toUpperCase()+t.slice(1)).classList.toggle('active',t===tab);
+                document.getElementById(t+'Form').classList.toggle('gone',t!==tab);
             });
-            document.getElementById('loginError').classList.remove('show');
-            document.getElementById('registerError').classList.remove('show');
+            ['loginError','registerError'].forEach(id=>document.getElementById(id).classList.remove('show'));
         };
 
         // ===== LOGOWANIE =====
         window.doLogin = async () => {
-            const email = document.getElementById('loginEmail').value.trim();
-            const pass  = document.getElementById('loginPassword').value;
+            const email=document.getElementById('loginEmail').value.trim();
+            const pass=document.getElementById('loginPassword').value;
             document.getElementById('loginError').classList.remove('show');
-            if (!email || !pass) return showErr('loginError', 'Uzupełnij wszystkie pola.');
-            setLoading('loginBtn', true);
-            try {
-                await signInWithEmailAndPassword(auth, email, pass);
-            } catch(e) {
-                showErr('loginError', translateError(e.code));
-                setLoading('loginBtn', false);
-            }
+            if(!email||!pass) return showErr('loginError','Uzupełnij wszystkie pola.');
+            setLoading('loginBtn',true);
+            try { await signInWithEmailAndPassword(auth,email,pass); }
+            catch(e) { showErr('loginError',translateError(e.code)); setLoading('loginBtn',false); }
         };
 
         // ===== REJESTRACJA =====
         window.doRegister = async () => {
-            const nick  = document.getElementById('regNick').value.trim();
-            const email = document.getElementById('regEmail').value.trim();
-            const pass  = document.getElementById('regPassword').value;
-            const pass2 = document.getElementById('regPassword2').value;
+            const nick=document.getElementById('regNick').value.trim();
+            const email=document.getElementById('regEmail').value.trim();
+            const pass=document.getElementById('regPassword').value;
+            const pass2=document.getElementById('regPassword2').value;
             document.getElementById('registerError').classList.remove('show');
-            if (!nick||!email||!pass||!pass2) return showErr('registerError','Uzupełnij wszystkie pola.');
-            if (nick.length < 2)  return showErr('registerError','Nick musi mieć min. 2 znaki.');
-            if (pass !== pass2)   return showErr('registerError','Hasła nie są takie same.');
-            if (pass.length < 6)  return showErr('registerError','Hasło musi mieć min. 6 znaków.');
-            setLoading('registerBtn', true);
+            if(!nick||!email||!pass||!pass2) return showErr('registerError','Uzupełnij wszystkie pola.');
+            if(nick.length<2) return showErr('registerError','Nick musi mieć min. 2 znaki.');
+            if(pass!==pass2) return showErr('registerError','Hasła nie są takie same.');
+            if(pass.length<6) return showErr('registerError','Hasło musi mieć min. 6 znaków.');
+            setLoading('registerBtn',true);
             try {
-                const cred = await createUserWithEmailAndPassword(auth, email, pass);
-                await update(ref(db, `users/${cred.user.uid}`), { nick, avatar: '', coins: 100, createdAt: Date.now() });
-            } catch(e) {
-                showErr('registerError', translateError(e.code));
-                setLoading('registerBtn', false);
-            }
+                const cred=await createUserWithEmailAndPassword(auth,email,pass);
+                await update(ref(db,`users/${cred.user.uid}`),{nick,avatar:'',coins:100,createdAt:Date.now()});
+            } catch(e) { showErr('registerError',translateError(e.code)); setLoading('registerBtn',false); }
         };
 
         // ===== WYLOGOWANIE =====
         window.doLogout = async () => {
-            if (!confirm('Na pewno chcesz się wylogować?')) return;
+            if(!confirm('Na pewno chcesz się wylogować?')) return;
             await signOut(auth);
         };
 
-        // Enter w formularzach
-        document.getElementById('loginPassword').addEventListener('keypress', e => { if(e.key==='Enter') doLogin(); });
-        document.getElementById('regPassword2').addEventListener('keypress',  e => { if(e.key==='Enter') doRegister(); });
+        // ===== USUWANIE KONTA =====
+        window.doDeleteAccount = async () => {
+            const user = auth.currentUser; if(!user) return;
+            if(!confirm('⚠️ Czy na pewno chcesz TRWALE usunąć swoje konto?\nTej operacji nie można cofnąć!')) return;
+            const pass = prompt('Podaj swoje hasło, aby potwierdzić usunięcie konta:');
+            if(!pass) return;
+            try {
+                const cred = EmailAuthProvider.credential(user.email, pass);
+                await reauthenticateWithCredential(user, cred);
+                await remove(ref(db,`users/${user.uid}`));
+                await remove(ref(db,`reactions/${user.uid}`));
+                await deleteUser(user);
+                alert('Konto zostało usunięte.');
+            } catch(e) { alert(translateError(e.code)); }
+        };
+
+        document.getElementById('loginPassword').addEventListener('keypress',e=>{if(e.key==='Enter') doLogin();});
+        document.getElementById('regPassword2').addEventListener('keypress',e=>{if(e.key==='Enter') doRegister();});
 
         // ===== STAN AUTH =====
         onAuthStateChanged(auth, (user) => {
-            if (user) {
+            if(user) {
                 document.getElementById('authScreen').classList.add('gone');
                 document.getElementById('appScreen').classList.remove('gone');
+                const st=localStorage.getItem('user_theme'); if(st) setTheme(st);
+                const sf=localStorage.getItem('user_font');  if(sf) setFont(sf);
 
-                const st = localStorage.getItem('user_theme'); if(st) setTheme(st);
-                const sf = localStorage.getItem('user_font');  if(sf) setFont(sf);
-
-                onValue(ref(db, `users/${user.uid}`), (s) => {
-                    userData = s.val() || {};
-                    document.getElementById('headerNick').innerText = userData.nick || user.email;
-                    document.getElementById('coinCount').innerText = `${(userData.coins||0).toLocaleString()} 🪙`;
-                    document.getElementById('headerAvatar').src = userData.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+                onValue(ref(db,`users/${user.uid}`),(s)=>{
+                    userData=s.val()||{};
+                    const nick = userData.nick || user.email;
+                    const headerNick = document.getElementById('headerNick');
+                    headerNick.innerText = nick;
+                    headerNick.className = `text-sm font-bold italic truncate max-w-[120px] ${userData.inventory?.gold_nick ? 'gold-nick' : 'text-blue-400'}`;
+                    document.getElementById('coinCount').innerText=`${(userData.coins||0).toLocaleString()} 🪙`;
+                    document.getElementById('headerAvatar').src=userData.avatar||'https://cdn-icons-png.flaticon.com/512/149/149071.png';
                 });
 
-                onValue(ref(db, `likes/${user.uid}`), (s) => {
-                    myLikes = s.val() || {};
-                    refreshAllHearts();
+                // Wczytaj moje reakcje
+                onValue(ref(db,`reactions/${user.uid}`),(s)=>{
+                    myReactions=s.val()||{};
+                    refreshAllReactions();
                 });
 
-                if (!messagesLoaded) { loadMessages(); messagesLoaded = true; }
+                // Nasłuchuj globalnego rickrolla
+                onValue(ref(db,'rickroll/active'),(s)=>{
+                    if(s.val()===true) showRickroll();
+                });
+
+                if(!messagesLoaded){ loadMessages(); messagesLoaded=true; }
             } else {
                 document.getElementById('authScreen').classList.remove('gone');
                 document.getElementById('appScreen').classList.add('gone');
-                messagesLoaded = false; myLikes = {}; userData = {};
-                document.getElementById('messages').innerHTML = '';
-                setLoading('loginBtn', false);
-                setLoading('registerBtn', false);
+                messagesLoaded=false; myReactions={}; userData={};
+                document.getElementById('messages').innerHTML='';
+                setLoading('loginBtn',false); setLoading('registerBtn',false);
             }
         });
 
-        // ===== SERDUSZKA =====
-        function refreshAllHearts() {
-            Object.keys(myLikes).forEach(msgId => {
-                const btn = document.getElementById(`heart-${msgId}`);
-                if (btn) { btn.classList.add('liked','already-liked'); btn.title='Już polubiłeś'; }
+        // ===== RICKROLL =====
+        let rrInterval = null;
+        function showRickroll() {
+            const overlay = document.getElementById('rickrollOverlay');
+            if(overlay.classList.contains('active')) return; // już widoczny
+            const frame = document.getElementById('rickrollFrame');
+            // Wbuduj dokładnie ten film z autoplay
+            frame.src = "https://www.youtube.com/embed/QDia3e12czc?autoplay=1&controls=0&loop=1&playlist=QDia3e12czc";
+            overlay.classList.add('active');
+            let count = 10;
+            document.getElementById('rrCount').textContent = count;
+            rrInterval = setInterval(()=>{
+                count--;
+                document.getElementById('rrCount').textContent = count;
+                if(count <= 0){
+                    clearInterval(rrInterval);
+                    overlay.classList.remove('active');
+                    frame.src = ''; // zatrzymaj wideo
+                }
+            }, 1000);
+        }
+
+        // ===== SKLEP – KUPOWANIE =====
+        window.buyItem = async (item, price, name) => {
+            if((userData.coins||0) < price) return alert(`Masz za mało monet! Potrzebujesz ${price.toLocaleString()} 🪙`);
+            if(!confirm(`Kupić "${name}" za ${price.toLocaleString()} 🪙?`)) return;
+
+            if(item === 'rickroll') {
+                // Odpal rickrolla globalnie
+                const updates = {};
+                updates[`users/${auth.currentUser.uid}/coins`] = increment(-price);
+                updates['rickroll/active'] = true;
+                updates['rickroll/triggeredBy'] = auth.currentUser.uid;
+                updates['rickroll/at'] = Date.now();
+                await update(ref(db), updates);
+                // Po 12 sekundach (+ bufor) wyłącz flagę
+                setTimeout(async ()=>{
+                    await update(ref(db,'rickroll'),{active: false});
+                }, 12000);
+                return;
+            }
+
+            const updates = {};
+            updates[`users/${auth.currentUser.uid}/coins`] = increment(-price);
+            updates[`users/${auth.currentUser.uid}/inventory/${item}`] = true;
+            await update(ref(db), updates);
+            alert(`✅ Kupiono: ${name}!`);
+        };
+
+        // ===== REAKCJE (limit 1 na typ na wiadomość) =====
+        function refreshAllReactions() {
+            // Dla każdej wiadomości i każdego typu zaznacz jeśli już zareagowano
+            Object.keys(myReactions).forEach(msgId => {
+                Object.keys(myReactions[msgId]||{}).forEach(type => {
+                    const btn = document.getElementById(`rxn-${msgId}-${type}`);
+                    if(btn) btn.classList.add('used');
+                });
             });
         }
 
-        window.toggleHeart = async (msgId) => {
-            const user = auth.currentUser; if (!user) return;
-            const btn = document.getElementById(`heart-${msgId}`); if (!btn) return;
-            if (myLikes[msgId]) {
+        window.addReaction = async (msgId, type) => {
+            const user = auth.currentUser; if(!user) return;
+            const btn = document.getElementById(`rxn-${msgId}-${type}`); if(!btn) return;
+
+            // Już zareagowano – potrząśnij
+            if(myReactions[msgId]?.[type]) {
                 btn.classList.remove('shake'); void btn.offsetWidth; btn.classList.add('shake'); return;
             }
-            const snap = await get(ref(db, `likes/${user.uid}/${msgId}`));
-            if (snap.exists()) { myLikes[msgId]=true; btn.classList.add('liked','already-liked'); return; }
+
+            // Sprawdź w Firebase (race condition)
+            const snap = await get(ref(db,`reactions/${user.uid}/${msgId}/${type}`));
+            if(snap.exists()) {
+                if(!myReactions[msgId]) myReactions[msgId]={};
+                myReactions[msgId][type]=true; btn.classList.add('used'); return;
+            }
+
             const updates = {};
-            updates[`likes/${user.uid}/${msgId}`] = true;
-            updates[`messages/${msgId}/hearts`] = increment(1);
+            updates[`reactions/${user.uid}/${msgId}/${type}`] = true;
+            updates[`messages/${msgId}/reactions/${type}`] = increment(1);
             try {
                 await update(ref(db), updates);
-                myLikes[msgId]=true; btn.classList.add('liked','already-liked'); btn.title='Już polubiłeś tę wiadomość';
-            } catch(e) { console.error(e); }
+                if(!myReactions[msgId]) myReactions[msgId]={};
+                myReactions[msgId][type]=true;
+                btn.classList.add('used','pop');
+            } catch(e){ console.error(e); }
         };
 
         // ===== ZAKŁADKI =====
         window.showTab = (tab) => {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-nav'));
+            document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active-nav'));
             document.getElementById(tab+'Tab').classList.add('active');
             document.getElementById('nav-'+tab).classList.add('active-nav');
         };
@@ -389,17 +518,8 @@
         window.updateProfile = () => {
             const nick=document.getElementById('nickInput').value.trim();
             const avatar=document.getElementById('avatarInput').value.trim();
-            const up={};
-            if(nick) up.nick=nick; if(avatar) up.avatar=avatar;
+            const up={}; if(nick) up.nick=nick; if(avatar) up.avatar=avatar;
             update(ref(db,`users/${auth.currentUser.uid}`),up).then(()=>alert('Profil zapisany!'));
-        };
-
-        window.buyItem = async (item,price) => {
-            if((userData.coins||0)<price) return alert('Masz za mało monet!');
-            const updates={};
-            updates[`users/${auth.currentUser.uid}/coins`]=increment(-price);
-            updates[`users/${auth.currentUser.uid}/inventory/${item}`]=true;
-            await update(ref(db),updates); alert('Kupiono pomyślnie!');
         };
 
         window.setFont = (f) => {
@@ -410,9 +530,8 @@
 
         window.setTheme = (n) => {
             const el=document.getElementById('appScreen');
-            el.classList.remove('theme-1','theme-2','theme-3');
-            el.style.backgroundImage = n==0 ? '' : `url('Assets/wall/${n}.png')`;
-            el.style.backgroundColor = '#0f172a';
+            el.style.backgroundImage = n==0?'':(`url('Assets/wall/${n}.png')`);
+            el.style.backgroundColor='#0f172a';
             localStorage.setItem('user_theme',n);
         };
 
@@ -424,51 +543,51 @@
             await push(ref(db,'messages'),{
                 text, nick:userData.nick||auth.currentUser.email,
                 avatar:userData.avatar||'', uid:auth.currentUser.uid,
-                reactions:{funny:0,fire:0}, hearts:0, time:serverTimestamp()
+                goldNick: !!(userData.inventory?.gold_nick),
+                reactions:{heart:0,funny:0,fire:0}, time:serverTimestamp()
             });
             update(ref(db,`users/${auth.currentUser.uid}`),{coins:increment(10)});
             input.value='';
         };
 
-        window.addReaction=(id,type)=>update(ref(db,`messages/${id}/reactions`),{[type]:increment(1)});
         window.deleteMsg=(id)=>{if(confirm('Usunąć?')) remove(ref(db,`messages/${id}`));};
 
-        function buildHeartBtn(msgId,hearts){
-            const isLiked=!!myLikes[msgId];
-            return `<button id="heart-${msgId}" class="heart-btn ${isLiked?'liked already-liked':''}" onclick="toggleHeart('${msgId}')" title="${isLiked?'Już polubiłeś':'Polub wiadomość'}"><span class="heart-icon">❤️</span><span id="heart-count-${msgId}">${hearts||0}</span></button>`;
+        function buildRxnBtn(msgId, type, emoji, count) {
+            const used = !!(myReactions[msgId]?.[type]);
+            return `<button id="rxn-${msgId}-${type}" data-type="${type}" class="rxn-btn ${used?'used':''}" onclick="addReaction('${msgId}','${type}')"><span class="rxn-icon">${emoji}</span><span id="rc-${msgId}-${type}">${count||0}</span></button>`;
         }
 
-        function loadMessages(){
+        function loadMessages() {
             const mBox=document.getElementById('messages');
             onChildAdded(ref(db,'messages'),(s)=>{
                 const d=s.val(); const id=s.key; const isMe=d.uid===auth.currentUser.uid;
                 const div=document.createElement('div');
                 div.id=`msg-${id}`; div.className=`msg-container ${isMe?'me':''}`;
+                const nickClass = d.goldNick ? 'text-[9px] font-bold gold-nick mb-1' : 'text-[9px] font-bold text-blue-400 mb-1';
                 div.innerHTML=`
                     <img src="${d.avatar||'https://cdn-icons-png.flaticon.com/512/149/149071.png'}" class="w-8 h-8 rounded-full object-cover flex-shrink-0">
                     <div class="msg-bubble shadow-xl">
                         ${isMe?`<div class="del-btn" onclick="deleteMsg('${id}')">×</div>`:''}
-                        <p class="text-[9px] font-bold text-blue-400 mb-1">${d.nick}</p>
+                        <p class="${nickClass}">${d.nick}</p>
                         <p class="text-sm">${d.text}</p>
                         <div class="reaction-bar" id="re-${id}">
-                            ${buildHeartBtn(id,d.hearts)}
-                            <span class="reaction" onclick="addReaction('${id}','funny')">😂 ${d.reactions?.funny||0}</span>
-                            <span class="reaction" onclick="addReaction('${id}','fire')">🔥 ${d.reactions?.fire||0}</span>
+                            ${buildRxnBtn(id,'heart','❤️',d.reactions?.heart)}
+                            ${buildRxnBtn(id,'funny','😂',d.reactions?.funny)}
+                            ${buildRxnBtn(id,'fire','🔥',d.reactions?.fire)}
                         </div>
                     </div>`;
-                mBox.appendChild(div); mBox.scrollTop=mBox.scrollHeight;
+                mBox.appendChild(div);
+                mBox.scrollTop=mBox.scrollHeight;
             });
+
             onChildChanged(ref(db,'messages'),(s)=>{
                 const d=s.val(); const id=s.key;
-                const hc=document.getElementById(`heart-count-${id}`); if(hc) hc.textContent=d.hearts||0;
-                const rBar=document.getElementById(`re-${id}`);
-                if(rBar){
-                    const fn=rBar.querySelector('[onclick*="funny"]');
-                    const fi=rBar.querySelector('[onclick*="fire"]');
-                    if(fn) fn.textContent=`😂 ${d.reactions?.funny||0}`;
-                    if(fi) fi.textContent=`🔥 ${d.reactions?.fire||0}`;
-                }
+                ['heart','funny','fire'].forEach(type=>{
+                    const el=document.getElementById(`rc-${id}-${type}`);
+                    if(el) el.textContent=d.reactions?.[type]||0;
+                });
             });
+
             onChildRemoved(ref(db,'messages'),(s)=>document.getElementById(`msg-${s.key}`)?.remove());
         }
 
