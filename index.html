@@ -3,181 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CzatSZKOLA - FULL VERSION</title>
+    <title>CzatSZKOLA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Merriweather&family=Orbitron:wght@400;700&display=swap');
 
+        * { box-sizing: border-box; }
         body { 
             overflow: hidden; height: 100dvh; margin: 0; 
-            background-color: #0f172a; background-size: cover; background-position: center; transition: 0.5s;
+            background-color: #0a0f1e;
+            font-family: 'Inter', sans-serif;
         }
         
         .font-modern { font-family: 'Inter', sans-serif; }
         .font-classic { font-family: 'Merriweather', serif; }
         .font-gaming { font-family: 'Orbitron', sans-serif; }
 
+        /* ===== EKRAN LOGOWANIA ===== */
+        #authScreen {
+            position: fixed; inset: 0; z-index: 1000;
+            background: #0a0f1e;
+            display: flex; align-items: center; justify-content: center;
+            padding: 24px;
+        }
+        #authScreen.gone { display: none; }
+
+        .auth-card {
+            width: 100%; max-width: 380px;
+            background: rgba(15, 23, 42, 0.98);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            border-radius: 28px;
+            padding: 36px 28px;
+            box-shadow: 0 0 60px rgba(59,130,246,0.12), 0 0 120px rgba(59,130,246,0.05);
+        }
+        .auth-logo { text-align: center; margin-bottom: 28px; }
+        .auth-logo .logo-icon { font-size: 2.8rem; display: block; margin-bottom: 8px; filter: drop-shadow(0 0 12px rgba(59,130,246,0.6)); }
+        .auth-logo h1 { font-size: 1.4rem; font-weight: 900; color: #60a5fa; letter-spacing: -0.5px; }
+        .auth-logo p { font-size: 0.7rem; color: #475569; text-transform: uppercase; letter-spacing: 2px; margin-top: 2px; }
+
+        .auth-tabs { display: flex; gap: 4px; background: rgba(255,255,255,0.04); border-radius: 14px; padding: 4px; margin-bottom: 24px; }
+        .auth-tab { flex: 1; padding: 10px; border: none; cursor: pointer; border-radius: 10px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; background: transparent; color: #64748b; transition: all 0.2s; }
+        .auth-tab.active { background: #2563eb; color: white; box-shadow: 0 4px 12px rgba(37,99,235,0.4); }
+
+        .auth-form { display: flex; flex-direction: column; gap: 12px; }
+        .auth-form.gone { display: none; }
+
+        .auth-input { width: 100%; padding: 14px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; color: white; font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
+        .auth-input:focus { border-color: #3b82f6; background: rgba(59,130,246,0.06); }
+        .auth-input::placeholder { color: #475569; }
+
+        .auth-btn { padding: 15px; border: none; border-radius: 14px; font-size: 0.85rem; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; box-shadow: 0 4px 20px rgba(37,99,235,0.4); transition: all 0.2s; margin-top: 4px; }
+        .auth-btn:active { transform: scale(0.97); opacity: 0.9; }
+        .auth-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .auth-error { padding: 10px 14px; background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); border-radius: 10px; color: #f87171; font-size: 0.75rem; text-align: center; display: none; }
+        .auth-error.show { display: block; }
+
+        /* ===== GŁÓWNA APLIKACJA ===== */
+        #appScreen { height: 100dvh; background-color: #0f172a; background-size: cover; background-position: center; transition: background 0.5s; }
+        #appScreen.gone { display: none; }
+
+        .theme-1 { background-image: url('Assets/wall/1.png') !important; }
+        .theme-2 { background-image: url('Assets/wall/2.png') !important; }
+        .theme-3 { background-image: url('Assets/wall/3.png') !important; }
+
         .tab-content { display: none; height: calc(100dvh - 150px); width: 100%; overflow-y: auto; padding-top: 10px; }
         .tab-content.active { display: flex; flex-direction: column; }
-        .glass { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,0.1); }
-        
+        .glass { background: rgba(15,23,42,0.95); backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,0.08); }
         .input-area { position: fixed; bottom: 80px; left: 0; width: 100%; padding: 12px; z-index: 100; border-top: 1px solid rgba(255,255,255,0.05); }
-        
-        .theme-1 { background-image: url('Assets/wall/1.png'); }
-        .theme-2 { background-image: url('Assets/wall/2.png'); }
-        .theme-3 { background-image: url('Assets/wall/3.png'); }
-        .theme-0 { background-color: #0f172a; }
 
         #messages { flex: 1; padding: 20px; padding-bottom: 220px; display: flex; flex-direction: column; gap: 15px; }
         .msg-container { display: flex; gap: 10px; max-width: 85%; align-self: flex-start; }
         .msg-container.me { align-self: flex-end; flex-direction: row-reverse; }
-        
-        .msg-bubble { background: rgba(30, 41, 59, 0.9); padding: 12px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.1); position: relative; }
-        .me .msg-bubble { background: rgba(37, 99, 235, 0.3); border-color: rgba(37, 99, 235, 0.5); }
-        
-        .reaction-bar { display: flex; gap: 6px; margin-top: 8px; align-items: center; }
-        .reaction { cursor: pointer; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 10px; font-size: 11px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s; user-select: none; }
-        .reaction:active { scale: 0.9; }
+        .msg-bubble { background: rgba(30,41,59,0.9); padding: 12px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.1); position: relative; }
+        .me .msg-bubble { background: rgba(37,99,235,0.3); border-color: rgba(37,99,235,0.5); }
 
-        /* Serduszko - aktywne (już polubione) */
-        .heart-btn {
-            cursor: pointer;
-            padding: 3px 10px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 20px;
-            font-size: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-            user-select: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .heart-btn:active { scale: 0.85; }
-        .heart-btn.liked {
-            background: rgba(239, 68, 68, 0.2);
-            border-color: rgba(239, 68, 68, 0.6);
-            color: #f87171;
-            box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
-        }
-        .heart-btn.liked .heart-icon {
-            animation: heartPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        @keyframes heartPop {
-            0%   { transform: scale(1); }
-            40%  { transform: scale(1.5); }
-            70%  { transform: scale(0.9); }
-            100% { transform: scale(1.15); }
-        }
-        .heart-btn.already-liked {
-            cursor: not-allowed;
-            opacity: 0.85;
-        }
-        /* Animacja "bounce" przy próbie podwójnego polubienia */
-        .heart-btn.shake {
-            animation: shake 0.35s ease;
-        }
-        @keyframes shake {
-            0%,100% { transform: translateX(0); }
-            25%      { transform: translateX(-4px); }
-            75%      { transform: translateX(4px); }
-        }
+        .reaction-bar { display: flex; gap: 6px; margin-top: 8px; align-items: center; flex-wrap: wrap; }
+        .reaction { cursor: pointer; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 10px; font-size: 11px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s; user-select: none; }
+        .reaction:active { transform: scale(0.9); }
+
+        .heart-btn { cursor: pointer; padding: 3px 10px; background: rgba(255,255,255,0.05); border-radius: 20px; font-size: 12px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1); user-select: none; display: inline-flex; align-items: center; gap: 4px; }
+        .heart-btn:active { transform: scale(0.85); }
+        .heart-btn.liked { background: rgba(239,68,68,0.2); border-color: rgba(239,68,68,0.6); color: #f87171; box-shadow: 0 0 10px rgba(239,68,68,0.3); }
+        .heart-btn.liked .heart-icon { animation: heartPop 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+        @keyframes heartPop { 0%{transform:scale(1)} 40%{transform:scale(1.5)} 70%{transform:scale(0.9)} 100%{transform:scale(1.15)} }
+        .heart-btn.already-liked { cursor: not-allowed; opacity: 0.85; }
+        .heart-btn.shake { animation: shake 0.35s ease; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
 
         .del-btn { position: absolute; top: -5px; right: -5px; background: #ef4444; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; font-weight: bold; }
 
         nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 80px; z-index: 200; display: flex; }
         nav button { flex: 1; height: 100%; font-size: 1.8rem; background: transparent; border: none; color: white; cursor: pointer; transition: 0.2s; }
-        nav button:active { background: rgba(255,255,255,0.1); scale: 0.9; }
-        nav button.active-nav { border-top: 3px solid #3b82f6; background: rgba(59, 130, 246, 0.1); }
+        nav button:active { background: rgba(255,255,255,0.1); transform: scale(0.9); }
+        nav button.active-nav { border-top: 3px solid #3b82f6; background: rgba(59,130,246,0.1); }
+
+        .logout-btn { width: 100%; padding: 14px; border: 1px solid rgba(239,68,68,0.3); border-radius: 14px; background: rgba(239,68,68,0.08); color: #f87171; font-size: 0.8rem; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; }
+        .logout-btn:active { background: rgba(239,68,68,0.2); }
     </style>
 </head>
-<body id="mainBody" class="theme-0 text-white font-modern">
+<body class="text-white">
 
-    <header class="h-[70px] border-b border-gray-800 flex justify-between items-center px-4 glass sticky top-0 z-[150]">
-        <div class="flex items-center gap-3">
-            <img id="headerAvatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-10 h-10 rounded-full border-2 border-blue-500 object-cover">
-            <h1 id="headerNick" class="text-sm font-bold text-blue-400 italic truncate max-w-[120px]">Ładowanie...</h1>
+    <!-- ===== EKRAN LOGOWANIA / REJESTRACJI ===== -->
+    <div id="authScreen">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <span class="logo-icon">💬</span>
+                <h1>CzatSZKOLA</h1>
+                <p>Zaloguj się, aby rozmawiać</p>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Logowanie</button>
+                <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Rejestracja</button>
+            </div>
+
+            <!-- LOGOWANIE -->
+            <div class="auth-form" id="loginForm">
+                <input type="email" id="loginEmail" class="auth-input" placeholder="Adres e-mail">
+                <input type="password" id="loginPassword" class="auth-input" placeholder="Hasło">
+                <div class="auth-error" id="loginError"></div>
+                <button class="auth-btn" id="loginBtn" onclick="doLogin()">Zaloguj się →</button>
+            </div>
+
+            <!-- REJESTRACJA -->
+            <div class="auth-form gone" id="registerForm">
+                <input type="text" id="regNick" class="auth-input" placeholder="Nick (wyświetlana nazwa)">
+                <input type="email" id="regEmail" class="auth-input" placeholder="Adres e-mail">
+                <input type="password" id="regPassword" class="auth-input" placeholder="Hasło (min. 6 znaków)">
+                <input type="password" id="regPassword2" class="auth-input" placeholder="Powtórz hasło">
+                <div class="auth-error" id="registerError"></div>
+                <button class="auth-btn" id="registerBtn" onclick="doRegister()">Utwórz konto →</button>
+            </div>
         </div>
-        <span id="coinCount" class="text-yellow-400 font-bold text-[13px] bg-yellow-400/10 px-3 py-1 rounded-full border border-yellow-400/30 shadow-[0_0_10px_rgba(250,204,21,0.2)]">0 🪙</span>
-    </header>
+    </div>
 
-    <main class="relative h-full w-full">
-        <!-- CZAT -->
-        <section id="chatTab" class="tab-content active">
-            <div id="messages"></div>
-            <div class="input-area glass">
-                <div class="flex gap-2 max-w-5xl mx-auto">
-                    <input type="text" id="userInput" placeholder="Twoja wiadomość..." class="flex-1 bg-gray-800 p-4 rounded-2xl outline-none border border-gray-700">
-                    <button id="sendBtn" class="bg-blue-600 px-6 py-4 rounded-2xl font-bold">></button>
-                </div>
+    <!-- ===== GŁÓWNA APLIKACJA ===== -->
+    <div id="appScreen" class="gone">
+
+        <header class="h-[70px] border-b border-gray-800 flex justify-between items-center px-4 glass sticky top-0 z-[150]">
+            <div class="flex items-center gap-3">
+                <img id="headerAvatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-10 h-10 rounded-full border-2 border-blue-500 object-cover">
+                <h1 id="headerNick" class="text-sm font-bold text-blue-400 italic truncate max-w-[120px]">...</h1>
             </div>
-        </section>
+            <span id="coinCount" class="text-yellow-400 font-bold text-[13px] bg-yellow-400/10 px-3 py-1 rounded-full border border-yellow-400/30">0 🪙</span>
+        </header>
 
-        <!-- SKLEP -->
-        <section id="shopTab" class="tab-content p-6">
-            <h2 class="text-2xl font-black text-blue-400 mb-6 uppercase italic tracking-wider">Sklep Monet</h2>
-            <div class="grid gap-4">
-                <div class="bg-gray-800/80 p-5 rounded-3xl border border-purple-500/50 flex justify-between items-center">
-                    <div>
-                        <p class="font-bold text-lg text-purple-300">💎 Ranga VIP</p>
-                        <p class="text-[10px] text-gray-400">Specjalna odznaka przy nicku</p>
-                    </div>
-                    <button onclick="buyItem('vip', 5000)" class="bg-purple-600 hover:bg-purple-500 px-5 py-2 rounded-xl text-xs font-bold transition-all shadow-lg shadow-purple-900/40">5,000 🪙</button>
-                </div>
-                
-                <div class="bg-gray-800/80 p-5 rounded-3xl border border-yellow-500/50 flex justify-between items-center">
-                    <div>
-                        <p class="font-bold text-lg text-yellow-400">✨ Złoty Nick</p>
-                        <p class="text-[10px] text-gray-400">Zmień kolor swojej nazwy</p>
-                    </div>
-                    <button onclick="buyItem('gold_nick', 2500)" class="bg-yellow-600 hover:bg-yellow-500 px-5 py-2 rounded-xl text-xs font-bold transition-all shadow-lg shadow-yellow-900/40">2,500 🪙</button>
-                </div>
-                
-                <div class="p-4 text-center text-gray-500 text-[10px] uppercase font-bold">Więcej przedmiotów wkrótce...</div>
-            </div>
-        </section>
-
-        <!-- PROFIL / USTAWIENIA -->
-        <section id="profileTab" class="tab-content p-6">
-            <div class="max-w-sm mx-auto space-y-6">
-                <div class="space-y-3 bg-gray-900/50 p-5 rounded-3xl border border-gray-800 shadow-xl">
-                    <p class="text-[10px] font-bold text-gray-500 uppercase text-center tracking-widest">Twoje Dane</p>
-                    <input type="text" id="nickInput" placeholder="Zmień Nick" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700 text-sm">
-                    <input type="text" id="avatarInput" placeholder="Link do zdjęcia (Avatar)" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700 text-sm">
-                    <button onclick="updateProfile()" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-2xl font-bold uppercase text-xs transition-colors">Zapisz Zmiany</button>
-                </div>
-
-                <div class="space-y-3">
-                    <p class="text-[10px] font-bold text-gray-500 uppercase text-center">Styl Czcionki</p>
-                    <div class="grid grid-cols-3 gap-2">
-                        <button onclick="setFont('font-modern')" class="p-2 bg-gray-800 rounded-xl text-[9px] border border-gray-600 active:bg-blue-600">MODERN</button>
-                        <button onclick="setFont('font-classic')" class="p-2 bg-gray-800 rounded-xl text-[9px] border border-gray-600 active:bg-blue-600">CLASSIC</button>
-                        <button onclick="setFont('font-gaming')" class="p-2 bg-gray-800 rounded-xl text-[9px] border border-gray-600 active:bg-blue-600">GAMER</button>
+        <main class="relative h-full w-full">
+            <section id="chatTab" class="tab-content active">
+                <div id="messages"></div>
+                <div class="input-area glass">
+                    <div class="flex gap-2 max-w-5xl mx-auto">
+                        <input type="text" id="userInput" placeholder="Twoja wiadomość..." class="flex-1 bg-gray-800 p-4 rounded-2xl outline-none border border-gray-700">
+                        <button id="sendBtn" class="bg-blue-600 px-6 py-4 rounded-2xl font-bold text-lg">›</button>
                     </div>
                 </div>
+            </section>
 
-                <div class="space-y-3">
-                    <p class="text-[10px] font-bold text-gray-500 uppercase text-center">Tapeta Czatu</p>
-                    <div class="grid grid-cols-2 gap-3">
-                        <button onclick="setTheme(0)" class="p-3 bg-slate-800 rounded-xl text-[10px]">DOMYŚLNA</button>
-                        <button onclick="setTheme(1)" class="p-3 bg-blue-900/40 border border-blue-500 rounded-xl text-[10px]">TAPETA 1</button>
-                        <button onclick="setTheme(2)" class="p-3 bg-purple-900/40 border border-purple-500 rounded-xl text-[10px]">TAPETA 2</button>
-                        <button onclick="setTheme(3)" class="p-3 bg-green-900/40 border border-green-500 rounded-xl text-[10px]">TAPETA 3</button>
+            <section id="shopTab" class="tab-content p-6">
+                <h2 class="text-2xl font-black text-blue-400 mb-6 uppercase italic tracking-wider">Sklep Monet</h2>
+                <div class="grid gap-4">
+                    <div class="bg-gray-800/80 p-5 rounded-3xl border border-purple-500/50 flex justify-between items-center">
+                        <div>
+                            <p class="font-bold text-lg text-purple-300">💎 Ranga VIP</p>
+                            <p class="text-[10px] text-gray-400">Specjalna odznaka przy nicku</p>
+                        </div>
+                        <button onclick="buyItem('vip',5000)" class="bg-purple-600 px-5 py-2 rounded-xl text-xs font-bold">5,000 🪙</button>
                     </div>
+                    <div class="bg-gray-800/80 p-5 rounded-3xl border border-yellow-500/50 flex justify-between items-center">
+                        <div>
+                            <p class="font-bold text-lg text-yellow-400">✨ Złoty Nick</p>
+                            <p class="text-[10px] text-gray-400">Zmień kolor swojej nazwy</p>
+                        </div>
+                        <button onclick="buyItem('gold_nick',2500)" class="bg-yellow-600 px-5 py-2 rounded-xl text-xs font-bold">2,500 🪙</button>
+                    </div>
+                    <div class="p-4 text-center text-gray-500 text-[10px] uppercase font-bold">Więcej przedmiotów wkrótce...</div>
                 </div>
-            </div>
-        </section>
-    </main>
+            </section>
 
-    <nav class="glass border-t border-gray-800">
-        <button id="nav-chat" class="active-nav" onclick="showTab('chat')">💬</button>
-        <button id="nav-shop" onclick="showTab('shop')">🛒</button>
-        <button id="nav-profile" onclick="showTab('profile')">⚙️</button>
-    </nav>
+            <section id="profileTab" class="tab-content p-6">
+                <div class="max-w-sm mx-auto space-y-6">
+                    <div class="space-y-3 bg-gray-900/50 p-5 rounded-3xl border border-gray-800">
+                        <p class="text-[10px] font-bold text-gray-500 uppercase text-center tracking-widest">Twoje Dane</p>
+                        <input type="text" id="nickInput" placeholder="Zmień Nick" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700 text-sm">
+                        <input type="text" id="avatarInput" placeholder="Link do zdjęcia (Avatar)" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700 text-sm">
+                        <button onclick="updateProfile()" class="w-full bg-blue-600 py-4 rounded-2xl font-bold uppercase text-xs">Zapisz Zmiany</button>
+                    </div>
+                    <div class="space-y-3">
+                        <p class="text-[10px] font-bold text-gray-500 uppercase text-center">Styl Czcionki</p>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="setFont('font-modern')" class="p-2 bg-gray-800 rounded-xl text-[9px] border border-gray-600">MODERN</button>
+                            <button onclick="setFont('font-classic')" class="p-2 bg-gray-800 rounded-xl text-[9px] border border-gray-600">CLASSIC</button>
+                            <button onclick="setFont('font-gaming')" class="p-2 bg-gray-800 rounded-xl text-[9px] border border-gray-600">GAMER</button>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <p class="text-[10px] font-bold text-gray-500 uppercase text-center">Tapeta Czatu</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="setTheme(0)" class="p-3 bg-slate-800 rounded-xl text-[10px]">DOMYŚLNA</button>
+                            <button onclick="setTheme(1)" class="p-3 bg-blue-900/40 border border-blue-500 rounded-xl text-[10px]">TAPETA 1</button>
+                            <button onclick="setTheme(2)" class="p-3 bg-purple-900/40 border border-purple-500 rounded-xl text-[10px]">TAPETA 2</button>
+                            <button onclick="setTheme(3)" class="p-3 bg-green-900/40 border border-green-500 rounded-xl text-[10px]">TAPETA 3</button>
+                        </div>
+                    </div>
+                    <button class="logout-btn" onclick="doLogout()">🚪 Wyloguj się</button>
+                </div>
+            </section>
+        </main>
+
+        <nav class="glass border-t border-gray-800">
+            <button id="nav-chat" class="active-nav" onclick="showTab('chat')">💬</button>
+            <button id="nav-shop" onclick="showTab('shop')">🛒</button>
+            <button id="nav-profile" onclick="showTab('profile')">⚙️</button>
+        </nav>
+    </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getDatabase, ref, push, onChildAdded, onChildRemoved, onChildChanged, remove, update, get, increment, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = {
@@ -195,219 +238,242 @@
         const db = getDatabase(app);
 
         const badWords = ["dupa", "kurde", "brzydkie"];
-        let userData = {};
-        // Lokalny cache polubionych wiadomości przez bieżącego użytkownika
-        // { [messageId]: true }
-        let myLikes = {};
+        let userData = {}, myLikes = {}, messagesLoaded = false;
 
+        // ===== TŁUMACZENIE BŁĘDÓW =====
+        function translateError(code) {
+            const map = {
+                'auth/invalid-email':          'Nieprawidłowy adres e-mail.',
+                'auth/user-not-found':         'Nie znaleziono konta z tym e-mailem.',
+                'auth/wrong-password':         'Nieprawidłowe hasło.',
+                'auth/email-already-in-use':   'Ten e-mail jest już zajęty.',
+                'auth/weak-password':          'Hasło jest za słabe (min. 6 znaków).',
+                'auth/too-many-requests':      'Za dużo prób. Spróbuj później.',
+                'auth/invalid-credential':     'Nieprawidłowy e-mail lub hasło.',
+                'auth/network-request-failed': 'Brak połączenia z siecią.',
+            };
+            return map[code] || 'Wystąpił błąd. Spróbuj ponownie.';
+        }
+
+        function showErr(id, msg) {
+            const el = document.getElementById(id);
+            el.textContent = msg; el.classList.add('show');
+        }
+        function setLoading(btnId, on) {
+            const btn = document.getElementById(btnId);
+            btn.disabled = on;
+            btn.textContent = on ? 'Proszę czekać...' : (btnId === 'loginBtn' ? 'Zaloguj się →' : 'Utwórz konto →');
+        }
+
+        // ===== AUTH TABS =====
+        window.switchAuthTab = (tab) => {
+            ['login','register'].forEach(t => {
+                document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.toggle('active', t === tab);
+                document.getElementById(t + 'Form').classList.toggle('gone', t !== tab);
+            });
+            document.getElementById('loginError').classList.remove('show');
+            document.getElementById('registerError').classList.remove('show');
+        };
+
+        // ===== LOGOWANIE =====
+        window.doLogin = async () => {
+            const email = document.getElementById('loginEmail').value.trim();
+            const pass  = document.getElementById('loginPassword').value;
+            document.getElementById('loginError').classList.remove('show');
+            if (!email || !pass) return showErr('loginError', 'Uzupełnij wszystkie pola.');
+            setLoading('loginBtn', true);
+            try {
+                await signInWithEmailAndPassword(auth, email, pass);
+            } catch(e) {
+                showErr('loginError', translateError(e.code));
+                setLoading('loginBtn', false);
+            }
+        };
+
+        // ===== REJESTRACJA =====
+        window.doRegister = async () => {
+            const nick  = document.getElementById('regNick').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const pass  = document.getElementById('regPassword').value;
+            const pass2 = document.getElementById('regPassword2').value;
+            document.getElementById('registerError').classList.remove('show');
+            if (!nick||!email||!pass||!pass2) return showErr('registerError','Uzupełnij wszystkie pola.');
+            if (nick.length < 2)  return showErr('registerError','Nick musi mieć min. 2 znaki.');
+            if (pass !== pass2)   return showErr('registerError','Hasła nie są takie same.');
+            if (pass.length < 6)  return showErr('registerError','Hasło musi mieć min. 6 znaków.');
+            setLoading('registerBtn', true);
+            try {
+                const cred = await createUserWithEmailAndPassword(auth, email, pass);
+                await update(ref(db, `users/${cred.user.uid}`), { nick, avatar: '', coins: 100, createdAt: Date.now() });
+            } catch(e) {
+                showErr('registerError', translateError(e.code));
+                setLoading('registerBtn', false);
+            }
+        };
+
+        // ===== WYLOGOWANIE =====
+        window.doLogout = async () => {
+            if (!confirm('Na pewno chcesz się wylogować?')) return;
+            await signOut(auth);
+        };
+
+        // Enter w formularzach
+        document.getElementById('loginPassword').addEventListener('keypress', e => { if(e.key==='Enter') doLogin(); });
+        document.getElementById('regPassword2').addEventListener('keypress',  e => { if(e.key==='Enter') doRegister(); });
+
+        // ===== STAN AUTH =====
         onAuthStateChanged(auth, (user) => {
             if (user) {
+                document.getElementById('authScreen').classList.add('gone');
+                document.getElementById('appScreen').classList.remove('gone');
+
+                const st = localStorage.getItem('user_theme'); if(st) setTheme(st);
+                const sf = localStorage.getItem('user_font');  if(sf) setFont(sf);
+
                 onValue(ref(db, `users/${user.uid}`), (s) => {
                     userData = s.val() || {};
                     document.getElementById('headerNick').innerText = userData.nick || user.email;
-                    document.getElementById('coinCount').innerText = `${(userData.coins || 0).toLocaleString()} 🪙`;
+                    document.getElementById('coinCount').innerText = `${(userData.coins||0).toLocaleString()} 🪙`;
                     document.getElementById('headerAvatar').src = userData.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
                 });
 
-                // Wczytaj które wiadomości ten użytkownik już polubił
                 onValue(ref(db, `likes/${user.uid}`), (s) => {
                     myLikes = s.val() || {};
-                    // Odśwież wygląd przycisków serduszek już wyrenderowanych
                     refreshAllHearts();
                 });
 
-                loadMessages();
+                if (!messagesLoaded) { loadMessages(); messagesLoaded = true; }
+            } else {
+                document.getElementById('authScreen').classList.remove('gone');
+                document.getElementById('appScreen').classList.add('gone');
+                messagesLoaded = false; myLikes = {}; userData = {};
+                document.getElementById('messages').innerHTML = '';
+                setLoading('loginBtn', false);
+                setLoading('registerBtn', false);
             }
         });
 
-        // Odśwież stan wszystkich serduszek w DOM na podstawie myLikes
+        // ===== SERDUSZKA =====
         function refreshAllHearts() {
             Object.keys(myLikes).forEach(msgId => {
                 const btn = document.getElementById(`heart-${msgId}`);
-                if (btn) {
-                    btn.classList.add('liked', 'already-liked');
-                    btn.title = 'Już polubiłeś tę wiadomość';
-                }
+                if (btn) { btn.classList.add('liked','already-liked'); btn.title='Już polubiłeś'; }
             });
         }
 
-        // =====================
-        // SERDUSZKO - logika
-        // =====================
         window.toggleHeart = async (msgId) => {
-            const user = auth.currentUser;
-            if (!user) return;
-
-            const btn = document.getElementById(`heart-${msgId}`);
-            if (!btn) return;
-
-            // Jeśli już polubione – potrząśnij i zignoruj
+            const user = auth.currentUser; if (!user) return;
+            const btn = document.getElementById(`heart-${msgId}`); if (!btn) return;
             if (myLikes[msgId]) {
-                btn.classList.remove('shake');
-                void btn.offsetWidth; // reset animacji
-                btn.classList.add('shake');
-                return;
+                btn.classList.remove('shake'); void btn.offsetWidth; btn.classList.add('shake'); return;
             }
-
-            // Zabezpieczenie: sprawdź w Firebase (race condition)
-            const likeRef = ref(db, `likes/${user.uid}/${msgId}`);
-            const snap = await get(likeRef);
-            if (snap.exists()) {
-                myLikes[msgId] = true;
-                btn.classList.add('liked', 'already-liked');
-                return;
-            }
-
-            // Dodaj like atomowo
+            const snap = await get(ref(db, `likes/${user.uid}/${msgId}`));
+            if (snap.exists()) { myLikes[msgId]=true; btn.classList.add('liked','already-liked'); return; }
             const updates = {};
             updates[`likes/${user.uid}/${msgId}`] = true;
             updates[`messages/${msgId}/hearts`] = increment(1);
-
             try {
                 await update(ref(db), updates);
-                myLikes[msgId] = true;
-                btn.classList.add('liked', 'already-liked');
-                btn.title = 'Już polubiłeś tę wiadomość';
-            } catch (e) {
-                console.error("Błąd dodawania serduszka:", e);
-            }
+                myLikes[msgId]=true; btn.classList.add('liked','already-liked'); btn.title='Już polubiłeś tę wiadomość';
+            } catch(e) { console.error(e); }
         };
 
-        // PRZEŁĄCZANIE ZAKŁADEK
+        // ===== ZAKŁADKI =====
         window.showTab = (tab) => {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-nav'));
-            document.getElementById(tab + 'Tab').classList.add('active');
-            document.getElementById('nav-' + tab).classList.add('active-nav');
+            document.getElementById(tab+'Tab').classList.add('active');
+            document.getElementById('nav-'+tab).classList.add('active-nav');
         };
 
         window.updateProfile = () => {
-            const nick = document.getElementById('nickInput').value.trim();
-            const avatar = document.getElementById('avatarInput').value.trim();
-            const up = {};
-            if(nick) up.nick = nick;
-            if(avatar) up.avatar = avatar;
-            update(ref(db, `users/${auth.currentUser.uid}`), up).then(() => alert("Profil zapisany!"));
+            const nick=document.getElementById('nickInput').value.trim();
+            const avatar=document.getElementById('avatarInput').value.trim();
+            const up={};
+            if(nick) up.nick=nick; if(avatar) up.avatar=avatar;
+            update(ref(db,`users/${auth.currentUser.uid}`),up).then(()=>alert('Profil zapisany!'));
         };
 
-        window.buyItem = async (item, price) => {
-            if((userData.coins || 0) < price) return alert("Masz za mało monet!");
-            const updates = {};
-            updates[`users/${auth.currentUser.uid}/coins`] = increment(-price);
-            updates[`users/${auth.currentUser.uid}/inventory/${item}`] = true;
-            await update(ref(db), updates);
-            alert("Kupiono pomyślnie!");
+        window.buyItem = async (item,price) => {
+            if((userData.coins||0)<price) return alert('Masz za mało monet!');
+            const updates={};
+            updates[`users/${auth.currentUser.uid}/coins`]=increment(-price);
+            updates[`users/${auth.currentUser.uid}/inventory/${item}`]=true;
+            await update(ref(db),updates); alert('Kupiono pomyślnie!');
         };
 
         window.setFont = (f) => {
-            document.body.classList.remove('font-modern', 'font-classic', 'font-gaming');
-            document.body.classList.add(f);
-            localStorage.setItem('user_font', f);
+            const el=document.getElementById('appScreen');
+            el.classList.remove('font-modern','font-classic','font-gaming');
+            el.classList.add(f); localStorage.setItem('user_font',f);
         };
 
+        window.setTheme = (n) => {
+            const el=document.getElementById('appScreen');
+            el.classList.remove('theme-1','theme-2','theme-3');
+            el.style.backgroundImage = n==0 ? '' : `url('Assets/wall/${n}.png')`;
+            el.style.backgroundColor = '#0f172a';
+            localStorage.setItem('user_theme',n);
+        };
+
+        // ===== WIADOMOŚCI =====
         const sendMessage = async () => {
-            const input = document.getElementById('userInput');
-            let text = input.value.trim();
-            if(!text) return;
-            badWords.forEach(w => { text = text.replace(new RegExp(w, "gi"), "***"); });
-
-            await push(ref(db, "messages"), {
-                text: text,
-                nick: userData.nick || auth.currentUser.email,
-                avatar: userData.avatar || '',
-                uid: auth.currentUser.uid,
-                reactions: { heart: 0, funny: 0, fire: 0 },
-                hearts: 0,
-                time: serverTimestamp()
+            const input=document.getElementById('userInput');
+            let text=input.value.trim(); if(!text) return;
+            badWords.forEach(w=>{text=text.replace(new RegExp(w,'gi'),'***');});
+            await push(ref(db,'messages'),{
+                text, nick:userData.nick||auth.currentUser.email,
+                avatar:userData.avatar||'', uid:auth.currentUser.uid,
+                reactions:{funny:0,fire:0}, hearts:0, time:serverTimestamp()
             });
-            
-            update(ref(db, `users/${auth.currentUser.uid}`), { coins: increment(10) });
-            input.value = '';
+            update(ref(db,`users/${auth.currentUser.uid}`),{coins:increment(10)});
+            input.value='';
         };
 
-        window.addReaction = (id, type) => {
-            update(ref(db, `messages/${id}/reactions`), { [type]: increment(1) });
-        };
+        window.addReaction=(id,type)=>update(ref(db,`messages/${id}/reactions`),{[type]:increment(1)});
+        window.deleteMsg=(id)=>{if(confirm('Usunąć?')) remove(ref(db,`messages/${id}`));};
 
-        window.deleteMsg = (id) => {
-            if(confirm("Usunąć?")) remove(ref(db, `messages/${id}`));
-        };
-
-        function buildHeartBtn(msgId, hearts) {
-            const isLiked = !!myLikes[msgId];
-            return `<button 
-                id="heart-${msgId}" 
-                class="heart-btn ${isLiked ? 'liked already-liked' : ''}" 
-                onclick="toggleHeart('${msgId}')"
-                title="${isLiked ? 'Już polubiłeś tę wiadomość' : 'Polub wiadomość'}">
-                <span class="heart-icon">❤️</span>
-                <span id="heart-count-${msgId}">${hearts || 0}</span>
-            </button>`;
+        function buildHeartBtn(msgId,hearts){
+            const isLiked=!!myLikes[msgId];
+            return `<button id="heart-${msgId}" class="heart-btn ${isLiked?'liked already-liked':''}" onclick="toggleHeart('${msgId}')" title="${isLiked?'Już polubiłeś':'Polub wiadomość'}"><span class="heart-icon">❤️</span><span id="heart-count-${msgId}">${hearts||0}</span></button>`;
         }
 
-        function loadMessages() {
-            const mBox = document.getElementById('messages');
-
-            onChildAdded(ref(db, "messages"), (s) => {
-                const d = s.val();
-                const id = s.key;
-                const isMe = d.uid === auth.currentUser.uid;
-                const div = document.createElement('div');
-                div.id = `msg-${id}`;
-                div.className = `msg-container ${isMe ? 'me' : ''}`;
-                div.innerHTML = `
-                    <img src="${d.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}" class="w-8 h-8 rounded-full object-cover">
+        function loadMessages(){
+            const mBox=document.getElementById('messages');
+            onChildAdded(ref(db,'messages'),(s)=>{
+                const d=s.val(); const id=s.key; const isMe=d.uid===auth.currentUser.uid;
+                const div=document.createElement('div');
+                div.id=`msg-${id}`; div.className=`msg-container ${isMe?'me':''}`;
+                div.innerHTML=`
+                    <img src="${d.avatar||'https://cdn-icons-png.flaticon.com/512/149/149071.png'}" class="w-8 h-8 rounded-full object-cover flex-shrink-0">
                     <div class="msg-bubble shadow-xl">
-                        ${isMe ? `<div class="del-btn" onclick="deleteMsg('${id}')">×</div>` : ''}
+                        ${isMe?`<div class="del-btn" onclick="deleteMsg('${id}')">×</div>`:''}
                         <p class="text-[9px] font-bold text-blue-400 mb-1">${d.nick}</p>
                         <p class="text-sm">${d.text}</p>
                         <div class="reaction-bar" id="re-${id}">
-                            ${buildHeartBtn(id, d.hearts)}
-                            <span class="reaction" onclick="addReaction('${id}', 'funny')">😂 ${d.reactions?.funny || 0}</span>
-                            <span class="reaction" onclick="addReaction('${id}', 'fire')">🔥 ${d.reactions?.fire || 0}</span>
+                            ${buildHeartBtn(id,d.hearts)}
+                            <span class="reaction" onclick="addReaction('${id}','funny')">😂 ${d.reactions?.funny||0}</span>
+                            <span class="reaction" onclick="addReaction('${id}','fire')">🔥 ${d.reactions?.fire||0}</span>
                         </div>
                     </div>`;
-                mBox.appendChild(div);
-                mBox.scrollTop = mBox.scrollHeight;
+                mBox.appendChild(div); mBox.scrollTop=mBox.scrollHeight;
             });
-
-            onChildChanged(ref(db, "messages"), (s) => {
-                const d = s.val();
-                const id = s.key;
-
-                // Aktualizuj licznik serduszek bez przebudowywania całego przycisku
-                const heartCount = document.getElementById(`heart-count-${id}`);
-                if (heartCount) {
-                    heartCount.textContent = d.hearts || 0;
-                }
-
-                // Aktualizuj inne reakcje
-                const rBar = document.getElementById(`re-${id}`);
-                if (rBar) {
-                    const funnyEl = rBar.querySelector('[onclick*="funny"]');
-                    const fireEl  = rBar.querySelector('[onclick*="fire"]');
-                    if (funnyEl) funnyEl.textContent = `😂 ${d.reactions?.funny || 0}`;
-                    if (fireEl)  fireEl.textContent  = `🔥 ${d.reactions?.fire  || 0}`;
+            onChildChanged(ref(db,'messages'),(s)=>{
+                const d=s.val(); const id=s.key;
+                const hc=document.getElementById(`heart-count-${id}`); if(hc) hc.textContent=d.hearts||0;
+                const rBar=document.getElementById(`re-${id}`);
+                if(rBar){
+                    const fn=rBar.querySelector('[onclick*="funny"]');
+                    const fi=rBar.querySelector('[onclick*="fire"]');
+                    if(fn) fn.textContent=`😂 ${d.reactions?.funny||0}`;
+                    if(fi) fi.textContent=`🔥 ${d.reactions?.fire||0}`;
                 }
             });
-
-            onChildRemoved(ref(db, "messages"), (s) => {
-                document.getElementById(`msg-${s.key}`)?.remove();
-            });
+            onChildRemoved(ref(db,'messages'),(s)=>document.getElementById(`msg-${s.key}`)?.remove());
         }
 
-        window.setTheme = (n) => {
-            const font = document.body.classList.contains('font-classic') ? 'font-classic' : 
-                         document.body.classList.contains('font-gaming') ? 'font-gaming' : 'font-modern';
-            document.body.className = `${font} text-white theme-${n}`;
-            localStorage.setItem('user_theme', n);
-        };
-
-        document.getElementById('sendBtn').onclick = sendMessage;
-        document.getElementById('userInput').onkeypress = (e) => { if(e.key === 'Enter') sendMessage(); };
-        
-        const st = localStorage.getItem('user_theme'); if(st) setTheme(st);
-        const sf = localStorage.getItem('user_font'); if(sf) setFont(sf);
+        document.getElementById('sendBtn').onclick=sendMessage;
+        document.getElementById('userInput').addEventListener('keypress',e=>{if(e.key==='Enter') sendMessage();});
     </script>
 </body>
 </html>
