@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CzatSZKOLA - Rickroll Edition</title>
+    <title>CzatSZKOLA - 4K Rickroll & Mod Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
@@ -12,24 +12,16 @@
         .tab-content.active { display: flex; }
         #messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 160px; }
         .glass { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(15px); }
-        
         .chat-input-area { bottom: 85px; position: fixed; width: 100%; z-index: 100; border-top: 1px solid rgba(255,255,255,0.1); }
         button:disabled { background-color: #4b5563 !important; cursor: not-allowed; opacity: 0.7; }
-        
-        .premium-promo { background: linear-gradient(135deg, #1e293b, #0f172a); border: 2px solid #3b82f6; border-radius: 20px; padding: 15px; margin: 10px; text-align: center; }
-        .progress-container { background: rgba(0, 0, 0, 0.4); border-radius: 99px; height: 8px; width: 100%; margin: 8px 0; overflow: hidden; }
-        .progress-bar { background: linear-gradient(90deg, #3b82f6, #a855f7); height: 100%; transition: width 1s; }
-
         #achievement-toast { position: fixed; top: 20px; right: -400px; background: linear-gradient(45deg, #f59e0b, #fbbf24); color: black; padding: 15px 25px; border-radius: 15px; font-weight: bold; transition: 0.5s; z-index: 1000; }
         #achievement-toast.show { right: 20px; }
-        
-        .everyone-ping { background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; padding: 2px 4px; border-radius: 4px; color: #fca5a5; font-weight: bold; }
         .ai-msg { border-left: 4px solid #a855f7 !important; background: rgba(168, 85, 247, 0.1) !important; }
     </style>
 </head>
 <body class="text-white">
 
-    <div id="achievement-toast">🏆 Ktoś został BOGACZEM!</div>
+    <div id="achievement-toast">🏆 Nowy rekord monet!</div>
 
     <header class="p-4 border-b border-gray-800 flex justify-between items-center glass z-[110] relative">
         <div class="flex items-center gap-3">
@@ -38,21 +30,21 @@
                 <h1 class="text-lg font-black text-blue-500 uppercase tracking-tighter">CzatSZKOLA</h1>
                 <div class="flex items-center gap-2">
                     <span id="coinCount" class="text-yellow-400 font-bold text-xs">0 🪙</span>
-                    <span id="premiumBadge" class="hidden text-[9px] bg-red-600 px-1.5 py-0.5 rounded text-white font-bold animate-pulse">PREMIUM</span>
+                    <span id="roleBadge" class="text-[9px] px-1.5 py-0.5 rounded font-bold uppercase hidden"></span>
                 </div>
             </div>
         </div>
     </header>
 
     <main class="relative h-full">
-        <!-- LOGIN -->
+        <!-- LOGIN SCREEN -->
         <div id="loginScreen" class="absolute inset-0 z-[200] bg-gray-900 flex items-center justify-center p-6">
             <div class="w-full max-w-sm space-y-4">
-                <h2 class="text-4xl font-black text-blue-500 text-center">WITAJ</h2>
-                <input type="email" id="emailInput" placeholder="E-mail" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700 focus:border-blue-500">
-                <input type="password" id="passwordInput" placeholder="Hasło" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700 focus:border-blue-500">
-                <button id="loginBtn" class="w-full bg-blue-600 py-4 rounded-2xl font-bold hover:bg-blue-500 transition-all">Zaloguj</button>
-                <button id="registerBtn" class="w-full bg-gray-700 py-3 rounded-xl text-xs text-gray-300">Rejestracja</button>
+                <h2 class="text-4xl font-black text-blue-500 text-center uppercase italic">Witaj</h2>
+                <input type="email" id="emailInput" placeholder="E-mail" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700">
+                <input type="password" id="passwordInput" placeholder="Hasło" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700">
+                <button id="loginBtn" class="w-full bg-blue-600 py-4 rounded-2xl font-bold">Zaloguj</button>
+                <button id="registerBtn" class="w-full bg-gray-700 py-3 rounded-xl text-xs text-gray-300">Stwórz konto</button>
             </div>
         </div>
 
@@ -61,11 +53,11 @@
             <div id="messages"></div>
             <div class="chat-input-area p-4 glass">
                 <div class="flex items-center gap-2 max-w-5xl mx-auto">
-                    <label class="bg-gray-800 p-4 rounded-2xl cursor-pointer hover:bg-gray-700">
+                    <label class="bg-gray-800 p-4 rounded-2xl cursor-pointer">
                         📁 <input type="file" id="fileInput" class="hidden">
                     </label>
-                    <input type="text" id="userInput" placeholder="Napisz wiadomość (lub @ai)..." class="flex-1 bg-gray-800 p-4 rounded-2xl outline-none border border-gray-700 focus:border-blue-500 text-sm">
-                    <button id="sendBtn" class="bg-blue-600 px-6 py-4 rounded-2xl font-bold hover:scale-105 transition-all">Wyślij</button>
+                    <input type="text" id="userInput" placeholder="Napisz wiadomość..." class="flex-1 bg-gray-800 p-4 rounded-2xl outline-none border border-gray-700 text-sm">
+                    <button id="sendBtn" class="bg-blue-600 px-6 py-4 rounded-2xl font-bold">Wyślij</button>
                 </div>
             </div>
         </section>
@@ -77,33 +69,16 @@
                     <p class="text-xs font-bold uppercase opacity-70">Twój Portfel</p>
                     <h2 class="text-4xl font-black"><span id="shopCoins">0</span> 🪙</h2>
                 </div>
-
-                <div class="space-y-4">
-                    <h3 class="text-xl font-black text-blue-400 uppercase italic">Sklep Premium</h3>
-                    
-                    <!-- RICKROLL -->
-                    <div class="bg-gray-800 border border-pink-500 p-4 rounded-2xl flex justify-between items-center group shadow-lg shadow-pink-500/10">
-                        <div>
-                            <h4 class="font-bold text-pink-500">🎤 Rickroll Ultimate</h4>
-                            <p class="text-[10px] text-gray-400">Puszczasz Ricka Astleya u WSZYSTKICH.</p>
-                        </div>
-                        <button onclick="buyItem('rickroll', 5000)" class="bg-pink-600 px-4 py-2 rounded-xl font-bold text-xs hover:bg-pink-500 transition-all">5k 🪙</button>
-                    </div>
-
-                    <div class="bg-gray-800 border border-gray-700 p-4 rounded-2xl flex justify-between items-center">
-                        <div><h4 class="font-bold">🎉 Konfetti</h4><p class="text-[10px] text-gray-400">Efekt dla każdego.</p></div>
-                        <button onclick="buyItem('confetti', 100)" class="bg-blue-600 px-4 py-2 rounded-xl font-bold text-xs">100 🪙</button>
-                    </div>
-
-                    <div class="bg-gray-800 border border-gray-700 p-4 rounded-2xl flex justify-between items-center">
-                        <div><h4 class="font-bold text-yellow-500">🏆 Ranga Bogacz</h4><p class="text-[10px] text-gray-400">Globalny alert.</p></div>
-                        <button onclick="buyItem('rich', 1000)" class="bg-yellow-600 px-4 py-2 rounded-xl font-bold text-xs text-black">1k 🪙</button>
-                    </div>
-
-                    <div class="bg-gradient-to-b from-gray-800 to-gray-900 border-2 border-purple-500 p-5 rounded-3xl">
-                        <h4 class="font-black text-purple-400 uppercase">💎 PREMIUM (120 DNI)</h4>
-                        <button onclick="buyItem('premium', 100000)" class="w-full mt-4 bg-purple-600 py-3 rounded-xl font-bold text-sm shadow-lg shadow-purple-500/20">KUP ZA 100,000 🪙</button>
-                    </div>
+                <h3 class="text-xl font-black text-blue-400 uppercase italic">Sklep</h3>
+                <div class="grid gap-4">
+                    <button onclick="buyItem('rickroll', 5000)" class="flex justify-between items-center bg-gray-800 p-4 rounded-2xl border border-pink-500">
+                        <span class="text-left"><b class="block text-pink-500">🎤 Rickroll Ultimate (4K)</b> <small class="text-gray-400">Globalny troll w 60FPS</small></span>
+                        <span class="bg-pink-600 px-3 py-1 rounded-lg text-xs font-bold">5k 🪙</span>
+                    </button>
+                    <button onclick="buyItem('confetti', 100)" class="flex justify-between items-center bg-gray-800 p-4 rounded-2xl border border-blue-500">
+                        <span><b>🎉 Konfetti</b></span>
+                        <span class="bg-blue-600 px-3 py-1 rounded-lg text-xs font-bold">100 🪙</span>
+                    </button>
                 </div>
             </div>
         </section>
@@ -111,37 +86,25 @@
         <!-- TAB: OPCJE -->
         <section id="profileTab" class="tab-content p-6 overflow-y-auto">
             <div class="max-w-2xl mx-auto space-y-6 pb-40">
-                <h3 class="text-2xl font-black text-blue-500 uppercase italic">Ustawienia Profilu</h3>
-                <div class="bg-gray-800 p-6 rounded-3xl border border-gray-700 space-y-4 shadow-xl">
-                    <input type="text" id="setNick" placeholder="Nowy Nick" class="w-full bg-gray-900 p-4 rounded-2xl outline-none border border-gray-700 focus:border-blue-500">
-                    <input type="text" id="setAvatar" placeholder="URL Awatara" class="w-full bg-gray-900 p-4 rounded-2xl outline-none border border-gray-700 focus:border-blue-500">
-                    <button onclick="saveProfile()" class="w-full bg-blue-600 py-4 rounded-2xl font-bold hover:bg-green-600 transition-all">ZAPISZ PROFIL</button>
-                </div>
-                <button id="logoutBtn" class="w-full py-4 text-red-500 font-bold text-xs opacity-50 hover:opacity-100 hover:bg-red-900/10 rounded-2xl transition-all">WYLOGUJ MNIE</button>
+                <h3 class="text-2xl font-black text-blue-500 uppercase italic">Profil</h3>
+                <input type="text" id="setNick" placeholder="Zmień Nick" class="w-full bg-gray-800 p-4 rounded-2xl outline-none">
+                <input type="text" id="setAvatar" placeholder="Link do Awatara" class="w-full bg-gray-800 p-4 rounded-2xl outline-none">
+                <button onclick="saveProfile()" class="w-full bg-blue-600 py-4 rounded-2xl font-bold">ZAPISZ</button>
+                <button id="logoutBtn" class="w-full py-4 text-red-500 font-bold opacity-50">WYLOGUJ</button>
             </div>
         </section>
     </main>
 
-    <!-- NAWIGACJA -->
     <nav class="fixed bottom-0 w-full h-[85px] glass border-t border-gray-800 flex justify-around items-center z-[150] pb-2">
-        <button onclick="showTab('chat')" class="flex flex-col items-center gap-1 group">
-            <span class="text-2xl group-active:scale-125 transition-all">💬</span>
-            <span class="text-[10px] font-bold text-gray-500">CZAT</span>
-        </button>
-        <button onclick="showTab('settings')" class="flex flex-col items-center gap-1 group">
-            <span class="text-2xl group-active:scale-125 transition-all">🛒</span>
-            <span class="text-[10px] font-bold text-gray-500">SKLEP</span>
-        </button>
-        <button onclick="showTab('profile')" class="flex flex-col items-center gap-1 group">
-            <span class="text-2xl group-active:scale-125 transition-all">⚙️</span>
-            <span class="text-[10px] font-bold text-gray-500">OPCJE</span>
-        </button>
+        <button onclick="showTab('chat')">💬</button>
+        <button onclick="showTab('settings')">🛒</button>
+        <button onclick="showTab('profile')">⚙️</button>
     </nav>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getDatabase, ref, push, onChildAdded, set, onValue, serverTimestamp, update, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, push, onChildAdded, onChildRemoved, set, onValue, serverTimestamp, update, increment, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.app/";
         import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
         const firebaseConfig = {
@@ -161,8 +124,8 @@
         const GEMINI_KEY = "AIzaSyBShC_dvDrBwevV3NqGtlXDQnueWOwJdVw";
 
         let userCoins = 0;
-        let messageCounter = 0;
         let isCooldown = false;
+        let userRole = 'user';
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -170,33 +133,32 @@
                 onValue(ref(db, `users/${user.uid}`), (s) => {
                     const d = s.val() || {};
                     userCoins = d.coins || 0;
+                    userRole = d.role || 'user';
                     document.getElementById('coinCount').innerText = `${userCoins.toLocaleString()} 🪙`;
                     document.getElementById('shopCoins').innerText = userCoins.toLocaleString();
                     document.getElementById('headerAvatar').src = d.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
-                    if(d.premiumUntil > Date.now()) document.getElementById('premiumBadge').classList.remove('hidden');
+                    
+                    const badge = document.getElementById('roleBadge');
+                    if(userRole === 'mod' || auth.currentUser.email === 'materioslivers@gmail.com') {
+                        badge.innerText = auth.currentUser.email === 'materioslivers@gmail.com' ? 'ADMIN' : 'MOD';
+                        badge.className = `text-[9px] px-1.5 py-0.5 rounded font-bold uppercase ${userRole === 'mod' ? 'bg-green-600' : 'bg-red-600'}`;
+                        badge.classList.remove('hidden');
+                    }
                 });
-
                 onValue(ref(db, `global_actions`), (s) => {
                     const a = s.val(); if(!a) return;
-                    // Konfetti
                     if(a.type === 'confetti' && a.time > Date.now() - 4000) confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                    // Bogacz Toast
-                    if(a.type === 'rich_alert' && a.time > Date.now() - 4000) {
-                        const t = document.getElementById('achievement-toast');
-                        t.innerText = `🏆 ${a.user} został BOGACZEM!`;
-                        t.classList.add('show');
-                        setTimeout(() => t.classList.remove('show'), 4000);
-                    }
-                    // RICKROLL TRIGGER
+                    
+                    // NOWY RICKROLL 4K
                     if(a.type === 'rickroll_trigger' && a.time > Date.now() - 4000) {
-                        const rick = document.createElement('div');
-                        rick.style = "position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:9999; background:black; display:flex; flex-direction:column; align-items:center; justify-content:center;";
-                        rick.innerHTML = `
-                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&controls=0" frameborder="0" allow="autoplay"></iframe>
-                            <button onclick="this.parentElement.remove()" style="position:absolute; top:20px; right:20px; background:white; color:black; padding:10px 20px; border-radius:10px; font-weight:bold;">ZAMKNIJ (X)</button>
+                        const r = document.createElement('div');
+                        r.style = "position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9999;background:black;";
+                        r.innerHTML = `
+                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/QDia3e12czc?autoplay=1&controls=0" frameborder="0" allow="autoplay"></iframe>
+                            <button onclick="this.parentElement.remove()" style="position:absolute;top:20px;right:20px;background:white;color:black;padding:10px 20px;border-radius:10px;font-weight:bold;z-index:10000;">ZAMKNIJ (X)</button>
                         `;
-                        document.body.appendChild(rick);
-                        setTimeout(() => rick.remove(), 15000);
+                        document.body.appendChild(r);
+                        setTimeout(() => r.remove(), 20000);
                     }
                 });
                 loadMessages();
@@ -211,9 +173,8 @@
                     method: "POST", headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ contents: [{ parts: [{ text: q }] }] })
                 });
-                const d = await r.json();
-                return d.candidates[0].content.parts[0].text;
-            } catch(e) { return "🤖 Problem z AI."; }
+                const d = await r.json(); return d.candidates[0].content.parts[0].text;
+            } catch(e) { return "🤖 Błąd AI."; }
         }
 
         const sendMessage = async () => {
@@ -221,25 +182,20 @@
             const btn = document.getElementById('sendBtn');
             const text = input.value.trim();
             const isAdmin = auth.currentUser.email === 'materioslivers@gmail.com';
+            const isMod = userRole === 'mod';
 
-            if(!text || (isCooldown && !isAdmin)) return;
+            if(!text || (isCooldown && !isAdmin && !isMod)) return;
+            if(!isAdmin && !isMod) { isCooldown = true; btn.disabled = true; }
 
-            if(!isAdmin) { isCooldown = true; btn.disabled = true; }
-
-            const hasPr = !document.getElementById('premiumBadge').classList.contains('hidden');
-            let txt = text;
-            if(text.includes("@everyone") && (hasPr || isAdmin)) txt = text.replace("@everyone", '<span class="everyone-ping">@everyone</span>');
-
-            await push(ref(db, "messages"), { text: txt, user: auth.currentUser.email, time: serverTimestamp() });
+            await push(ref(db, "messages"), { text: text, user: auth.currentUser.email, time: serverTimestamp() });
             await update(ref(db, `users/${auth.currentUser.uid}`), { coins: increment(5) });
 
             if(text.toLowerCase().startsWith("@ai")) {
                 const reply = await askAI(text.replace("@ai", ""));
                 push(ref(db, "messages"), { text: reply, user: "Gemini AI", time: serverTimestamp(), isAI: true });
             }
-
             input.value = '';
-            if(!isAdmin) {
+            if(!isAdmin && !isMod) {
                 let time = 5;
                 const t = setInterval(() => {
                     btn.innerText = time + "s";
@@ -251,67 +207,49 @@
         document.getElementById('sendBtn').onclick = sendMessage;
         document.getElementById('userInput').onkeypress = (e) => { if(e.key === 'Enter') sendMessage(); };
 
+        window.deleteMsg = (id) => { if(confirm("Usunąć wiadomość?")) remove(ref(db, `messages/${id}`)); };
+
         function loadMessages() {
+            const mBox = document.getElementById('messages');
             onChildAdded(ref(db, "messages"), (s) => {
                 const d = s.val();
-                const m = document.getElementById('messages');
-                const hasPr = !document.getElementById('premiumBadge').classList.contains('hidden');
-                messageCounter++;
-
-                if(messageCounter % 15 === 0 && !hasPr) {
-                    const goal = 100000;
-                    const perc = Math.min((userCoins / goal) * 100, 100);
-                    const b = document.createElement('div');
-                    b.className = "premium-promo";
-                    b.innerHTML = `<h4 class="text-[10px] font-bold text-blue-400 uppercase">Droga do Premium</h4>
-                        <div class="progress-container"><div class="progress-bar" style="width: ${perc}%"></div></div>
-                        <p class="text-[9px] text-gray-400">Brakuje Ci ${(goal-userCoins).toLocaleString()} 🪙</p>`;
-                    m.appendChild(b);
-                }
-
                 const isMe = d.user === auth.currentUser.email;
+                const canManage = auth.currentUser.email === 'materioslivers@gmail.com' || userRole === 'mod';
                 const div = document.createElement('div');
+                div.id = `msg-${s.key}`;
                 div.className = `flex flex-col ${isMe ? 'items-end' : 'items-start'} mb-2`;
                 div.innerHTML = `
-                    <div class="p-3 rounded-2xl max-w-[85%] ${isMe ? 'bg-blue-600' : 'bg-gray-800'} ${d.isAI ? 'ai-msg':''}">
-                        <p class="text-[8px] text-gray-400 font-bold mb-1">${d.user}</p>
+                    <div class="p-3 rounded-2xl max-w-[85%] ${isMe ? 'bg-blue-600' : 'bg-gray-800'} relative group">
+                        ${canManage ? `<button onclick="deleteMsg('${s.key}')" class="absolute -top-2 -right-2 bg-red-600 text-[10px] w-5 h-5 rounded-full hidden group-hover:block border border-white">✕</button>` : ''}
+                        <p class="text-[8px] opacity-50 font-bold">${d.user}</p>
                         <p class="text-sm">${d.text}</p>
-                        ${d.img ? `<img src="${d.img}" class="rounded-lg mt-2 max-h-64">` : ''}
                     </div>`;
-                m.appendChild(div);
-                m.scrollTop = m.scrollHeight;
+                mBox.appendChild(div);
+                mBox.scrollTop = mBox.scrollHeight;
+            });
+            onChildRemoved(ref(db, "messages"), (s) => {
+                const el = document.getElementById(`msg-${s.key}`);
+                if(el) el.remove();
             });
         }
 
-        document.getElementById('fileInput').onchange = async (e) => {
-            const f = e.target.files[0]; if(!f) return;
-            const path = `chat/${Date.now()}_${f.name}`;
-            const snap = await uploadBytes(sRef(storage, path), f);
-            const url = await getDownloadURL(snap.ref);
-            push(ref(db, "messages"), { img: url, user: auth.currentUser.email, time: serverTimestamp() });
-        };
-
         window.buyItem = async (type, price) => {
             if(userCoins < price) return alert("Brak monet!");
-            const u = auth.currentUser.uid;
             const up = {};
-            up[`users/${u}/coins`] = increment(-price);
-            if(type === 'confetti') up[`global_actions`] = { type: 'confetti', time: Date.now() + Math.random() };
-            if(type === 'rich') up[`global_actions`] = { type: 'rich_alert', user: auth.currentUser.email, time: Date.now() + Math.random() };
-            if(type === 'rickroll') up[`global_actions`] = { type: 'rickroll_trigger', time: Date.now() + Math.random() };
-            if(type === 'premium') up[`users/${u}/premiumUntil`] = Date.now() + (120 * 24 * 60 * 60 * 1000);
+            up[`users/${auth.currentUser.uid}/coins`] = increment(-price);
+            up[`global_actions`] = { type: type === 'rickroll' ? 'rickroll_trigger' : 'confetti', time: Date.now() + Math.random() };
             await update(ref(db), up);
             confetti({ particleCount: 100, spread: 70 });
-        };
-
-        window.saveProfile = () => {
-            update(ref(db, `users/${auth.currentUser.uid}`), { nick: document.getElementById('setNick').value, avatar: document.getElementById('setAvatar').value });
-            alert("Zapisano!");
         };
 
         window.showTab = (t) => {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.getElementById(t + 'Tab').classList.add('active');
+        };
+
+        window.saveProfile = () => {
+            update(ref(db, `users/${auth.currentUser.uid}`), { nick: setNick.value, avatar: setAvatar.value });
+            alert("Zapisano!");
         };
 
         document.getElementById('loginBtn').onclick = () => signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
