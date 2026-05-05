@@ -3,73 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CzatSZKOLA - GOLD & ADMIN EDITION</title>
+    <title>CzatSZKOLA - ULTIMATE</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Biblioteka do konfetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-        body { overflow: hidden; height: 100dvh; margin: 0; background-color: #0f172a; font-family: 'Inter', sans-serif; color: white; background-size: cover; background-position: center; transition: 0.5s; }
+
+        body { 
+            overflow: hidden; height: 100dvh; margin: 0; 
+            background-color: #0f172a; background-size: cover; background-position: center; 
+            font-family: 'Inter', sans-serif; color: white; transition: 0.5s ease-in-out;
+        }
         
-        /* TAPETY */
         .theme-1 { background-image: url('Assets/wall/1.png') !important; }
         .theme-2 { background-image: url('Assets/wall/2.png') !important; }
         .theme-3 { background-image: url('Assets/wall/3.png') !important; }
-        .theme-0 { background-color: #0f172a; }
+        .theme-0 { background-color: #0f172a; background-image: none !important; }
 
-        .tab-content { display: none; height: calc(100dvh - 80px); width: 100%; overflow-y: auto; }
+        .tab-content { display: none; height: calc(100dvh - 80px); width: 100%; overflow-y: auto; padding-top: 10px; }
         .tab-content.active { display: flex; flex-direction: column; }
         .glass { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.1); }
         
-        /* WIADOMOŚCI */
-        #messages { flex: 1; padding: 15px; padding-bottom: 120px; display: flex; flex-direction: column; gap: 18px; }
-        .msg-container { display: flex; gap: 10px; max-width: 85%; align-self: flex-start; position: relative; }
+        #messages { flex: 1; padding: 15px; padding-bottom: 100px; display: flex; flex-direction: column; gap: 15px; }
+        .msg-container { display: flex; gap: 10px; max-width: 85%; align-self: flex-start; }
         .msg-container.me { align-self: flex-end; flex-direction: row-reverse; }
         
-        .msg-bubble { background: rgba(30, 41, 59, 0.95); padding: 12px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.1); position: relative; }
+        .msg-bubble { background: rgba(30, 41, 59, 0.95); padding: 12px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.1); position: relative; word-break: break-word; }
         .me .msg-bubble { background: rgba(37, 99, 235, 0.25); border-color: rgba(37, 99, 235, 0.5); }
-        .vip-bubble { border: 1px solid #eab308 !important; box-shadow: 0 0 10px rgba(234,179,8,0.3); }
-
-        /* OSIĄGNIĘCIA */
-        .ach-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 10px; border-radius: 15px; display: flex; align-items: center; gap: 10px; opacity: 0.4; grayscale: 100%; transition: 0.3s; }
-        .ach-card.unlocked { opacity: 1; grayscale: 0; border-color: #eab308; background: rgba(234,179,8,0.1); }
-
-        /* PANEL ADMINA */
-        #adminPanel { display: none; position: fixed; top: 80px; right: 10px; width: 200px; background: #1e293b; border: 2px solid #ef4444; border-radius: 20px; padding: 15px; z-index: 1000; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .vip-bubble { border: 1px solid #eab308 !important; box-shadow: 0 0 10px rgba(234,179,8,0.2); }
         
+        .del-btn { position: absolute; top: -8px; right: -8px; background: #ef4444; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; border: 2px solid #0f172a; }
+        .reaction-bar { display: flex; gap: 6px; margin-top: 8px; }
+        .reaction { cursor: pointer; padding: 4px 10px; background: rgba(255,255,255,0.05); border-radius: 12px; font-size: 12px; border: 1px solid rgba(255,255,255,0.1); }
+
+        .input-area { position: fixed; bottom: 80px; left: 0; width: 100%; padding: 12px; z-index: 100; background: rgba(15, 23, 42, 0.95); }
+        nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 80px; z-index: 200; display: flex; background: #0f172a; border-top: 1px solid rgba(255,255,255,0.1); }
+        nav button { flex: 1; height: 100%; font-size: 24px; color: #64748b; transition: 0.3s; }
+        nav button.active-nav { color: #3b82f6; border-top: 3px solid #3b82f6; background: rgba(59, 130, 246, 0.1); }
+
+        /* Nakładka Rickrolla */
         #rickrollOverlay { display: none; position: fixed; inset: 0; z-index: 9999; background: black; }
         #rickrollOverlay iframe { width: 100%; height: 100%; border: none; }
+        #closeRickroll { position: absolute; top: 20px; right: 20px; background: #ef4444; color: white; padding: 10px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; z-index: 10000; }
     </style>
 </head>
 <body id="mainBody" class="theme-0">
 
-    <!-- ADMIN OVERLAY -->
-    <div id="adminPanel">
-        <h3 class="text-red-500 font-bold text-xs mb-3 uppercase">Panel Zarządzania</h3>
-        <input type="text" id="targetUid" placeholder="UID Gracza" class="w-full bg-black/30 p-2 rounded text-[10px] mb-2 outline-none">
-        <button onclick="adminGiveCoins()" class="w-full bg-yellow-600 text-[10px] py-1 rounded mb-1">Daj 1000 🪙</button>
-        <button onclick="adminMute()" class="w-full bg-orange-600 text-[10px] py-1 rounded mb-1">Mute / Unmute</button>
-        <button onclick="adminBlock()" class="w-full bg-red-600 text-[10px] py-1 rounded">Blokuj / Odblokuj</button>
-    </div>
-
-    <!-- RICKROLL -->
+    <!-- RICKROLL OVERLAY -->
     <div id="rickrollOverlay">
-        <button onclick="closeRickroll()" class="absolute top-5 right-5 bg-red-600 px-4 py-2 rounded-xl font-bold">ZAMKNIJ</button>
-        <iframe id="rickFrame"></iframe>
+        <button id="closeRickroll" onclick="closeRickroll()">ZAMKNIJ TO</button>
+        <iframe id="rickFrame" allow="autoplay; fullscreen"></iframe>
     </div>
 
-    <!-- HEADER -->
-    <header class="h-[75px] flex justify-between items-center px-4 glass sticky top-0 z-[150]">
+    <!-- NAGŁÓWEK -->
+    <header class="h-[70px] flex justify-between items-center px-4 glass sticky top-0 z-[150] shadow-md">
         <div class="flex items-center gap-3">
-            <img id="headerAvatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-12 h-12 rounded-full border-2 border-blue-500 object-cover">
+            <img id="headerAvatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-11 h-11 rounded-full border-2 border-blue-500 object-cover">
             <div>
-                <h1 id="headerNick" class="text-sm font-bold text-blue-400">Ładowanie...</h1>
-                <div id="coinCountHeader" class="text-yellow-500 font-bold text-xs">0 🪙</div>
+                <h1 id="headerNick" class="text-base font-bold text-blue-400">Ładowanie...</h1>
+                <span id="headerVipBadge" class="hidden text-[9px] bg-yellow-500 text-black px-2 rounded-full font-bold">VIP</span>
             </div>
         </div>
-        <div class="flex items-center gap-2">
-            <!-- PRZYCISK ADMINA (KORONA) -->
-            <button id="adminBtn" onclick="toggleAdminPanel()" class="hidden text-2xl">👑</button>
-            <div id="vipBadge" class="hidden bg-yellow-500 text-black text-[9px] px-2 py-1 rounded-full font-black">VIP</div>
+        <div class="bg-gray-800 border border-yellow-500/30 px-4 py-2 rounded-full flex items-center gap-2 shadow-lg">
+            <span id="coinCount" class="text-yellow-400 font-bold text-sm">0</span>
+            <span>🪙</span>
         </div>
     </header>
 
@@ -77,10 +75,10 @@
         <!-- CZAT -->
         <section id="chatTab" class="tab-content active">
             <div id="messages"></div>
-            <div class="fixed bottom-20 left-0 w-full p-3 glass z-[100]">
+            <div class="input-area">
                 <div class="flex gap-2 max-w-4xl mx-auto">
-                    <input type="text" id="userInput" placeholder="Napisz coś..." class="flex-1 bg-gray-800 p-4 rounded-2xl outline-none">
-                    <button id="sendBtn" class="bg-blue-600 px-6 rounded-2xl font-bold">WYŚLIJ</button>
+                    <input type="text" id="userInput" placeholder="Napisz wiadomość..." class="flex-1 bg-gray-800 text-white px-5 py-4 rounded-2xl outline-none border border-gray-700">
+                    <button id="sendBtn" class="bg-blue-600 px-6 py-4 rounded-2xl font-bold">Wyślij</button>
                 </div>
             </div>
         </section>
@@ -88,40 +86,51 @@
         <!-- SKLEP -->
         <section id="shopTab" class="tab-content p-6">
             <div class="max-w-md mx-auto space-y-4">
-                <div class="bg-gray-800 p-5 rounded-3xl border border-red-500 flex justify-between items-center">
-                    <div><p class="font-bold text-red-400">Przycisk Zagłady</p><p class="text-[10px] text-gray-400">Full screen Rickroll</p></div>
-                    <button onclick="buyRickroll()" class="bg-red-600 px-4 py-2 rounded-xl text-xs font-bold">5000 🪙</button>
+                <h2 class="text-2xl font-black text-blue-400 mb-6 uppercase text-center">Sklep</h2>
+                
+                <!-- GLOBALNE KONFETTI -->
+                <div class="bg-gray-800 p-5 rounded-3xl border border-green-500 flex justify-between items-center">
+                    <div>
+                        <p class="font-bold text-lg text-green-400">🎉 Globalne Konfetti</p>
+                        <p class="text-xs text-gray-400">Wybucha na ekranie każdego!</p>
+                    </div>
+                    <button onclick="buyConfetti()" class="bg-green-600 px-4 py-2 rounded-xl text-sm font-bold">100 🪙</button>
                 </div>
+
+                <!-- RICKROLL -->
+                <div class="bg-gray-800 p-5 rounded-3xl border border-red-500 flex justify-between items-center shadow-xl">
+                    <div>
+                        <p class="font-bold text-lg text-red-400">❓ Przycisk Zagłady</p>
+                        <p class="text-xs text-gray-400">Pojawi się na całym ekranie</p>
+                    </div>
+                    <button onclick="triggerRickRoll()" class="bg-red-600 px-4 py-2 rounded-xl text-sm font-bold">5000 🪙</button>
+                </div>
+
+                <!-- VIP -->
                 <div class="bg-gray-800 p-5 rounded-3xl border border-yellow-500 flex justify-between items-center">
-                    <div><p class="font-bold text-yellow-500">Status VIP</p><p class="text-[10px] text-gray-400">Złoty nick i ramka</p></div>
-                    <button onclick="buyVIP()" class="bg-yellow-600 px-4 py-2 rounded-xl text-xs font-bold">1000 🪙</button>
+                    <div>
+                        <p class="font-bold text-lg text-yellow-300">👑 Status VIP</p>
+                        <p class="text-xs text-gray-400">Złota ranga i ramka na czacie</p>
+                    </div>
+                    <button onclick="buyVIP()" class="bg-yellow-600 px-4 py-2 rounded-xl text-sm font-bold">1000 🪙</button>
                 </div>
             </div>
         </section>
 
-        <!-- PROFIL I OSIĄGNIĘCIA -->
+        <!-- PROFIL -->
         <section id="profileTab" class="tab-content p-6">
             <div class="max-w-md mx-auto space-y-6">
-                <div class="bg-gray-800 p-6 rounded-3xl border border-gray-700">
-                    <p class="text-center text-xs font-bold text-gray-500 mb-4 uppercase">Dane Użytkownika</p>
-                    <input type="text" id="nickInput" placeholder="Nowy Nick" class="w-full p-4 bg-gray-900 rounded-xl mb-2 border border-gray-700">
-                    <input type="text" id="avatarInput" placeholder="URL Awatara" class="w-full p-4 bg-gray-900 rounded-xl mb-4 border border-gray-700">
-                    <button onclick="updateProfile()" class="w-full bg-blue-600 py-4 rounded-xl font-bold uppercase text-xs">Zastosuj</button>
-                    <p id="userUidDisplay" class="text-[8px] text-gray-600 mt-4 text-center select-all"></p>
+                <div class="bg-gray-800 p-6 rounded-3xl border border-gray-700 shadow-xl">
+                    <p class="text-xs font-bold text-gray-400 uppercase text-center mb-4">Twój Profil</p>
+                    <input type="text" id="nickInput" placeholder="Nowy Nick" class="w-full px-5 py-4 bg-gray-900 rounded-xl mb-3 border border-gray-700">
+                    <input type="text" id="avatarInput" placeholder="Link do obrazka (URL)" class="w-full px-5 py-4 bg-gray-900 rounded-xl mb-3 border border-gray-700">
+                    <button onclick="updateProfile()" class="w-full bg-blue-600 py-4 rounded-xl font-bold">Zapisz</button>
                 </div>
-
-                <div class="space-y-3">
-                    <p class="text-xs font-bold text-yellow-500 uppercase">Osiągnięcia</p>
-                    <!-- ACH 1 -->
-                    <div id="ach-registered" class="ach-card">
-                        <div class="text-2xl">🎖️</div>
-                        <div><p class="font-bold text-sm">Nowy rekrut</p><p class="text-[9px]">Zarejestrowano w systemie</p></div>
-                    </div>
-                    <!-- ACH 2 -->
-                    <div id="ach-rich" class="ach-card">
-                        <div class="text-2xl">💰</div>
-                        <div><p class="font-bold text-sm">Bogacz jakich mało</p><p class="text-[9px]">Zdobądź 1000 monet</p></div>
-                    </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="setTheme(0)" class="p-4 bg-gray-900 rounded-xl text-xs font-bold border border-gray-700">BEZ TŁA</button>
+                    <button onclick="setTheme(1)" class="p-4 bg-blue-900/30 border border-blue-500 rounded-xl text-xs font-bold">TAPETA 1</button>
+                    <button onclick="setTheme(2)" class="p-4 bg-purple-900/30 border border-purple-500 rounded-xl text-xs font-bold">TAPETA 2</button>
+                    <button onclick="setTheme(3)" class="p-4 bg-green-900/30 border border-green-500 rounded-xl text-xs font-bold">TAPETA 3</button>
                 </div>
             </div>
         </section>
@@ -130,7 +139,7 @@
     <nav>
         <button id="nav-chat" class="active-nav" onclick="showTab('chat')">💬</button>
         <button id="nav-shop" onclick="showTab('shop')">🛒</button>
-        <button id="nav-profile" onclick="showTab('profile')">👤</button>
+        <button id="nav-profile" onclick="showTab('profile')">⚙️</button>
     </nav>
 
     <script type="module">
@@ -138,7 +147,6 @@
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getDatabase, ref, push, onChildAdded, onChildRemoved, onChildChanged, remove, update, increment, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyCQXm-oMsOZg80gMrANDwxEbr2jWoV2I8A",
             authDomain: "mojczat-d50e5.firebaseapp.com",
@@ -149,136 +157,59 @@
             appId: "1:278638325304:web:d9ad946d17835af66680cd"
         };
 
-        // --- MIEJSCE NA TWOJE UID ---
-        const ADMIN_UID = "TUTAJ_WKLEJ_SWOJE_UID"; 
-
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        let userData = {};
+        let userData = { coins: 0, nick: 'Anonim', avatar: '', vip: false };
 
+        // Logowanie
         signInAnonymously(auth);
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // Jeśli jesteś adminem, pokaż przycisk
-                if(user.uid === ADMIN_UID) document.getElementById('adminBtn').classList.remove('hidden');
-                document.getElementById('userUidDisplay').innerText = `TWOJE UID: ${user.uid}`;
-
-                onValue(ref(db, `users/${user.uid}`), (s) => {
-                    userData = s.val() || { coins: 0, registered: true };
-                    
-                    // Blokada konta
-                    if(userData.blocked) {
-                        document.body.innerHTML = "<h1 style='color:red; text-align:center; margin-top:20%'>TWOJE KONTO ZOSTAŁO ZABLOKOWANE</h1>";
-                        return;
-                    }
-
-                    document.getElementById('headerNick').innerText = userData.nick || "Anonim";
-                    document.getElementById('coinCountHeader').innerText = `${(userData.coins || 0).toLocaleString()} 🪙`;
+                onValue(ref(db, `users/${user.uid}`), (snapshot) => {
+                    if(snapshot.exists()) userData = snapshot.val();
+                    document.getElementById('headerNick').innerText = userData.nick || `User_${user.uid.substring(0,4)}`;
+                    document.getElementById('coinCount').innerText = (userData.coins || 0).toLocaleString();
                     document.getElementById('headerAvatar').src = userData.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
-                    if(userData.vip) document.getElementById('vipBadge').classList.remove('hidden');
-
-                    checkAchievements();
+                    
+                    if(userData.vip) {
+                        document.getElementById('headerVipBadge').classList.remove('hidden');
+                    }
                 });
                 loadMessages();
+                listenForConfetti();
             }
         });
 
-        // OSIĄGNIĘCIA
-        function checkAchievements() {
-            if(userData.registered) document.getElementById('ach-registered').classList.add('unlocked');
-            if(userData.coins >= 1000) {
-                document.getElementById('ach-rich').classList.add('unlocked');
-                update(ref(db, `users/${auth.currentUser.uid}/achievements`), { rich: true });
-            }
-        }
-
-        // CZAT
-        const sendMessage = async () => {
-            if(userData.muted) return alert("Jesteś wyciszony!");
-            const input = document.getElementById('userInput');
-            if(!input.value.trim()) return;
-
-            const msg = {
-                text: input.value.trim().replace(/</g, "&lt;"),
-                nick: userData.nick || "Anonim",
-                avatar: userData.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
-                uid: auth.currentUser.uid,
-                vip: userData.vip || false,
-                userCoins: userData.coins || 0, // Zapisujemy stan monet w momencie wysłania
-                time: serverTimestamp()
-            };
-
-            await push(ref(db, "messages"), msg);
-            update(ref(db, `users/${auth.currentUser.uid}`), { coins: increment(10) });
-            input.value = '';
-        };
-
-        function loadMessages() {
-            const msgBox = document.getElementById('messages');
-            onChildAdded(ref(db, "messages"), (s) => {
-                const d = s.val();
-                const isMe = d.uid === auth.currentUser.uid;
-                const div = document.createElement('div');
-                div.id = `msg-${s.key}`;
-                div.className = `msg-container ${isMe ? 'me' : ''}`;
-                div.innerHTML = `
-                    <img src="${d.avatar}" class="w-10 h-10 rounded-full border border-gray-700 object-cover">
-                    <div class="msg-bubble ${d.vip ? 'vip-bubble' : ''}">
-                        <!-- MONETY NAD NICKIEM -->
-                        <p class="text-[8px] text-yellow-500/80 mb-[-2px]">${d.userCoins} 🪙</p>
-                        <p class="text-[10px] font-bold text-blue-400 mb-1">${d.nick}</p>
-                        <p class="text-sm">${d.text}</p>
-                    </div>`;
-                msgBox.appendChild(div);
-                msgBox.scrollTop = msgBox.scrollHeight;
+        // NASŁUCHIWANIE NA KONFETTI
+        let initialConfettiLoad = true;
+        function listenForConfetti() {
+            onValue(ref(db, 'global_events/confetti'), (snapshot) => {
+                if(initialConfettiLoad) {
+                    initialConfettiLoad = false;
+                    return;
+                }
+                if(snapshot.exists()) {
+                    confetti({ particleCount: 150, spread: 180, origin: { y: 0.6 } });
+                }
             });
-            onChildRemoved(ref(db, "messages"), (s) => document.getElementById(`msg-${s.key}`)?.remove());
         }
 
-        // ADMIN FUNCTIONS
-        window.toggleAdminPanel = () => {
-            const p = document.getElementById('adminPanel');
-            p.style.display = p.style.display === 'block' ? 'none' : 'block';
+        // AKCJE W SKLEPIE
+        window.buyConfetti = () => {
+            if((userData.coins || 0) < 100) return alert("Za mało monet!");
+            update(ref(db, `users/${auth.currentUser.uid}`), { coins: increment(-100) });
+            update(ref(db, 'global_events'), { confetti: Date.now() });
         };
 
-        window.adminGiveCoins = () => {
-            const uid = document.getElementById('targetUid').value;
-            if(!uid) return alert("Podaj UID");
-            update(ref(db, `users/${uid}`), { coins: increment(1000) });
-            alert("Dodano monety!");
-        };
-
-        window.adminMute = () => {
-            const uid = document.getElementById('targetUid').value;
-            const refMute = ref(db, `users/${uid}/muted`);
-            onValue(refMute, (s) => {
-                update(ref(db, `users/${uid}`), { muted: !s.val() });
-            }, {onlyOnce: true});
-            alert("Zmieniono status Mute");
-        };
-
-        window.adminBlock = () => {
-            const uid = document.getElementById('targetUid').value;
-            const refBlock = ref(db, `users/${uid}/blocked`);
-            onValue(refBlock, (s) => {
-                update(ref(db, `users/${uid}`), { blocked: !s.val() });
-            }, {onlyOnce: true});
-            alert("Zmieniono status Block");
-        };
-
-        // SKLEP
-        window.buyVIP = () => {
-            if(userData.coins < 1000) return alert("Mało siana!");
-            update(ref(db, `users/${auth.currentUser.uid}`), { coins: increment(-1000), vip: true });
-        };
-
-        window.buyRickroll = () => {
-            if(userData.coins < 5000) return alert("Mało siana!");
+        window.triggerRickRoll = () => {
+            if((userData.coins || 0) < 5000) return alert("Zbierz najpierw 5000 monet!");
             update(ref(db, `users/${auth.currentUser.uid}`), { coins: increment(-5000) });
-            document.getElementById('rickFrame').src = "https://www.youtube.com/embed/QDia3e12czc?autoplay=1";
+            
+            // Włączenie nakładki (iframe)
+            document.getElementById('rickFrame').src = "https://www.youtube.com/embed/QDia3e12czc?autoplay=1&controls=0";
             document.getElementById('rickrollOverlay').style.display = 'block';
         };
 
@@ -287,22 +218,109 @@
             document.getElementById('rickFrame').src = "";
         };
 
-        // UI
-        window.showTab = (t) => {
-            document.querySelectorAll('.tab-content, nav button').forEach(el => el.classList.remove('active', 'active-nav'));
-            document.getElementById(t+'Tab').classList.add('active');
-            document.getElementById('nav-'+t).classList.add('active-nav');
+        window.buyVIP = () => {
+            if((userData.coins || 0) < 1000) return alert("Wymagane 1000 monet!");
+            if(userData.vip) return alert("Już masz VIPa!");
+            update(ref(db, `users/${auth.currentUser.uid}`), { 
+                coins: increment(-1000), 
+                vip: true 
+            });
+            alert("Zostałeś VIPem! Twoje wiadomości będą teraz specjalnie oznaczone.");
         };
 
-        window.updateProfile = () => {
-            const n = document.getElementById('nickInput').value;
-            const a = document.getElementById('avatarInput').value;
-            const up = {}; if(n) up.nick = n; if(a) up.avatar = a;
-            update(ref(db, `users/${auth.currentUser.uid}`), up);
+        // UI
+        window.showTab = (tabId) => {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-nav'));
+            document.getElementById(`${tabId}Tab`).classList.add('active');
+            document.getElementById(`nav-${tabId}`).classList.add('active-nav');
         };
+
+        window.setTheme = (t) => { document.getElementById('mainBody').className = `theme-${t}`; localStorage.setItem('theme', t); };
+        window.updateProfile = () => {
+            const nick = document.getElementById('nickInput').value.trim();
+            const avatar = document.getElementById('avatarInput').value.trim();
+            const up = {};
+            if(nick) up.nick = nick;
+            if(avatar) up.avatar = avatar;
+            if(Object.keys(up).length > 0) update(ref(db, `users/${auth.currentUser.uid}`), up).then(() => alert("Zapisano!"));
+        };
+
+        // CZAT
+        const sendMessage = async () => {
+            const inputField = document.getElementById('userInput');
+            let text = inputField.value.trim();
+            if(!text || !auth.currentUser) return;
+            text = text.replace(/</g, "&lt;").replace(/>/g, "&gt;"); // Anty-XSS
+
+            const newMessage = {
+                text: text,
+                nick: userData.nick || `User_${auth.currentUser.uid.substring(0,4)}`,
+                avatar: userData.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
+                uid: auth.currentUser.uid,
+                vip: userData.vip || false, // Dodanie flagi VIP do wiadomości
+                reactions: { heart: 0, fire: 0 },
+                time: serverTimestamp()
+            };
+
+            try {
+                await push(ref(db, "messages"), newMessage);
+                await update(ref(db, `users/${auth.currentUser.uid}`), { coins: increment(10) });
+                inputField.value = '';
+            } catch(e) {
+                alert("BŁĄD ZAPISU! Baza Firebase odrzuciła wiadomość. Musisz zmienić Rules na \".write\": \"true\"!");
+                console.error(e);
+            }
+        };
+
+        let loaded = false;
+        function loadMessages() {
+            if(loaded) return; loaded = true;
+            const msgBox = document.getElementById('messages');
+            msgBox.innerHTML = '';
+
+            onChildAdded(ref(db, "messages"), (snapshot) => {
+                const data = snapshot.val();
+                const msgId = snapshot.key;
+                const isMe = data.uid === auth.currentUser.uid;
+                
+                const div = document.createElement('div');
+                div.id = `msg-${msgId}`;
+                div.className = `msg-container ${isMe ? 'me' : ''}`;
+                
+                const vipBadge = data.vip ? '<span class="bg-yellow-500 text-black px-1 rounded text-[8px] mr-1 font-bold">VIP</span>' : '';
+                const vipClass = data.vip ? 'vip-bubble' : '';
+
+                div.innerHTML = `
+                    <img src="${data.avatar}" class="w-10 h-10 rounded-full object-cover border border-gray-600">
+                    <div class="msg-bubble ${vipClass}">
+                        ${isMe ? `<div class="del-btn" onclick="deleteMsg('${msgId}')">×</div>` : ''}
+                        <p class="text-[10px] font-bold text-blue-400 mb-1">${vipBadge}${data.nick}</p>
+                        <p class="text-sm">${data.text}</p>
+                        <div class="reaction-bar" id="re-${msgId}">
+                            <span class="reaction" onclick="addReaction('${msgId}', 'heart')">❤️ ${data.reactions?.heart || 0}</span>
+                            <span class="reaction" onclick="addReaction('${msgId}', 'fire')">🔥 ${data.reactions?.fire || 0}</span>
+                        </div>
+                    </div>`;
+                msgBox.appendChild(div);
+                msgBox.scrollTop = msgBox.scrollHeight;
+            });
+
+            onChildChanged(ref(db, "messages"), (snapshot) => {
+                const data = snapshot.val();
+                const bar = document.getElementById(`re-${snapshot.key}`);
+                if(bar) bar.innerHTML = `<span class="reaction" onclick="addReaction('${snapshot.key}', 'heart')">❤️ ${data.reactions?.heart || 0}</span><span class="reaction" onclick="addReaction('${snapshot.key}', 'fire')">🔥 ${data.reactions?.fire || 0}</span>`;
+            });
+
+            onChildRemoved(ref(db, "messages"), (s) => document.getElementById(`msg-${s.key}`)?.remove());
+        }
+
+        window.addReaction = (id, type) => update(ref(db, `messages/${id}/reactions`), { [type]: increment(1) });
+        window.deleteMsg = (id) => { if(confirm("Usunąć?")) remove(ref(db, `messages/${id}`)); };
 
         document.getElementById('sendBtn').onclick = sendMessage;
-        document.getElementById('userInput').onkeypress = (e) => e.key === 'Enter' && sendMessage();
+        document.getElementById('userInput').onkeypress = (e) => { if(e.key === 'Enter') sendMessage(); };
+        const savedTheme = localStorage.getItem('theme'); if(savedTheme) setTheme(savedTheme);
     </script>
 </body>
 </html>
