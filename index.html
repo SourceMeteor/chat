@@ -3,121 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CzatSZKOLA - FINAL REPAIR</title>
+    <title>CzatSZKOLA - THE FLAWLESS EDITION</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Merriweather&family=Orbitron:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
         body { 
             overflow: hidden; height: 100dvh; margin: 0; 
-            background-color: #0f172a; background-size: cover; background-position: center; transition: 0.5s;
+            background-color: #0f172a; background-size: cover; background-position: center; 
+            font-family: 'Inter', sans-serif; color: white; transition: background-image 0.5s ease-in-out;
         }
         
-        .font-modern { font-family: 'Inter', sans-serif; }
-        .font-classic { font-family: 'Merriweather', serif; }
-        .font-gaming { font-family: 'Orbitron', sans-serif; }
-
-        .tab-content { display: none; height: calc(100dvh - 80px); width: 100%; overflow-y: auto; }
-        .tab-content.active { display: flex; flex-direction: column; }
-        .glass { background: rgba(15, 23, 42, 0.96); backdrop-filter: blur(15px); border-top: 1px solid rgba(255,255,255,0.1); }
-        
-        /* TAPETY */
+        /* TŁA */
         .theme-1 { background-image: url('Assets/wall/1.png') !important; }
         .theme-2 { background-image: url('Assets/wall/2.png') !important; }
         .theme-3 { background-image: url('Assets/wall/3.png') !important; }
-        .theme-0 { background-color: #0f172a; background-image: none; }
+        .theme-0 { background-color: #0f172a; background-image: none !important; }
 
-        /* CZAT */
-        #messages { flex: 1; padding: 20px; padding-bottom: 240px; display: flex; flex-direction: column; gap: 12px; }
+        /* ZAKŁADKI */
+        .tab-content { display: none; height: calc(100dvh - 80px); width: 100%; overflow-y: auto; padding-top: 10px; }
+        .tab-content.active { display: flex; flex-direction: column; }
+        
+        .glass { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.1); }
+        
+        /* WIADOMOŚCI */
+        #messages { flex: 1; padding: 15px; padding-bottom: 100px; display: flex; flex-direction: column; gap: 15px; }
         .msg-container { display: flex; gap: 10px; max-width: 85%; align-self: flex-start; }
         .msg-container.me { align-self: flex-end; flex-direction: row-reverse; }
         
-        .msg-bubble { background: rgba(30, 41, 59, 0.9); padding: 12px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.1); position: relative; }
-        .me .msg-bubble { background: rgba(37, 99, 235, 0.3); border-color: rgba(37, 99, 235, 0.5); }
+        .msg-bubble { background: rgba(30, 41, 59, 0.95); padding: 12px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.1); position: relative; word-break: break-word; }
+        .me .msg-bubble { background: rgba(37, 99, 235, 0.25); border-color: rgba(37, 99, 235, 0.5); }
+        
+        .del-btn { position: absolute; top: -8px; right: -8px; background: #ef4444; color: white; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; font-weight: bold; border: 2px solid #0f172a; }
         
         .reaction-bar { display: flex; gap: 6px; margin-top: 8px; }
-        .reaction { cursor: pointer; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 10px; font-size: 11px; border: 1px solid rgba(255,255,255,0.1); }
+        .reaction { cursor: pointer; padding: 4px 10px; background: rgba(255,255,255,0.05); border-radius: 12px; font-size: 12px; border: 1px solid rgba(255,255,255,0.1); user-select: none; }
+        .reaction:active { background: rgba(255,255,255,0.2); }
 
-        .input-area { position: fixed; bottom: 80px; left: 0; width: 100%; padding: 12px; z-index: 100; }
-        
-        nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 80px; z-index: 200; display: flex; background: #0f172a; border-top: 1px solid #1e293b; }
-        nav button { flex: 1; height: 100%; font-size: 1.5rem; transition: 0.2s; opacity: 0.6; }
-        nav button.active-nav { opacity: 1; color: #3b82f6; border-top: 3px solid #3b82f6; }
+        /* INPUT CZATU */
+        .input-area { position: fixed; bottom: 80px; left: 0; width: 100%; padding: 12px; z-index: 100; background: rgba(15, 23, 42, 0.95); border-top: 1px solid rgba(255,255,255,0.05); }
+
+        /* NAWIGACJA DOLNA */
+        nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 80px; z-index: 200; display: flex; background: #0f172a; border-top: 1px solid rgba(255,255,255,0.1); }
+        nav button { flex: 1; height: 100%; font-size: 24px; color: #64748b; transition: 0.3s; }
+        nav button.active-nav { color: #3b82f6; border-top: 3px solid #3b82f6; background: rgba(59, 130, 246, 0.1); }
     </style>
 </head>
-<body id="mainBody" class="theme-0 text-white font-modern">
+<body id="mainBody" class="theme-0">
 
-    <header class="h-[70px] border-b border-gray-800 flex justify-between items-center px-4 glass sticky top-0 z-[150]">
+    <!-- NAGŁÓWEK -->
+    <header class="h-[70px] flex justify-between items-center px-4 glass sticky top-0 z-[150] shadow-md">
         <div class="flex items-center gap-3">
-            <img id="headerAvatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-10 h-10 rounded-full border-2 border-blue-500 object-cover">
-            <h1 id="headerNick" class="text-sm font-bold text-blue-400 italic truncate max-w-[150px]">Ładowanie...</h1>
+            <img id="headerAvatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-11 h-11 rounded-full border-2 border-blue-500 object-cover">
+            <h1 id="headerNick" class="text-base font-bold text-blue-400">Ładowanie...</h1>
         </div>
-        <span id="coinCount" class="text-yellow-400 font-bold text-[13px] bg-gray-900/80 px-3 py-1 rounded-full border border-yellow-500/30">0 🪙</span>
+        <div class="bg-gray-800 border border-yellow-500/30 px-4 py-2 rounded-full flex items-center gap-2 shadow-lg">
+            <span id="coinCount" class="text-yellow-400 font-bold text-sm">0</span>
+            <span>🪙</span>
+        </div>
     </header>
 
     <main class="relative h-full w-full">
-        <!-- CZAT -->
+        <!-- 1. ZAKŁADKA CZATU -->
         <section id="chatTab" class="tab-content active">
             <div id="messages"></div>
-            <div class="input-area glass">
-                <div class="flex gap-2 max-w-5xl mx-auto">
-                    <input type="text" id="userInput" placeholder="Twoja wiadomość..." class="flex-1 bg-gray-800 p-4 rounded-2xl outline-none border border-gray-700">
-                    <button id="sendBtn" class="bg-blue-600 px-6 py-4 rounded-2xl font-bold">></button>
+            <div class="input-area">
+                <div class="flex gap-2 max-w-4xl mx-auto">
+                    <input type="text" id="userInput" placeholder="Napisz wiadomość..." class="flex-1 bg-gray-800 text-white px-5 py-4 rounded-2xl outline-none border border-gray-700 focus:border-blue-500 transition-colors">
+                    <button id="sendBtn" class="bg-blue-600 hover:bg-blue-500 px-6 py-4 rounded-2xl font-bold text-white transition-transform active:scale-95">Wyślij</button>
                 </div>
             </div>
         </section>
 
-        <!-- SKLEP -->
+        <!-- 2. ZAKŁADKA SKLEPU -->
         <section id="shopTab" class="tab-content p-6">
-            <h2 class="text-2xl font-black text-blue-400 mb-6 uppercase">Sklep</h2>
-            <div class="space-y-4">
-                <div class="bg-gray-800/80 p-5 rounded-3xl border border-red-500/50 flex justify-between items-center">
-                    <div>
-                        <p class="font-bold text-lg text-red-400">❓ Legendarne Pudełko</p>
-                        <p class="text-[10px] text-gray-400">Znasz to bardzo dobrze...</p>
+            <div class="max-w-md mx-auto">
+                <h2 class="text-2xl font-black text-blue-400 mb-6 uppercase tracking-wider text-center">Sklep</h2>
+                
+                <div class="space-y-4">
+                    <!-- RICKROLL BOX -->
+                    <div class="bg-gray-800 p-5 rounded-3xl border border-red-500 flex justify-between items-center shadow-xl">
+                        <div>
+                            <p class="font-bold text-lg text-red-400">❓ Magiczne Pudełko</p>
+                            <p class="text-xs text-gray-400">Legendarny artefakt internetu</p>
+                        </div>
+                        <button onclick="rickRoll()" class="bg-red-600 hover:bg-red-500 px-5 py-3 rounded-xl text-sm font-bold shadow-lg transition-transform active:scale-95">1 🪙</button>
                     </div>
-                    <button onclick="rickRoll()" class="bg-red-600 px-5 py-2 rounded-xl text-xs font-bold uppercase">1 🪙</button>
-                </div>
-                <div class="bg-gray-800/80 p-5 rounded-3xl border border-purple-500/30 flex justify-between items-center opacity-50">
-                    <div>
-                        <p class="font-bold">💎 VIP Status</p>
-                        <p class="text-[10px] text-gray-400">Wkrótce dostępny</p>
+
+                    <!-- VIP BOX (Przykładowy) -->
+                    <div class="bg-gray-800 p-5 rounded-3xl border border-purple-500/50 flex justify-between items-center">
+                        <div>
+                            <p class="font-bold text-lg text-purple-300">💎 Ranga VIP</p>
+                            <p class="text-xs text-gray-400">Złoty nick na czacie</p>
+                        </div>
+                        <button onclick="buyItem('vip', 5000)" class="bg-purple-600 hover:bg-purple-500 px-5 py-3 rounded-xl text-sm font-bold shadow-lg transition-transform active:scale-95">5000 🪙</button>
                     </div>
-                    <button class="bg-purple-600 px-4 py-2 rounded-xl text-xs font-bold">5K 🪙</button>
                 </div>
             </div>
         </section>
 
-        <!-- PROFIL -->
+        <!-- 3. ZAKŁADKA PROFILU -->
         <section id="profileTab" class="tab-content p-6">
-            <div class="max-w-sm mx-auto space-y-6">
-                <div class="bg-gray-900/50 p-5 rounded-3xl border border-gray-800">
-                    <p class="text-[10px] font-bold text-gray-500 uppercase text-center mb-4">Profil</p>
-                    <input type="text" id="nickInput" placeholder="Nowy Nick" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700 mb-3 text-sm">
-                    <input type="text" id="avatarInput" placeholder="Link do awatara" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700 mb-4 text-sm">
-                    <button onclick="updateProfile()" class="w-full bg-green-600 py-4 rounded-2xl font-bold uppercase text-xs">Zastosuj</button>
+            <div class="max-w-md mx-auto space-y-6">
+                <!-- DANE -->
+                <div class="bg-gray-800 p-6 rounded-3xl border border-gray-700 shadow-xl">
+                    <p class="text-xs font-bold text-gray-400 uppercase text-center mb-4 tracking-widest">Twoje Dane</p>
+                    <div class="space-y-3">
+                        <input type="text" id="nickInput" placeholder="Nowy Nick" class="w-full px-5 py-4 bg-gray-900 rounded-xl outline-none border border-gray-700 focus:border-blue-500">
+                        <input type="text" id="avatarInput" placeholder="Link do obrazka (URL)" class="w-full px-5 py-4 bg-gray-900 rounded-xl outline-none border border-gray-700 focus:border-blue-500">
+                        <button onclick="updateProfile()" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-bold uppercase text-sm transition-transform active:scale-95">Zapisz Profil</button>
+                    </div>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <button onclick="setTheme(0)" class="p-3 bg-slate-800 rounded-xl text-[10px]">STANDARD</button>
-                    <button onclick="setTheme(1)" class="p-3 bg-blue-900/40 border border-blue-500/50 rounded-xl text-[10px]">TAPETA 1</button>
-                    <button onclick="setTheme(2)" class="p-3 bg-purple-900/40 border border-purple-500/50 rounded-xl text-[10px]">TAPETA 2</button>
-                    <button onclick="setTheme(3)" class="p-3 bg-green-900/40 border border-green-500/50 rounded-xl text-[10px]">TAPETA 3</button>
+
+                <!-- TAPETY -->
+                <div class="bg-gray-800 p-6 rounded-3xl border border-gray-700 shadow-xl">
+                    <p class="text-xs font-bold text-gray-400 uppercase text-center mb-4 tracking-widest">Wygląd Czatu</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="setTheme(0)" class="p-4 bg-gray-900 rounded-xl text-xs font-bold border border-gray-700 hover:border-blue-500">BEZ TŁA</button>
+                        <button onclick="setTheme(1)" class="p-4 bg-blue-900/30 border border-blue-500 rounded-xl text-xs font-bold hover:bg-blue-900/50">TAPETA 1</button>
+                        <button onclick="setTheme(2)" class="p-4 bg-purple-900/30 border border-purple-500 rounded-xl text-xs font-bold hover:bg-purple-900/50">TAPETA 2</button>
+                        <button onclick="setTheme(3)" class="p-4 bg-green-900/30 border border-green-500 rounded-xl text-xs font-bold hover:bg-green-900/50">TAPETA 3</button>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
+    <!-- NAWIGACJA -->
     <nav>
         <button id="nav-chat" class="active-nav" onclick="showTab('chat')">💬</button>
         <button id="nav-shop" onclick="showTab('shop')">🛒</button>
         <button id="nav-profile" onclick="showTab('profile')">⚙️</button>
     </nav>
 
+    <!-- LOGIKA FIREBASE I APLIKACJI -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getDatabase, ref, push, onChildAdded, onChildRemoved, onChildChanged, remove, update, increment, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+        // 1. KONFIGURACJA
         const firebaseConfig = {
             apiKey: "AIzaSyCQXm-oMsOZg80gMrANDwxEbr2jWoV2I8A",
             authDomain: "mojczat-d50e5.firebaseapp.com",
@@ -132,116 +157,189 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        let userData = { coins: 0 };
+        let userData = { coins: 0, nick: 'Anonim', avatar: '' };
 
+        // 2. KRYTYCZNA POPRAWKA - AUTOMATYCZNE LOGOWANIE
+        signInAnonymously(auth).catch((error) => {
+            console.error("Błąd logowania Firebase:", error);
+            alert("Nie udało się połączyć z bazą danych.");
+        });
+
+        // 3. OBSŁUGA STANU UŻYTKOWNIKA
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                onValue(ref(db, `users/${user.uid}`), (s) => {
-                    userData = s.val() || { coins: 0 };
-                    document.getElementById('headerNick').innerText = userData.nick || user.email.split('@')[0];
-                    document.getElementById('coinCount').innerText = `${(userData.coins || 0).toLocaleString()} 🪙`;
+                // Pobieranie danych użytkownika w czasie rzeczywistym
+                onValue(ref(db, `users/${user.uid}`), (snapshot) => {
+                    if(snapshot.exists()){
+                        userData = snapshot.val();
+                    }
+                    // Aktualizacja UI (Nagłówek)
+                    document.getElementById('headerNick').innerText = userData.nick || `User_${user.uid.substring(0,4)}`;
+                    document.getElementById('coinCount').innerText = (userData.coins || 0).toLocaleString();
                     document.getElementById('headerAvatar').src = userData.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
                 });
+                
+                // Ładowanie wiadomości po zalogowaniu
                 loadMessages();
             }
         });
 
-        window.showTab = (tab) => {
+        // 4. FUNKCJE GLOBALNE DLA HTML (window.)
+        window.showTab = (tabId) => {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-nav'));
-            document.getElementById(tab + 'Tab').classList.add('active');
-            document.getElementById('nav-' + tab).classList.add('active-nav');
+            
+            document.getElementById(`${tabId}Tab`).classList.add('active');
+            document.getElementById(`nav-${tabId}`).classList.add('active-nav');
+        };
+
+        window.setTheme = (themeId) => {
+            document.getElementById('mainBody').className = `theme-${themeId}`;
+            localStorage.setItem('chatSZKOLA_theme', themeId);
         };
 
         window.updateProfile = () => {
-            const nick = document.getElementById('nickInput').value.trim();
-            const avatar = document.getElementById('avatarInput').value.trim();
-            const up = {};
-            if(nick) up.nick = nick;
-            if(avatar) up.avatar = avatar;
-            update(ref(db, `users/${auth.currentUser.uid}`), up).then(() => alert("Zapisano!"));
-        };
+            const newNick = document.getElementById('nickInput').value.trim();
+            const newAvatar = document.getElementById('avatarInput').value.trim();
+            
+            const updates = {};
+            if(newNick) updates.nick = newNick;
+            if(newAvatar) updates.avatar = newAvatar;
 
-        const sendMessage = async () => {
-            const input = document.getElementById('userInput');
-            let text = input.value.trim();
-            if(!text) return;
-
-            await push(ref(db, "messages"), {
-                text: text,
-                nick: userData.nick || auth.currentUser.email.split('@')[0],
-                avatar: userData.avatar || '',
-                uid: auth.currentUser.uid,
-                reactions: { heart: 0, fire: 0 },
-                time: serverTimestamp()
-            });
-            update(ref(db, `users/${auth.currentUser.uid}`), { coins: increment(10) });
-            input.value = '';
-        };
-
-        function loadMessages() {
-            const mBox = document.getElementById('messages');
-            onChildAdded(ref(db, "messages"), (s) => {
-                const d = s.val();
-                const id = s.key;
-                const isMe = d.uid === auth.currentUser.uid;
-                const div = document.createElement('div');
-                div.id = `msg-${id}`;
-                div.className = `msg-container ${isMe ? 'me' : ''}`;
-                div.innerHTML = `
-                    <img src="${d.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}" class="w-8 h-8 rounded-full object-cover">
-                    <div class="msg-bubble">
-                        ${isMe ? `<div class="absolute -top-2 -right-2 bg-red-500 w-5 h-5 rounded-full flex items-center justify-center text-[10px] cursor-pointer" onclick="deleteMsg('${id}')">×</div>` : ''}
-                        <p class="text-[9px] font-bold text-blue-400 mb-1">${d.nick}</p>
-                        <p class="text-sm">${d.text}</p>
-                        <div class="reaction-bar" id="re-${id}">
-                            <span class="reaction" onclick="addReaction('${id}', 'heart')">❤️ ${d.reactions?.heart || 0}</span>
-                            <span class="reaction" onclick="addReaction('${id}', 'fire')">🔥 ${d.reactions?.fire || 0}</span>
-                        </div>
-                    </div>`;
-                mBox.appendChild(div);
-                mBox.scrollTop = mBox.scrollHeight;
-            });
-
-            onChildChanged(ref(db, "messages"), (s) => {
-                const d = s.val();
-                const bar = document.getElementById(`re-${s.key}`);
-                if(bar) {
-                    bar.innerHTML = `
-                        <span class="reaction" onclick="addReaction('${s.key}', 'heart')">❤️ ${d.reactions?.heart || 0}</span>
-                        <span class="reaction" onclick="addReaction('${s.key}', 'fire')">🔥 ${d.reactions?.fire || 0}</span>`;
-                }
-            });
-
-            onChildRemoved(ref(db, "messages"), (s) => {
-                document.getElementById(`msg-${s.key}`)?.remove();
-            });
-        }
-
-        window.addReaction = (id, type) => {
-            update(ref(db, `messages/${id}/reactions`), { [type]: increment(1) });
-        };
-
-        window.deleteMsg = (id) => {
-            if(confirm("Usunąć?")) remove(ref(db, `messages/${id}`));
+            if(Object.keys(updates).length > 0 && auth.currentUser) {
+                update(ref(db, `users/${auth.currentUser.uid}`), updates)
+                    .then(() => {
+                        alert("Profil zaktualizowany!");
+                        document.getElementById('nickInput').value = '';
+                        document.getElementById('avatarInput').value = '';
+                    });
+            }
         };
 
         window.rickRoll = () => {
-            if((userData.coins || 0) < 1) return alert("Za mało monet!");
+            if(!auth.currentUser) return;
+            if((userData.coins || 0) < 1) {
+                alert("Potrzebujesz minimum 1 monety!");
+                return;
+            }
+            // Zabieramy monete i otwieramy link
             update(ref(db, `users/${auth.currentUser.uid}`), { coins: increment(-1) });
             window.open("https://www.youtube.com/watch?v=QDia3e12czc", "_blank");
         };
 
-        window.setTheme = (n) => {
-            document.getElementById('mainBody').className = `text-white theme-${n} font-modern`;
-            localStorage.setItem('user_theme', n);
+        window.buyItem = (item, price) => {
+            if(!auth.currentUser) return;
+            if((userData.coins || 0) < price) {
+                alert("Za mało monet!");
+                return;
+            }
+            update(ref(db, `users/${auth.currentUser.uid}`), { 
+                coins: increment(-price),
+                [`inventory/${item}`]: true 
+            }).then(() => alert("Kupiono pomyślnie!"));
         };
 
-        document.getElementById('sendBtn').onclick = sendMessage;
-        document.getElementById('userInput').onkeypress = (e) => { if(e.key === 'Enter') sendMessage(); };
-        
-        const savedTheme = localStorage.getItem('user_theme');
-        if(savedTheme) setTheme(savedTheme);
+        // 5. OBSŁUGA CZATU I BAZY DANYCH
+        const sendMessage = async () => {
+            const inputField = document.getElementById('userInput');
+            let text = inputField.value.trim();
+            if(!text || !auth.currentUser) return;
+
+            // Zabezpieczenie przed atakami (proste escape'owanie HTML)
+            text = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+            const newMessage = {
+                text: text,
+                nick: userData.nick || `User_${auth.currentUser.uid.substring(0,4)}`,
+                avatar: userData.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
+                uid: auth.currentUser.uid,
+                reactions: { heart: 0, fire: 0 },
+                time: serverTimestamp()
+            };
+
+            await push(ref(db, "messages"), newMessage);
+            // Zarobek +10 monet za wysłanie
+            await update(ref(db, `users/${auth.currentUser.uid}`), { coins: increment(10) });
+            
+            inputField.value = '';
+        };
+
+        window.deleteMsg = (msgId) => {
+            if(confirm("Na pewno usunąć tę wiadomość?")) {
+                remove(ref(db, `messages/${msgId}`));
+            }
+        };
+
+        window.addReaction = (msgId, type) => {
+            update(ref(db, `messages/${msgId}/reactions`), { [type]: increment(1) });
+        };
+
+        let messagesLoaded = false;
+        function loadMessages() {
+            if(messagesLoaded) return; // Zapobiega podwójnemu nasłuchiwaniu
+            messagesLoaded = true;
+            
+            const msgBox = document.getElementById('messages');
+            msgBox.innerHTML = ''; // Czyszczenie przed załadowaniem
+
+            // DODAWANIE WIADOMOŚCI
+            onChildAdded(ref(db, "messages"), (snapshot) => {
+                const data = snapshot.val();
+                const msgId = snapshot.key;
+                const isMe = data.uid === auth.currentUser.uid;
+                
+                const div = document.createElement('div');
+                div.id = `msg-${msgId}`;
+                div.className = `msg-container ${isMe ? 'me' : ''}`;
+                
+                div.innerHTML = `
+                    <img src="${data.avatar}" class="w-10 h-10 rounded-full object-cover border border-gray-600 flex-shrink-0">
+                    <div class="msg-bubble">
+                        ${isMe ? `<div class="del-btn" onclick="deleteMsg('${msgId}')">×</div>` : ''}
+                        <p class="text-[10px] font-bold text-blue-400 mb-1 leading-none">${data.nick}</p>
+                        <p class="text-sm text-gray-100">${data.text}</p>
+                        <div class="reaction-bar" id="re-${msgId}">
+                            <span class="reaction" onclick="addReaction('${msgId}', 'heart')">❤️ ${data.reactions?.heart || 0}</span>
+                            <span class="reaction" onclick="addReaction('${msgId}', 'fire')">🔥 ${data.reactions?.fire || 0}</span>
+                        </div>
+                    </div>
+                `;
+                msgBox.appendChild(div);
+                // Przewijanie na sam dół po nowej wiadomości
+                window.scrollTo(0, document.body.scrollHeight);
+                msgBox.scrollTop = msgBox.scrollHeight;
+            });
+
+            // AKTUALIZACJA REAKCJI
+            onChildChanged(ref(db, "messages"), (snapshot) => {
+                const data = snapshot.val();
+                const reactionBar = document.getElementById(`re-${snapshot.key}`);
+                if(reactionBar) {
+                    reactionBar.innerHTML = `
+                        <span class="reaction" onclick="addReaction('${snapshot.key}', 'heart')">❤️ ${data.reactions?.heart || 0}</span>
+                        <span class="reaction" onclick="addReaction('${snapshot.key}', 'fire')">🔥 ${data.reactions?.fire || 0}</span>
+                    `;
+                }
+            });
+
+            // USUWANIE WIADOMOŚCI Z EKRANU
+            onChildRemoved(ref(db, "messages"), (snapshot) => {
+                const element = document.getElementById(`msg-${snapshot.key}`);
+                if(element) element.remove();
+            });
+        }
+
+        // EVENT LISENERY
+        document.getElementById('sendBtn').addEventListener('click', sendMessage);
+        document.getElementById('userInput').addEventListener('keypress', (e) => { 
+            if(e.key === 'Enter') sendMessage(); 
+        });
+
+        // INICJALIZACJA ZAPISANEJ TAPETY
+        const savedTheme = localStorage.getItem('chatSZKOLA_theme');
+        if(savedTheme) {
+            setTheme(savedTheme);
+        }
     </script>
 </body>
 </html>
