@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CzatSZKOLA - Stabilna Wersja</title>
+    <title>CzatSZKOLA - Sklep Przywrócony</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Merriweather&family=Orbitron:wght@400;700&display=swap');
@@ -41,7 +41,8 @@
         .del-btn { position: absolute; top: -5px; right: -5px; background: #ef4444; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; font-weight: bold; }
 
         nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 80px; z-index: 200; }
-        nav button { flex: 1; height: 100%; font-size: 1.8rem; }
+        nav button { flex: 1; height: 100%; font-size: 1.8rem; transition: 0.3s; }
+        nav button:active { background: rgba(255,255,255,0.1); }
     </style>
 </head>
 <body id="mainBody" class="theme-0 text-white font-modern">
@@ -49,9 +50,9 @@
     <header class="h-[70px] border-b border-gray-800 flex justify-between items-center px-4 glass sticky top-0 z-[150]">
         <div class="flex items-center gap-3">
             <img id="headerAvatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-10 h-10 rounded-full border-2 border-blue-500 object-cover">
-            <h1 id="headerNick" class="text-sm font-bold text-blue-400 italic">Ładowanie...</h1>
+            <h1 id="headerNick" class="text-sm font-bold text-blue-400 italic">CzatSZKOLA</h1>
         </div>
-        <span id="coinCount" class="text-yellow-400 font-bold text-[12px]">0 🪙</span>
+        <span id="coinCount" class="text-yellow-400 font-bold text-[14px] bg-gray-900 px-3 py-1 rounded-full border border-yellow-400/30">0 🪙</span>
     </header>
 
     <main class="relative h-full w-full">
@@ -66,24 +67,45 @@
             </div>
         </section>
 
-        <!-- USTAWIENIA -->
+        <!-- SKLEP -->
+        <section id="shopTab" class="tab-content p-6">
+            <h2 class="text-2xl font-black text-blue-400 mb-6 uppercase italic">Sklep Monet</h2>
+            <div class="space-y-4">
+                <div class="bg-gray-800/80 p-5 rounded-3xl border border-purple-500/50 flex justify-between items-center">
+                    <div>
+                        <p class="font-bold text-lg">💎 Ranga Premium</p>
+                        <p class="text-[10px] text-gray-400">Specjalny status i ramka</p>
+                    </div>
+                    <button onclick="buyItem('premium', 5000)" class="bg-purple-600 px-4 py-2 rounded-xl text-xs font-bold shadow-lg shadow-purple-900/40">5,000 🪙</button>
+                </div>
+                <div class="bg-gray-800/80 p-5 rounded-3xl border border-blue-500/50 flex justify-between items-center opacity-50">
+                    <div>
+                        <p class="font-bold">✨ Złoty Kolor Nicku</p>
+                        <p class="text-[10px] text-gray-400">Wkrótce...</p>
+                    </div>
+                    <button class="bg-blue-600 px-4 py-2 rounded-xl text-xs font-bold cursor-not-allowed">2,500 🪙</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROFIL -->
         <section id="profileTab" class="tab-content p-6">
             <div class="max-w-sm mx-auto space-y-6">
-                <div class="space-y-3 bg-gray-900/50 p-4 rounded-3xl border border-gray-800">
-                    <p class="text-[10px] font-bold text-gray-500 uppercase text-center">Edytuj Profil</p>
+                <div class="space-y-3 bg-gray-900/50 p-4 rounded-3xl border border-gray-800 shadow-xl">
+                    <p class="text-[10px] font-bold text-gray-500 uppercase text-center">Profil</p>
                     <input type="text" id="nickInput" placeholder="Nowy Nick" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700 text-sm">
                     <input type="text" id="avatarInput" placeholder="Link do zdjęcia" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700 text-sm">
-                    <button onclick="updateProfile()" class="w-full bg-blue-600 py-4 rounded-2xl font-bold uppercase text-xs">Zapisz Dane</button>
+                    <button onclick="updateProfile()" class="w-full bg-green-600 py-4 rounded-2xl font-bold uppercase text-xs">Zapisz Zmiany</button>
                 </div>
 
                 <div class="grid grid-cols-3 gap-2">
-                    <button onclick="setFont('font-modern')" class="p-2 bg-gray-800 rounded-xl text-[9px]">MODERN</button>
-                    <button onclick="setFont('font-classic')" class="p-2 bg-gray-800 rounded-xl text-[9px]">CLASSIC</button>
-                    <button onclick="setFont('font-gaming')" class="p-2 bg-gray-800 rounded-xl text-[9px]">GAMER</button>
+                    <button onclick="setFont('font-modern')" class="p-2 bg-gray-800 rounded-xl text-[9px] border border-gray-600">MODERN</button>
+                    <button onclick="setFont('font-classic')" class="p-2 bg-gray-800 rounded-xl text-[9px] border border-gray-600">CLASSIC</button>
+                    <button onclick="setFont('font-gaming')" class="p-2 bg-gray-800 rounded-xl text-[9px] border border-gray-600">GAMER</button>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
-                    <button onclick="setTheme(0)" class="p-3 bg-slate-800 rounded-xl text-[10px]">BRAK TŁA</button>
+                    <button onclick="setTheme(0)" class="p-3 bg-slate-800 rounded-xl text-[10px]">DOMYŚLNE</button>
                     <button onclick="setTheme(1)" class="p-3 bg-blue-900/40 border border-blue-500 rounded-xl text-[10px]">TAPETA 1</button>
                     <button onclick="setTheme(2)" class="p-3 bg-purple-900/40 border border-purple-500 rounded-xl text-[10px]">TAPETA 2</button>
                     <button onclick="setTheme(3)" class="p-3 bg-green-900/40 border border-green-500 rounded-xl text-[10px]">TAPETA 3</button>
@@ -94,13 +116,14 @@
 
     <nav class="glass flex justify-around items-center border-t border-gray-800">
         <button onclick="showTab('chat')">💬</button>
+        <button onclick="showTab('shop')">🛒</button>
         <button onclick="showTab('profile')">⚙️</button>
     </nav>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getDatabase, ref, push, onChildAdded, onChildRemoved, onChildChanged, remove, update, increment, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, push, onChildAdded, onChildRemoved, onChildChanged, remove, update, increment, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.app/";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCQXm-oMsOZg80gMrANDwxEbr2jWoV2I8A",
@@ -140,6 +163,15 @@
             update(ref(db, `users/${auth.currentUser.uid}`), up).then(() => alert("Profil zaktualizowany!"));
         };
 
+        window.buyItem = async (type, price) => {
+            if((userData.coins || 0) < price) return alert("Brak środków! Pisz na czacie, by zarabiać.");
+            const up = {};
+            up[`users/${auth.currentUser.uid}/coins`] = increment(-price);
+            if(type === 'premium') up[`users/${auth.currentUser.uid}/premium`] = true;
+            await update(ref(db), up);
+            alert("Dziękujemy za zakup!");
+        };
+
         window.setFont = (f) => {
             document.body.classList.remove('font-modern', 'font-classic', 'font-gaming');
             document.body.classList.add(f);
@@ -160,6 +192,8 @@
                 reactions: { heart: 0, funny: 0, fire: 0 },
                 time: serverTimestamp()
             });
+            // Dodawanie monet za pisanie
+            await update(ref(db, `users/${auth.currentUser.uid}`), { coins: increment(10) });
             input.value = '';
         };
 
@@ -182,7 +216,7 @@
                 div.className = `msg-container ${isMe ? 'me' : ''}`;
                 div.innerHTML = `
                     <img src="${d.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}" class="w-8 h-8 rounded-full object-cover">
-                    <div class="msg-bubble">
+                    <div class="msg-bubble shadow-lg">
                         ${isMe ? `<div class="del-btn" onclick="deleteMsg('${id}')">×</div>` : ''}
                         <p class="text-[9px] font-bold text-blue-400 mb-1">${d.nick}</p>
                         <p class="text-sm">${d.text}</p>
