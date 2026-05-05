@@ -3,102 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CzatSZKOLA - Poprawione Tapety</title>
+    <title>CzatSZKOLA - Final Fix</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         body { 
             overflow: hidden; height: 100dvh; margin: 0; font-family: sans-serif; 
             background-color: #0f172a; background-size: cover; background-position: center; transition: 0.5s;
         }
-        .tab-content { display: none; height: calc(100dvh - 160px); width: 100%; overflow-y: auto; }
+        .tab-content { display: none; height: calc(100dvh - 80px); width: 100%; overflow-y: auto; }
         .tab-content.active { display: flex; flex-direction: column; }
-        .glass { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,0.1); }
+        .glass { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,0.1); }
         
-        /* Pasek do pisania obniżony o 50px */
-        .input-area { position: fixed; bottom: 30px; left: 0; width: 100%; z-index: 450; }
+        /* PASEK DO PISANIA - PODNIESIONY DLA LEPSZEJ WYGODY */
+        .input-area { 
+            position: fixed; 
+            bottom: 90px; /* Podniesiony nad menu dolne */
+            left: 0; 
+            width: 100%; 
+            z-index: 450; 
+            padding: 12px;
+        }
         
-        /* ŚCIEŻKI POPRAWIONE NA Assets/wall/ (z dużej litery jak na Twoim screenie) */
+        /* TAPETY - DOKŁADNE ŚCIEŻKI Z TWOJEGO SCREENA */
         .theme-1 { background-image: url('Assets/wall/1.png'); }
         .theme-2 { background-image: url('Assets/wall/2.png'); }
         .theme-3 { background-image: url('Assets/wall/3.png'); }
         .theme-0 { background-color: #0f172a; background-image: none; }
 
-        #messages { flex: 1; padding: 20px; padding-bottom: 140px; display: flex; flex-direction: column; gap: 10px; }
-        nav button { flex: 1; height: 100%; font-size: 1.8rem; z-index: 1000; }
+        #messages { 
+            flex: 1; 
+            padding: 20px; 
+            padding-bottom: 200px; /* Miejsce na podniesiony pasek */
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+        }
+        nav button { flex: 1; height: 100%; font-size: 1.8rem; outline: none; }
         .premium-border { border: 2px solid #a855f7 !important; box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); }
     </style>
 </head>
 <body id="mainBody" class="theme-0 text-white">
-
-    <div id="loginScreen" class="fixed inset-0 z-[2000] bg-gray-900 flex items-center justify-center p-6" style="display: none;">
-        <div class="w-full max-w-sm space-y-4 bg-gray-800 p-8 rounded-3xl shadow-2xl">
-            <h2 class="text-3xl font-black text-blue-500 text-center italic uppercase">CzatSZKOLA</h2>
-            <input type="email" id="emailInput" placeholder="E-mail" class="w-full p-4 bg-gray-700 rounded-2xl outline-none border border-gray-600">
-            <input type="password" id="passwordInput" placeholder="Hasło" class="w-full p-4 bg-gray-700 rounded-2xl outline-none border border-gray-600">
-            <button id="loginBtn" class="w-full bg-blue-600 py-4 rounded-2xl font-bold uppercase">Zaloguj</button>
-            <button id="registerBtn" class="w-full bg-gray-700 py-3 rounded-xl text-[10px] uppercase">Rejestracja</button>
-        </div>
-    </div>
 
     <header class="h-[70px] border-b border-gray-800 flex justify-between items-center px-4 glass sticky top-0 z-[500]">
         <div class="flex items-center gap-3">
             <img id="headerAvatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-10 h-10 rounded-full border-2 border-blue-500 object-cover">
             <div>
                 <h1 id="headerNick" class="text-sm font-bold text-blue-400">Czatownik</h1>
-                <div class="flex gap-2">
-                    <span id="coinCount" class="text-yellow-400 font-bold text-[10px]">0 🪙</span>
-                    <span id="premiumBadge" class="hidden text-[8px] bg-purple-600 px-1 rounded font-bold uppercase">Premium</span>
-                </div>
+                <span id="coinCount" class="text-yellow-400 font-bold text-[10px]">0 🪙</span>
             </div>
         </div>
     </header>
 
     <main class="relative h-full w-full">
+        <!-- ZAKŁADKA CZATU -->
         <section id="chatTab" class="tab-content active">
             <div id="messages"></div>
-            <div class="input-area glass p-4">
+            <div class="input-area glass">
                 <div class="flex gap-2 max-w-5xl mx-auto">
-                    <input type="text" id="userInput" placeholder="Napisz coś..." class="flex-1 bg-gray-800/80 p-4 rounded-2xl outline-none text-sm border border-gray-700">
-                    <button id="sendBtn" class="bg-blue-600 px-6 py-4 rounded-2xl font-bold">></button>
+                    <input type="text" id="userInput" placeholder="Napisz wiadomość..." class="flex-1 bg-gray-800 p-4 rounded-2xl outline-none border border-gray-700 shadow-lg">
+                    <button id="sendBtn" class="bg-blue-600 px-6 py-4 rounded-2xl font-bold active:scale-90 transition-transform">></button>
                 </div>
             </div>
         </section>
 
+        <!-- ZAKŁADKA SKLEPU -->
         <section id="settingsTab" class="tab-content p-6">
             <h3 class="text-xl font-black text-blue-400 mb-6 uppercase italic">Sklep</h3>
-            <div class="space-y-4">
-                <div class="bg-gray-800/80 p-4 rounded-2xl border-2 border-purple-500 flex justify-between items-center shadow-lg">
-                    <span>💎 Ranga Premium</span>
-                    <button onclick="buyItem('premium', 10000)" class="bg-purple-600 px-4 py-2 rounded-xl text-xs font-bold">10k 🪙</button>
+            <div class="bg-gray-800/80 p-5 rounded-2xl border-2 border-purple-500 flex justify-between items-center shadow-xl">
+                <div>
+                    <p class="font-bold">💎 Ranga Premium</p>
+                    <p class="text-[10px] text-gray-400 uppercase">Fioletowa ramka wiadomości</p>
                 </div>
+                <button onclick="buyItem('premium', 10000)" class="bg-purple-600 px-5 py-2 rounded-xl text-xs font-bold">10k 🪙</button>
             </div>
         </section>
 
+        <!-- ZAKŁADKA PROFILU -->
         <section id="profileTab" class="tab-content p-6">
             <div class="space-y-6 max-w-sm mx-auto">
                 <h3 class="text-xl font-black text-blue-400 uppercase text-center">Ustawienia</h3>
                 <div class="space-y-3">
-                    <input type="text" id="nickInput" placeholder="Twój Nick" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700">
-                    <input type="text" id="avatarInput" placeholder="Link do zdjęcia profilowego" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700">
-                    <button onclick="saveProfile()" class="w-full bg-green-600 py-4 rounded-2xl font-bold uppercase text-sm">Zapisz Dane</button>
+                    <input type="text" id="nickInput" placeholder="Zmień Nick" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700">
+                    <input type="text" id="avatarInput" placeholder="Link do zdjęcia" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700">
+                    <button onclick="saveProfile()" class="w-full bg-green-600 py-4 rounded-2xl font-bold uppercase tracking-widest">Zapisz</button>
                 </div>
                 
                 <div class="pt-6 border-t border-gray-700">
-                    <p class="text-[10px] font-bold text-gray-400 mb-3 uppercase text-center">Wybierz Tapetę</p>
+                    <p class="text-[10px] font-bold text-gray-500 mb-4 uppercase text-center">Wybierz Tło (Assets/wall/)</p>
                     <div class="grid grid-cols-2 gap-3">
-                        <button onclick="setTheme(0)" class="p-3 bg-slate-800 rounded-xl text-[10px]">Ciemna</button>
-                        <button onclick="setTheme(1)" class="p-3 bg-blue-900/40 border border-blue-500 rounded-xl text-[10px]">Tapeta 1</button>
-                        <button onclick="setTheme(2)" class="p-3 bg-purple-900/40 border border-purple-500 rounded-xl text-[10px]">Tapeta 2</button>
-                        <button onclick="setTheme(3)" class="p-3 bg-green-900/40 border border-green-500 rounded-xl text-[10px]">Tapeta 3</button>
+                        <button onclick="setTheme(0)" class="p-3 bg-slate-800 rounded-xl text-[10px] border border-gray-600">DOMYŚLNE</button>
+                        <button onclick="setTheme(1)" class="p-3 bg-blue-900/40 border border-blue-500 rounded-xl text-[10px]">1.PNG</button>
+                        <button onclick="setTheme(2)" class="p-3 bg-purple-900/40 border border-purple-500 rounded-xl text-[10px]">2.PNG</button>
+                        <button onclick="setTheme(3)" class="p-3 bg-green-900/40 border border-green-500 rounded-xl text-[10px]">3.PNG</button>
                     </div>
                 </div>
-                
-                <button id="logoutBtn" class="w-full mt-6 text-red-500 font-bold bg-red-900/20 py-4 rounded-2xl uppercase text-xs border border-red-500/30">Wyloguj Się</button>
             </div>
         </section>
     </main>
 
+    <!-- DOLNE MENU -->
     <nav class="fixed bottom-0 left-0 w-full h-[80px] glass flex justify-around items-center z-[1000] border-t border-gray-800">
         <button onclick="showTab('chat')">💬</button>
         <button onclick="showTab('settings')">🛒</button>
@@ -107,7 +110,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getDatabase, ref, push, onChildAdded, onValue, serverTimestamp, update, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = {
@@ -128,18 +131,13 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                document.getElementById('loginScreen').style.display = 'none';
                 onValue(ref(db, `users/${user.uid}`), (s) => {
-                    const d = s.val() || {};
-                    userData = d;
-                    document.getElementById('coinCount').innerText = `${(d.coins || 0).toLocaleString()} 🪙`;
-                    document.getElementById('headerNick').innerText = d.nick || user.email;
-                    document.getElementById('headerAvatar').src = d.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
-                    if(d.premium) document.getElementById('premiumBadge').classList.remove('hidden');
+                    userData = s.val() || {};
+                    document.getElementById('coinCount').innerText = `${(userData.coins || 0).toLocaleString()} 🪙`;
+                    document.getElementById('headerNick').innerText = userData.nick || user.email;
+                    document.getElementById('headerAvatar').src = userData.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
                 });
                 loadMessages();
-            } else {
-                document.getElementById('loginScreen').style.display = 'flex';
             }
         });
 
@@ -152,7 +150,7 @@
             update(ref(db, `users/${auth.currentUser.uid}`), {
                 nick: document.getElementById('nickInput').value,
                 avatar: document.getElementById('avatarInput').value
-            }).then(() => alert("Dane zapisane!"));
+            }).then(() => alert("Profil zaktualizowany!"));
         };
 
         window.setTheme = (n) => {
@@ -176,17 +174,15 @@
 
         function loadMessages() {
             const mBox = document.getElementById('messages');
-            mBox.innerHTML = '';
             onChildAdded(ref(db, "messages"), (s) => {
                 const d = s.val();
                 const isMe = d.nick === (userData.nick || auth.currentUser.email);
                 const div = document.createElement('div');
                 div.className = `flex gap-2 mb-3 ${isMe ? 'flex-row-reverse' : ''}`;
                 div.innerHTML = `
-                    <img src="${d.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}" class="w-8 h-8 rounded-full object-cover shadow-md">
-                    <div class="p-3 rounded-2xl max-w-[75%] bg-gray-800/90 ${d.isPremium ? 'premium-border' : ''}">
-                        <p class="text-[9px] font-bold text-blue-400 mb-1">${d.nick}</p>
-                        <p class="text-sm">${d.text}</p>
+                    <div class="p-3 rounded-2xl max-w-[75%] bg-gray-800/90 shadow-md ${d.isPremium ? 'premium-border' : ''}">
+                        <p class="text-[9px] font-bold text-blue-400 mb-1 tracking-tight">${d.nick}</p>
+                        <p class="text-sm leading-relaxed">${d.text}</p>
                     </div>`;
                 mBox.appendChild(div);
                 mBox.scrollTop = mBox.scrollHeight;
@@ -194,19 +190,15 @@
         }
 
         window.buyItem = async (type, price) => {
-            if((userData.coins || 0) < price) return alert("Za mało monet!");
+            if((userData.coins || 0) < price) return alert("Brak środków!");
             const up = {};
             up[`users/${auth.currentUser.uid}/coins`] = increment(-price);
             if(type === 'premium') up[`users/${auth.currentUser.uid}/premium`] = true;
             await update(ref(db), up);
-            alert("Zakup udany!");
+            alert("Kupiono pomyślnie!");
         };
 
         document.getElementById('sendBtn').onclick = sendMessage;
-        document.getElementById('loginBtn').onclick = () => signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
-        document.getElementById('registerBtn').onclick = () => createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
-        document.getElementById('logoutBtn').onclick = () => signOut(auth).then(() => location.reload());
-
         const saved = localStorage.getItem('user_theme');
         if(saved) setTheme(saved);
     </script>
