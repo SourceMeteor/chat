@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CzatSZKOLA</title>
+    <link rel="icon" href="favicon.jpg" type="image/jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Syne:wght@700;800&family=Space+Mono:wght@400;700&family=Fraunces:ital,wght@0,900;1,900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #06090f;
+            --surface: #0d1420;
+            --border: rgba(255,255,255,0.07);
+            --accent: #3b82f6;
+            --accent2: #8b5cf6;
+            --text: #e2e8f0;
+            --muted: #64748b;
+            --glow: rgba(59,130,246,0.35);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* Disable right click & devtools */
+        body { -webkit-user-select: none; user-select: none; }
+
+        /* ── NOISE OVERLAY ── */
+        body::before {
+            content: '';
+            position: fixed; inset: 0; z-index: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        /* ── GRADIENT MESH BG ── */
+        .mesh {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background:
+                radial-gradient(ellipse 80% 60% at 10% 20%, rgba(59,130,246,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 90% 80%, rgba(139,92,246,0.07) 0%, transparent 55%),
+                radial-gradient(ellipse 50% 50% at 50% 50%, rgba(16,24,40,0.95) 0%, transparent 100%);
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 20px 48px;
+            background: rgba(6,9,15,0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            display: flex; align-items: center; gap: 10px;
+            font-family: 'Syne', sans-serif;
+            font-size: 1.25rem; font-weight: 800;
+            letter-spacing: -0.5px; color: white;
+            text-decoration: none;
+        }
+        .nav-logo img { width: 32px; height: 32px; border-radius: 8px; }
+        .nav-logo span { color: var(--accent); }
+
+        .nav-links { display: flex; align-items: center; gap: 32px; }
+        .nav-links a {
+            font-size: 0.82rem; font-weight: 500; color: var(--muted);
+            text-decoration: none; letter-spacing: 0.5px;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--text); }
+
+        .nav-right { display: flex; align-items: center; gap: 12px; }
+
+        .lang-toggle {
+            display: flex; align-items: center; gap: 6px;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 20px; padding: 4px; cursor: pointer;
+        }
+        .lang-btn {
+            padding: 5px 12px; border-radius: 16px; font-size: 0.72rem; font-weight: 700;
+            letter-spacing: 0.5px; cursor: pointer; border: none; transition: all 0.2s;
+            background: transparent; color: var(--muted);
+        }
+        .lang-btn.active { background: var(--accent); color: white; box-shadow: 0 0 12px rgba(59,130,246,0.4); }
+
+        .btn-cta {
+            padding: 10px 24px; border-radius: 10px; font-size: 0.82rem; font-weight: 700;
+            letter-spacing: 0.3px; cursor: pointer; border: none; transition: all 0.25s;
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 20px rgba(59,130,246,0.4);
+            font-family: 'DM Sans', sans-serif;
+        }
+        .btn-cta:hover { background: #2563eb; transform: translateY(-1px); box-shadow: 0 8px 28px rgba(59,130,246,0.5); }
+        .btn-ghost {
+            padding: 10px 20px; border-radius: 10px; font-size: 0.82rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+            background: transparent; border: 1px solid var(--border);
+            color: var(--text); font-family: 'DM Sans', sans-serif;
+        }
+        .btn-ghost:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.04); }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative; z-index: 1;
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center;
+            padding: 120px 24px 80px;
+            overflow: hidden;
+        }
+
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.25);
+            border-radius: 100px; padding: 6px 16px;
+            font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px;
+            text-transform: uppercase; color: #93c5fd; margin-bottom: 32px;
+            opacity: 0; animation: fadeUp 0.6s 0.2s forwards;
+        }
+        .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px #22c55e; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+        .hero-title {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(3.5rem, 10vw, 8rem);
+            font-weight: 900; font-style: italic;
+            line-height: 0.9;
+            letter-spacing: -3px;
+            color: white;
+            margin-bottom: 12px;
+            opacity: 0; animation: fadeUp 0.8s 0.35s forwards;
+        }
+        .hero-title .accent-word {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-title .outline-word {
+            -webkit-text-stroke: 2px rgba(255,255,255,0.3);
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-sub {
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+            color: var(--muted); letter-spacing: 3px; text-transform: uppercase;
+            margin-bottom: 28px;
+            opacity: 0; animation: fadeUp 0.8s 0.5s forwards;
+        }
+
+        .hero-desc {
+            max-width: 520px;
+            font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+            color: #94a3b8; line-height: 1.7;
+            margin-bottom: 44px;
+            opacity: 0; animation: fadeUp 0.8s 0.65s forwards;
+        }
+
+        .hero-btns {
+            display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+            opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
+        }
+        .btn-hero-main {
+            padding: 16px 40px; border-radius: 14px;
+            font-size: 0.95rem; font-weight: 800; letter-spacing: 0.3px;
+            cursor: pointer; border: none; transition: all 0.3s;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: white; font-family: 'Syne', sans-serif;
+            box-shadow: 0 8px 32px rgba(59,130,246,0.45);
+        }
+        .btn-hero-main:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(59,130,246,0.55); }
+        .btn-hero-sec {
+            padding: 16px 32px; border-radius: 14px;
+            font-size: 0.9rem; font-weight: 600; cursor: pointer;
+            background: transparent; border: 1px solid rgba(255,255,255,0.12);
+            color: var(--text); transition: all 0.25s; font-family: 'DM Sans', sans-serif;
+        }
+        .btn-hero-sec:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); transform: translateY(-2px); }
+
+        /* ── FLOATING CARDS ── */
+        .hero-cards {
+            position: relative; margin-top: 80px; width: 100%; max-width: 900px;
+            opacity: 0; animation: fadeUp 1s 1s forwards;
+        }
+        .cards-row {
+            display: flex; gap: 16px; justify-content: center;
+            perspective: 1200px;
+        }
+        .float-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px; padding: 20px;
+            width: 220px; flex-shrink: 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            animation: float 4s ease-in-out infinite;
+            position: relative; overflow: hidden;
+        }
+        .float-card::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(59,130,246,0.05) 0%, transparent 100%);
+            pointer-events: none;
+        }
+        .float-card:nth-child(1) { animation-delay: 0s; transform: rotate(-2deg); }
+        .float-card:nth-child(2) { animation-delay: 0.5s; transform: rotate(0.5deg) translateY(-20px); }
+        .float-card:nth-child(3) { animation-delay: 1s; transform: rotate(2deg); }
+        @keyframes float {
+            0%,100% { transform: translateY(0) rotate(var(--r,0deg)); }
+            50% { transform: translateY(-12px) rotate(var(--r,0deg)); }
+        }
+        .float-card:nth-child(1) { --r: -2deg; }
+        .float-card:nth-child(2) { --r: 0.5deg; }
+        .float-card:nth-child(3) { --r: 2deg; }
+
+        .card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+        .card-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .card-name { font-size: 0.75rem; font-weight: 700; color: var(--text); }
+        .card-time { font-size: 0.6rem; color: var(--muted); margin-top: 1px; }
+        .card-msg { font-size: 0.78rem; color: #94a3b8; line-height: 1.5; }
+        .card-reactions { display: flex; gap: 6px; margin-top: 10px; }
+        .card-rxn { font-size: 10px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; padding: 2px 7px; }
+
+        /* ── FEATURES ── */
+        .section {
+            position: relative; z-index: 1;
+            padding: 120px 48px;
+            max-width: 1200px; margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.68rem; color: var(--accent); letter-spacing: 3px;
+            text-transform: uppercase; margin-bottom: 16px;
+        }
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800; line-height: 1.1;
+            letter-spacing: -1px; color: white;
+            margin-bottom: 20px;
+        }
+        .section-title .dim { color: var(--muted); }
+        .section-desc {
+            font-size: 1rem; color: #64748b; max-width: 500px; line-height: 1.7;
+            margin-bottom: 64px;
+        }
+
+        /* Features grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .feat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px; padding: 28px;
+            transition: all 0.3s; cursor: default;
+            opacity: 0; transform: translateY(30px);
+            position: relative; overflow: hidden;
+        }
+        .feat-card.visible { opacity: 1; transform: translateY(0); }
+        .feat-card:hover { border-color: rgba(59,130,246,0.3); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+        .feat-card::after {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(59,130,246,0.06) 0%, transparent 60%);
+            pointer-events: none; opacity: 0; transition: opacity 0.3s;
+        }
+        .feat-card:hover::after { opacity: 1; }
+
+        .feat-icon {
+            width: 48px; height: 48px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; margin-bottom: 18px;
+            background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2);
+        }
+        .feat-icon.purple { background: rgba(139,92,246,0.1); border-color: rgba(139,92,246,0.2); }
+        .feat-icon.green  { background: rgba(34,197,94,0.1);  border-color: rgba(34,197,94,0.2); }
+        .feat-icon.orange { background: rgba(249,115,22,0.1); border-color: rgba(249,115,22,0.2); }
+        .feat-icon.pink   { background: rgba(236,72,153,0.1); border-color: rgba(236,72,153,0.2); }
+        .feat-icon.yellow { background: rgba(234,179,8,0.1);  border-color: rgba(234,179,8,0.2); }
+
+        .feat-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800; color: white; margin-bottom: 8px; }
+        .feat-desc  { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+        /* ── SLIDING SHOWCASE ── */
+        .showcase {
+            padding: 0 0 120px;
+            position: relative; z-index: 1; overflow: hidden;
+        }
+        .showcase-track {
+            display: flex; gap: 20px;
+            animation: slide 30s linear infinite;
+            width: max-content;
+        }
+        .showcase-track:hover { animation-play-state: paused; }
+        @keyframes slide { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+        .slide-card {
+            width: 280px; flex-shrink: 0;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px; padding: 20px;
+        }
+        .slide-tag { font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 6px; display: inline-block; margin-bottom: 12px; }
+        .tag-blue   { background: rgba(59,130,246,0.15);  color: #93c5fd; }
+        .tag-purple { background: rgba(139,92,246,0.15); color: #c4b5fd; }
+        .tag-green  { background: rgba(34,197,94,0.15);  color: #86efac; }
+        .tag-orange { background: rgba(249,115,22,0.15); color: #fdba74; }
+        .slide-title { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; color: white; margin-bottom: 6px; }
+        .slide-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+        /* ── STATS ── */
+        .stats-row {
+            display: flex; gap: 48px; justify-content: center; flex-wrap: wrap;
+            padding: 60px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+            margin-bottom: 120px;
+        }
+        .stat { text-align: center; }
+        .stat-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem; line-height: 1;
+            background: linear-gradient(135deg, white, #94a3b8);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 4px; }
+
+        /* ── FONT SHOWCASE ── */
+        .font-section {
+            position: relative; z-index: 1;
+            padding: 0 48px 120px;
+            max-width: 1200px; margin: 0 auto;
+        }
+        .font-cards {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;
+        }
+        .font-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 16px; padding: 24px;
+            transition: all 0.25s;
+        }
+        .font-card:hover { border-color: rgba(139,92,246,0.3); transform: translateY(-3px); }
+        .font-preview { font-size: 2.2rem; color: white; margin-bottom: 8px; }
+        .font-name { font-size: 0.72rem; font-family: 'Space Mono', monospace; color: var(--muted); letter-spacing: 1px; }
+
+        /* ── WALLPAPER PREVIEW ── */
+        .wallpaper-section {
+            position: relative; z-index: 1;
+            padding: 0 48px 120px;
+            max-width: 1200px; margin: 0 auto;
+        }
+        .wall-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+        }
+        .wall-card {
+            aspect-ratio: 16/9; border-radius: 16px; cursor: pointer;
+            border: 2px solid var(--border); overflow: hidden;
+            transition: all 0.25s; position: relative;
+        }
+        .wall-card:hover { border-color: var(--accent); transform: scale(1.03); }
+        .wall-inner { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+        .wall-label { font-size: 0.7rem; font-family: 'Space Mono', monospace; color: white; text-shadow: 0 1px 4px rgba(0,0,0,0.8); letter-spacing: 1px; opacity: 0; transition: opacity 0.2s; }
+        .wall-card:hover .wall-label { opacity: 1; }
+
+        /* ── CTA SECTION ── */
+        .cta-section {
+            position: relative; z-index: 1;
+            padding: 120px 48px;
+            text-align: center;
+            background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(59,130,246,0.07) 0%, transparent 70%);
+        }
+        .cta-title {
+            font-family: 'Fraunces', serif; font-style: italic;
+            font-size: clamp(2.5rem, 7vw, 5.5rem);
+            font-weight: 900; color: white; line-height: 1;
+            letter-spacing: -2px; margin-bottom: 24px;
+        }
+        .cta-sub { font-size: 1rem; color: var(--muted); margin-bottom: 40px; }
+
+        /* ── FOOTER ── */
+        footer {
+            position: relative; z-index: 1;
+            padding: 40px 48px;
+            border-top: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 16px;
+        }
+        footer .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.9rem; color: var(--muted); }
+        footer p { font-size: 0.75rem; color: var(--muted); }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── DIVIDER ── */
+        .divider {
+            width: 100%; max-width: 1200px; margin: 0 auto;
+            height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent);
+        }
+
+        /* mobile */
+        @media(max-width: 768px) {
+            nav { padding: 16px 20px; }
+            .nav-links { display: none; }
+            .section { padding: 80px 20px; }
+            .hero { padding: 100px 20px 60px; }
+            .cards-row .float-card:nth-child(3) { display: none; }
+            .wall-grid { grid-template-columns: repeat(2,1fr); }
+            .stats-row { gap: 24px; }
+            .font-section, .wallpaper-section { padding: 0 20px 80px; }
+            footer { padding: 30px 20px; flex-direction: column; text-align: center; }
+            .cta-section { padding: 80px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="mesh"></div>
+
+    <!-- NAV -->
+    <nav>
+        <a class="nav-logo" href="#">
+            <img src="favicon.jpg" alt="logo" onerror="this.style.display='none'">
+            Czat<span>SZKOŁA</span>
+        </a>
+        <div class="nav-links">
+            <a href="#features" data-i18n="nav.features">Features</a>
+            <a href="#shop" data-i18n="nav.shop">Shop</a>
+            <a href="#fonts" data-i18n="nav.fonts">Fonts</a>
+        </div>
+        <div class="nav-right">
+            <div class="lang-toggle">
+                <button class="lang-btn active" onclick="setLang('en')">EN</button>
+                <button class="lang-btn" onclick="setLang('pl')">PL</button>
+            </div>
+            <button class="btn-ghost" onclick="location.href='czat.html'" data-i18n="nav.login">Log in</button>
+            <button class="btn-cta" onclick="location.href='czat.html'" data-i18n="nav.open">Open App</button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-badge">
+            <span class="badge-dot"></span>
+            <span data-i18n="hero.badge">No ads. No tracking. Free.</span>
+        </div>
+
+        <h1 class="hero-title">
+            <span class="outline-word">The</span><br>
+            <span class="accent-word">chat</span><br>
+            <span>app.</span>
+        </h1>
+
+        <p class="hero-sub" data-i18n="hero.sub">Zero ads · Pure communication</p>
+
+        <p class="hero-desc" data-i18n="hero.desc">
+            A real-time messenger built for schools. No ads, no noise — just clean, fast, expressive chat with coins, ranks, and a shop.
+        </p>
+
+        <div class="hero-btns">
+            <button class="btn-hero-main" onclick="location.href='czat.html'" data-i18n="hero.cta1">Start chatting — it's free</button>
+            <button class="btn-hero-sec" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})" data-i18n="hero.cta2">See features ↓</button>
+        </div>
+
+        <!-- Floating message cards -->
+        <div class="hero-cards">
+            <div class="cards-row">
+                <div class="float-card">
+                    <div class="card-header">
+                        <div class="card-avatar" style="background:rgba(59,130,246,0.2)">🎮</div>
+                        <div>
+                            <div class="card-name" style="color:#fbbf24">★ AdminVIP</div>
+                            <div class="card-time">just now</div>
+                        </div>
+                    </div>
+                    <p class="card-msg">yo who's ready for the rickroll event tonight 💀</p>
+                    <div class="card-reactions"><span class="card-rxn">❤️ 12</span><span class="card-rxn">😂 8</span><span class="card-rxn">🔥 5</span></div>
+                </div>
+                <div class="float-card" style="border-color:rgba(59,130,246,0.25)">
+                    <div class="card-header">
+                        <div class="card-avatar" style="background:rgba(139,92,246,0.2)">🚀</div>
+                        <div>
+                            <div class="card-name">sourcemeteor</div>
+                            <div class="card-time">2 min ago</div>
+                        </div>
+                    </div>
+                    <p class="card-msg">just earned 150 coins from chatting 🪙✨</p>
+                    <div class="card-reactions"><span class="card-rxn">❤️ 4</span><span class="card-rxn">🔥 9</span></div>
+                </div>
+                <div class="float-card">
+                    <div class="card-header">
+                        <div class="card-avatar" style="background:rgba(34,197,94,0.2)">👑</div>
+                        <div>
+                            <div class="card-name">xXProPlayerXx</div>
+                            <div class="card-time">5 min ago</div>
+                        </div>
+                    </div>
+                    <p class="card-msg">!funevent 🎉🎊 surprise!!</p>
+                    <div class="card-reactions"><span class="card-rxn">❤️ 21</span><span class="card-rxn">😂 15</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="divider"></div>
+    <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 48px;">
+        <div class="stats-row">
+            <div class="stat"><div class="stat-num">0</div><div class="stat-label" data-i18n="stats.ads">Ads</div></div>
+            <div class="stat"><div class="stat-num">3</div><div class="stat-label" data-i18n="stats.fonts">Font Styles</div></div>
+            <div class="stat"><div class="stat-num">4</div><div class="stat-label" data-i18n="stats.walls">Wallpapers</div></div>
+            <div class="stat"><div class="stat-num">∞</div><div class="stat-label" data-i18n="stats.msgs">Messages</div></div>
+            <div class="stat"><div class="stat-num">🪙</div><div class="stat-label" data-i18n="stats.coins">Coin Economy</div></div>
+        </div>
+    </div>
+
+    <!-- FEATURES -->
+    <section class="section" id="features">
+        <p class="section-label" data-i18n="feat.label">What's inside</p>
+        <h2 class="section-title"><span data-i18n="feat.title1">Everything you</span><br><span class="dim" data-i18n="feat.title2">actually need.</span></h2>
+        <p class="section-desc" data-i18n="feat.desc">Real-time messages, reactions, a coin economy, profile customisation and brutal events — all in one place.</p>
+
+        <div class="features-grid">
+            <div class="feat-card">
+                <div class="feat-icon">💬</div>
+                <div class="feat-title" data-i18n="f1.t">Real-time Chat</div>
+                <div class="feat-desc" data-i18n="f1.d">Messages appear instantly for everyone. React with ❤️ 😂 🔥 — once per message.</div>
+            </div>
+            <div class="feat-card">
+                <div class="feat-icon purple">🪙</div>
+                <div class="feat-title" data-i18n="f2.t">Coin Economy</div>
+                <div class="feat-desc" data-i18n="f2.d">Earn 15 coins per message. Spend them in the shop on ranks, effects and chaos.</div>
+            </div>
+            <div class="feat-card">
+                <div class="feat-icon green">💎</div>
+                <div class="feat-title" data-i18n="f3.t">VIP Rank</div>
+                <div class="feat-desc" data-i18n="f3.d">VIP members get glowing blue message bubbles and a badge under their name.</div>
+            </div>
+            <div class="feat-card">
+                <div class="feat-icon orange">☠️</div>
+                <div class="feat-title" data-i18n="f4.t">Rickroll Destruction</div>
+                <div class="feat-desc" data-i18n="f4.d">10,000 coins — trigger a global Rickroll for ALL users at once. Chaos ensured.</div>
+            </div>
+            <div class="feat-card">
+                <div class="feat-icon pink">🎉</div>
+                <div class="feat-title" data-i18n="f5.t">Confetti Events</div>
+                <div class="feat-desc" data-i18n="f5.d">Drop confetti with your name on the screen for everyone. Type !funevent.</div>
+            </div>
+            <div class="feat-card">
+                <div class="feat-icon yellow">🏆</div>
+                <div class="feat-title" data-i18n="f6.t">Achievements</div>
+                <div class="feat-desc" data-i18n="f6.d">Click any profile to view their stats and unlocked achievements in real-time.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDING SHOWCASE -->
+    <div id="shop" class="showcase">
+        <div class="showcase-track" id="track"></div>
+    </div>
+
+    <!-- FONTS -->
+    <div class="divider"></div>
+    <section class="font-section" id="fonts">
+        <p class="section-label" data-i18n="font.label">Typography</p>
+        <h2 class="section-title" style="margin-bottom:40px"><span data-i18n="font.title">Pick your style.</span><br><span class="dim" data-i18n="font.sub">3 distinct fonts.</span></h2>
+        <div class="font-cards">
+            <div class="font-card">
+                <div class="font-preview" style="font-family:'DM Sans',sans-serif;font-weight:700">Modern</div>
+                <div class="font-name">DM Sans — clean, readable</div>
+            </div>
+            <div class="font-card">
+                <div class="font-preview" style="font-family:'Merriweather',serif;font-size:1.8rem">Classic</div>
+                <div class="font-name">Merriweather — editorial serif</div>
+            </div>
+            <div class="font-card">
+                <div class="font-preview" style="font-family:'Orbitron',sans-serif;font-size:1.6rem">GAMER</div>
+                <div class="font-name">Orbitron — futuristic display</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WALLPAPERS -->
+    <section class="wallpaper-section">
+        <p class="section-label" data-i18n="wall.label">Wallpapers</p>
+        <h2 class="section-title" style="margin-bottom:40px"><span data-i18n="wall.title">Set the mood.</span></h2>
+        <div class="wall-grid">
+            <div class="wall-card">
+                <div class="wall-inner" style="background:linear-gradient(135deg,#0f172a,#1e293b)">
+                    <span class="wall-label">DEFAULT</span>
+                </div>
+            </div>
+            <div class="wall-card">
+                <div class="wall-inner" style="background:linear-gradient(135deg,#0f1b3d,#1e3a8a,#1e40af)">
+                    <span class="wall-label">TAPETA 1</span>
+                </div>
+            </div>
+            <div class="wall-card">
+                <div class="wall-inner" style="background:linear-gradient(135deg,#1a0b2e,#4c1d95,#6d28d9)">
+                    <span class="wall-label">TAPETA 2</span>
+                </div>
+            </div>
+            <div class="wall-card">
+                <div class="wall-inner" style="background:linear-gradient(135deg,#052e16,#14532d,#166534)">
+                    <span class="wall-label">TAPETA 3</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2 class="cta-title" data-i18n="cta.title">Ready to chat?</h2>
+        <p class="cta-sub" data-i18n="cta.sub">No signup fee. No ads. Just open it and go.</p>
+        <button class="btn-hero-main" onclick="location.href='czat.html'" data-i18n="cta.btn">Join CzatSZKOLA →</button>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="logo">CzatSZKOLA</div>
+        <p data-i18n="footer.text">© 2025 · Built with ❤️ · No ads, ever.</p>
+    </footer>
+
+    <script>
+        // ── BLOCK DEVTOOLS & RIGHT CLICK ──
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if(e.ctrlKey && e.shiftKey && (e.key==='I'||e.key==='i'||e.key==='J'||e.key==='j'||e.key==='C'||e.key==='c')) e.preventDefault();
+            if(e.key==='F12') e.preventDefault();
+        });
+
+        // ── I18N ──
+        const LANGS = {
+            en: {
+                'nav.features':'Features','nav.shop':'Shop','nav.fonts':'Fonts',
+                'nav.login':'Log in','nav.open':'Open App',
+                'hero.badge':'No ads. No tracking. Free.',
+                'hero.sub':'Zero ads · Pure communication',
+                'hero.desc':'A real-time messenger built for schools. No ads, no noise — just clean, fast, expressive chat with coins, ranks, and a shop.',
+                'hero.cta1':'Start chatting — it\'s free','hero.cta2':'See features ↓',
+                'stats.ads':'Ads','stats.fonts':'Font Styles','stats.walls':'Wallpapers','stats.msgs':'Messages','stats.coins':'Coin Economy',
+                'feat.label':'What\'s inside','feat.title1':'Everything you','feat.title2':'actually need.',
+                'feat.desc':'Real-time messages, reactions, a coin economy, profile customisation and brutal events — all in one place.',
+                'f1.t':'Real-time Chat','f1.d':'Messages appear instantly for everyone. React with ❤️ 😂 🔥 — once per message.',
+                'f2.t':'Coin Economy','f2.d':'Earn 15 coins per message. Spend them in the shop on ranks, effects and chaos.',
+                'f3.t':'VIP Rank','f3.d':'VIP members get glowing blue message bubbles and a badge under their name.',
+                'f4.t':'Rickroll Destruction','f4.d':'10,000 coins — trigger a global Rickroll for ALL users at once. Chaos ensured.',
+                'f5.t':'Confetti Events','f5.d':'Drop confetti with your name on the screen for everyone. Type !funevent.',
+                'f6.t':'Achievements','f6.d':'Click any profile to view their stats and unlocked achievements in real-time.',
+                'font.label':'Typography','font.title':'Pick your style.','font.sub':'3 distinct fonts.',
+                'wall.label':'Wallpapers','wall.title':'Set the mood.',
+                'cta.title':'Ready to chat?','cta.sub':'No signup fee. No ads. Just open it and go.','cta.btn':'Join CzatSZKOLA →',
+                'footer.text':'© 2025 · Built with ❤️ · No ads, ever.'
+            },
+            pl: {
+                'nav.features':'Funkcje','nav.shop':'Sklep','nav.fonts':'Czcionki',
+                'nav.login':'Zaloguj','nav.open':'Otwórz',
+                'hero.badge':'Zero reklam. Zero śledzenia. Darmowe.',
+                'hero.sub':'Zero reklam · Czysta komunikacja',
+                'hero.desc':'Komunikator dla szkół w czasie rzeczywistym. Bez reklam, bez szumu — czysty czat z monetami, rangami i sklepem.',
+                'hero.cta1':'Zacznij pisać — to gratis','hero.cta2':'Zobacz funkcje ↓',
+                'stats.ads':'Reklam','stats.fonts':'Style czcionek','stats.walls':'Tapety','stats.msgs':'Wiadomości','stats.coins':'Gospodarka monet',
+                'feat.label':'Co w środku','feat.title1':'Wszystko, czego','feat.title2':'naprawdę potrzebujesz.',
+                'feat.desc':'Wiadomości w czasie rzeczywistym, reakcje, monety, personalizacja profilu i brutalne eventy — wszystko w jednym.',
+                'f1.t':'Czat na żywo','f1.d':'Wiadomości pojawiają się natychmiast. Reaguj ❤️ 😂 🔥 — raz na wiadomość.',
+                'f2.t':'Gospodarka Monet','f2.d':'Zarabiaj 15 monet za wiadomość. Wydawaj je w sklepie na rangi i efekty.',
+                'f3.t':'Ranga VIP','f3.d':'VIP-y mają świecące niebieskie dymki i odznakę pod nickiem.',
+                'f4.t':'Rickroll Ultimate Destruction','f4.d':'10 000 monet — odpala Rickrolla WSZYSTKIM naraz. Gwarantowany chaos.',
+                'f5.t':'Eventy Konfetti','f5.d':'Zrzuć konfetti z Twoim nickiem na ekranie wszystkich. Wpisz !funevent.',
+                'f6.t':'Osiągnięcia','f6.d':'Kliknij dowolny profil, aby zobaczyć statystyki i odblokowane osiągnięcia.',
+                'font.label':'Typografia','font.title':'Wybierz swój styl.','font.sub':'3 unikalne czcionki.',
+                'wall.label':'Tapety','wall.title':'Ustaw nastrój.',
+                'cta.title':'Gotowy by pisać?','cta.sub':'Bez opłat. Bez reklam. Otwórz i gadaj.','cta.btn':'Dołącz do CzatSZKOLA →',
+                'footer.text':'© 2025 · Zrobione z ❤️ · Zero reklam, nigdy.'
+            }
+        };
+
+        let currentLang = 'en';
+        function setLang(l) {
+            currentLang = l;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(LANGS[l][key]) el.textContent = LANGS[l][key];
+            });
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent===l.toUpperCase()));
+            document.documentElement.lang = l;
+        }
+
+        // ── SCROLL REVEAL ──
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((e, i) => {
+                if(e.isIntersecting) {
+                    setTimeout(() => e.target.classList.add('visible'), i * 80);
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.feat-card').forEach(c => observer.observe(c));
+
+        // ── MOUSE GLOW on feat cards ──
+        document.querySelectorAll('.feat-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const r = card.getBoundingClientRect();
+                card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+                card.style.setProperty('--my', ((e.clientY - r.top)  / r.height * 100) + '%');
+            });
+        });
+
+        // ── BUILD SLIDING TRACK ──
+        const slides = [
+            {tag:'tag-orange',tagT:'☠️ Shop Item','title':'Rickroll Ultimate Destruction','desc':'10,000 🪙 — launches Rick Astley for everyone'},
+            {tag:'tag-purple',tagT:'💎 Rank','title':'VIP Rank','desc':'5,000 🪙 — glowing blue bubbles + VIP badge'},
+            {tag:'tag-yellow',tagT:'✨ Cosmetic','title':'Gold Nick','desc':'2,500 🪙 — your name shines in gold'},
+            {tag:'tag-green', tagT:'🎉 Event','title':'Confetti Explosion','desc':'1,000 🪙 — your name in confetti globally'},
+            {tag:'tag-blue',  tagT:'🏆 Achievement','title':'Heart Collector','desc':'Get 3 hearts on a single message'},
+            {tag:'tag-blue',  tagT:'🏆 Achievement','title':'Millionaire','desc':'Accumulate 1,000,000 coins total'},
+            {tag:'tag-orange',tagT:'☠️ Shop Item','title':'Rickroll Ultimate Destruction','desc':'10,000 🪙 — launches Rick Astley for everyone'},
+            {tag:'tag-purple',tagT:'💎 Rank','title':'VIP Rank','desc':'5,000 🪙 — glowing blue bubbles + VIP badge'},
+            {tag:'tag-yellow',tagT:'✨ Cosmetic','title':'Gold Nick','desc':'2,500 🪙 — your name shines in gold'},
+            {tag:'tag-green', tagT:'🎉 Event','title':'Confetti Explosion','desc':'1,000 🪙 — your name in confetti globally'},
+            {tag:'tag-blue',  tagT:'🏆 Achievement','title':'Heart Collector','desc':'Get 3 hearts on a single message'},
+            {tag:'tag-blue',  tagT:'🏆 Achievement','title':'Millionaire','desc':'Accumulate 1,000,000 coins total'},
+        ];
+        const track = document.getElementById('track');
+        slides.forEach(s => {
+            track.innerHTML += `<div class="slide-card"><span class="slide-tag ${s.tag}">${s.tagT}</span><div class="slide-title">${s.title}</div><div class="slide-desc">${s.desc}</div></div>`;
+        });
+    </script>
+</body>
+</html>
