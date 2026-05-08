@@ -16,9 +16,9 @@
             font-family: 'Inter', sans-serif;
         }
 
-        .font-modern { font-family: 'Inter', sans-serif; }
+        .font-modern  { font-family: 'Inter', sans-serif; }
         .font-classic { font-family: 'Merriweather', serif; }
-        .font-gaming { font-family: 'Orbitron', sans-serif; }
+        .font-gaming  { font-family: 'Orbitron', sans-serif; }
 
         /* ===== AUTH ===== */
         #authScreen {
@@ -40,19 +40,27 @@
         .auth-logo .logo-icon { font-size: 2.8rem; display: block; margin-bottom: 8px; filter: drop-shadow(0 0 12px rgba(59,130,246,0.6)); }
         .auth-logo h1 { font-size: 1.4rem; font-weight: 900; color: #60a5fa; letter-spacing: -0.5px; }
         .auth-logo p { font-size: 0.7rem; color: #475569; text-transform: uppercase; letter-spacing: 2px; margin-top: 2px; }
+
         .auth-tabs { display: flex; gap: 4px; background: rgba(255,255,255,0.04); border-radius: 14px; padding: 4px; margin-bottom: 24px; }
         .auth-tab { flex: 1; padding: 10px; border: none; cursor: pointer; border-radius: 10px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; background: transparent; color: #64748b; transition: all 0.2s; }
         .auth-tab.active { background: #2563eb; color: white; box-shadow: 0 4px 12px rgba(37,99,235,0.4); }
+
         .auth-form { display: flex; flex-direction: column; gap: 12px; }
         .auth-form.gone { display: none; }
+
         .auth-input { width: 100%; padding: 14px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; color: white; font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
         .auth-input:focus { border-color: #3b82f6; background: rgba(59,130,246,0.06); }
         .auth-input::placeholder { color: #475569; }
+
         .auth-btn { padding: 15px; border: none; border-radius: 14px; font-size: 0.85rem; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; background: linear-gradient(135deg,#2563eb,#1d4ed8); color: white; box-shadow: 0 4px 20px rgba(37,99,235,0.4); transition: all 0.2s; margin-top: 4px; }
         .auth-btn:active { transform: scale(0.97); }
         .auth-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
         .auth-error { padding: 10px 14px; background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); border-radius: 10px; color: #f87171; font-size: 0.75rem; text-align: center; display: none; }
         .auth-error.show { display: block; }
+
+        .verify-notice { padding: 10px 14px; background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); border-radius: 10px; color: #86efac; font-size: 0.75rem; text-align: center; display: none; }
+        .verify-notice.show { display: block; }
 
         /* ===== APP ===== */
         #appScreen { height: 100dvh; background-color: #0f172a; background-size: cover; background-position: center; transition: background 0.5s; }
@@ -64,17 +72,32 @@
         .input-area { position: fixed; bottom: 80px; left: 0; width: 100%; padding: 12px; z-index: 100; border-top: 1px solid rgba(255,255,255,0.05); }
 
         #messages { flex: 1; padding: 20px; padding-bottom: 220px; display: flex; flex-direction: column; gap: 15px; }
+
         .msg-container { display: flex; gap: 10px; max-width: 85%; align-self: flex-start; }
         .msg-container.me { align-self: flex-end; flex-direction: row-reverse; }
+
         .msg-bubble { background: rgba(30,41,59,0.9); padding: 12px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.1); position: relative; }
         .me .msg-bubble { background: rgba(37,99,235,0.3); border-color: rgba(37,99,235,0.5); }
+
+        /* VIP wiadomość */
+        .msg-container.vip-msg .msg-bubble {
+            background: rgba(37,99,235,0.15);
+            border-color: rgba(59,130,246,0.45);
+            box-shadow: 0 0 18px rgba(59,130,246,0.15), inset 0 0 18px rgba(59,130,246,0.05);
+        }
 
         /* Złoty nick */
         .gold-nick { color: #fbbf24 !important; text-shadow: 0 0 8px rgba(251,191,36,0.6); }
 
+        /* VIP badge */
+        .vip-badge { font-size: 0.5rem; background: rgba(59,130,246,0.2); border: 1px solid rgba(59,130,246,0.4); color: #93c5fd; padding: 1px 5px; border-radius: 4px; font-weight: 800; letter-spacing: 0.5px; vertical-align: middle; margin-left: 4px; }
+
+        /* Klikalny avatar */
+        .msg-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; flex-shrink: 0; cursor: pointer; border: 2px solid transparent; transition: border-color 0.2s; }
+        .msg-avatar:hover { border-color: #3b82f6; }
+
         .reaction-bar { display: flex; gap: 6px; margin-top: 8px; align-items: center; flex-wrap: wrap; }
 
-        /* Wspólny styl dla wszystkich reakcji (serduszko, funny, fire) */
         .rxn-btn {
             cursor: pointer; padding: 3px 9px;
             background: rgba(255,255,255,0.05);
@@ -85,9 +108,8 @@
         }
         .rxn-btn:active { transform: scale(0.85); }
         .rxn-btn.used { cursor: not-allowed; opacity: 0.8; }
-        /* Kolory per typ */
         .rxn-btn.used[data-type="heart"] { background: rgba(239,68,68,0.2); border-color: rgba(239,68,68,0.6); color: #f87171; box-shadow: 0 0 8px rgba(239,68,68,0.3); }
-        .rxn-btn.used[data-type="funny"] { background: rgba(234,179,8,0.2);  border-color: rgba(234,179,8,0.6);  color: #fde047; box-shadow: 0 0 8px rgba(234,179,8,0.25); }
+        .rxn-btn.used[data-type="funny"] { background: rgba(234,179,8,0.2); border-color: rgba(234,179,8,0.6); color: #fde047; box-shadow: 0 0 8px rgba(234,179,8,0.25); }
         .rxn-btn.used[data-type="fire"]  { background: rgba(249,115,22,0.2); border-color: rgba(249,115,22,0.6); color: #fb923c; box-shadow: 0 0 8px rgba(249,115,22,0.25); }
         .rxn-btn.pop .rxn-icon { animation: rxnPop 0.35s cubic-bezier(0.34,1.56,0.64,1); }
         @keyframes rxnPop { 0%{transform:scale(1)} 40%{transform:scale(1.55)} 70%{transform:scale(0.9)} 100%{transform:scale(1.1)} }
@@ -106,494 +128,878 @@
         .delete-btn { width: 100%; padding: 13px; border: 1px solid rgba(239,68,68,0.6); border-radius: 14px; background: rgba(239,68,68,0.15); color: #fca5a5; font-size: 0.78rem; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; }
         .delete-btn:active { background: rgba(239,68,68,0.35); }
 
-        /* ===== RICKROLL OVERLAY ===== */
+        /* ===== RICKROLL ===== */
         #rickrollOverlay {
-            display: none;
-            position: fixed; inset: 0; z-index: 9999;
+            display: none; position: fixed; inset: 0; z-index: 9999;
             background: rgba(0,0,0,0.92);
-            flex-direction: column; align-items: center; justify-content: center;
-            gap: 16px;
+            flex-direction: column; align-items: center; justify-content: center; gap: 16px;
         }
         #rickrollOverlay.active { display: flex; }
-        #rickrollOverlay h2 {
-            color: #f87171; font-size: 1.4rem; font-weight: 900;
-            text-transform: uppercase; letter-spacing: 2px;
-            text-shadow: 0 0 20px rgba(239,68,68,0.8);
-            animation: glitch 0.15s infinite alternate;
-        }
-        @keyframes glitch {
-            0%  { transform: translate(0); }
-            25% { transform: translate(-2px, 1px) skewX(1deg); }
-            50% { transform: translate(2px, -1px) skewX(-1deg); }
-            75% { transform: translate(-1px, 2px); }
-        }
-        #rickrollFrame { width: min(90vw, 640px); aspect-ratio: 16/9; border: 3px solid #ef4444; border-radius: 12px; box-shadow: 0 0 40px rgba(239,68,68,0.5); }
+        #rickrollOverlay h2 { color: #f87171; font-size: 1.4rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 20px rgba(239,68,68,0.8); animation: glitch 0.15s infinite alternate; }
+        @keyframes glitch { 0%{transform:translate(0)} 25%{transform:translate(-2px,1px) skewX(1deg)} 50%{transform:translate(2px,-1px) skewX(-1deg)} 75%{transform:translate(-1px,2px)} }
+        #rickrollFrame { width: min(90vw,640px); aspect-ratio: 16/9; border: 3px solid #ef4444; border-radius: 12px; box-shadow: 0 0 40px rgba(239,68,68,0.5); }
         #rickrollTimer { color: #94a3b8; font-size: 0.8rem; }
         #rickrollTimer span { color: #f87171; font-weight: 900; font-size: 1rem; }
+
+        /* ===== KONFETTI ===== */
+        #confettiOverlay {
+            display: none; position: fixed; inset: 0; z-index: 9990;
+            pointer-events: none; align-items: center; justify-content: center;
+        }
+        #confettiOverlay.active { display: flex; }
+        #confettiName {
+            font-size: clamp(1.8rem,6vw,3.5rem); font-weight: 900;
+            color: white; text-align: center; padding: 24px 40px;
+            background: rgba(0,0,0,0.55); border-radius: 20px;
+            animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+            text-shadow: 0 0 40px rgba(139,92,246,0.8);
+            position: relative; z-index: 2;
+        }
+        @keyframes popIn { from{transform:scale(0) rotate(-5deg)} to{transform:scale(1) rotate(0)} }
+        .confetti-piece {
+            position: absolute; border-radius: 2px;
+            animation: confettiFall linear forwards;
+        }
+        @keyframes confettiFall {
+            0%  { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+            100%{ transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* ===== TOAST ===== */
+        #toast {
+            position: fixed; top: 80px; left: 50%; transform: translateX(-50%) translateY(-16px);
+            background: rgba(15,23,42,0.98); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px; padding: 10px 20px; font-size: 0.82rem; font-weight: 600; color: white;
+            z-index: 9998; opacity: 0; transition: all 0.3s; pointer-events: none; white-space: nowrap;
+        }
+        #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* ===== PROFILE MODAL ===== */
+        #profileModal {
+            position: fixed; inset: 0; z-index: 500;
+            background: rgba(0,0,0,0.65); backdrop-filter: blur(8px);
+            display: flex; align-items: flex-end; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.25s;
+        }
+        #profileModal.open { opacity: 1; pointer-events: all; }
+
+        .modal-card {
+            background: rgba(13,25,41,0.99); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 28px 28px 0 0; padding: 24px 20px 36px;
+            width: 100%; max-width: 480px;
+            transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.34,1.2,0.64,1);
+        }
+        #profileModal.open .modal-card { transform: translateY(0); }
+
+        .modal-handle { width: 40px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin: 0 auto 20px; }
+        .modal-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+        .modal-avatar { width: 56px; height: 56px; border-radius: 50%; border: 2px solid #3b82f6; object-fit: cover; }
+        .modal-nick { font-size: 1.05rem; font-weight: 900; color: white; }
+        .modal-sub { font-size: 0.7rem; color: #64748b; margin-top: 2px; }
+
+        .modal-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 18px; }
+        .modal-stat { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 10px; text-align: center; }
+        .modal-stat-val { font-size: 1rem; font-weight: 900; color: white; }
+        .modal-stat-label { font-size: 0.58rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+        .ach-title { font-size: 0.62rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+        .ach-list { display: flex; flex-direction: column; gap: 8px; }
+        .ach-item { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 10px 12px; }
+        .ach-item.unlocked { border-color: rgba(251,191,36,0.3); background: rgba(251,191,36,0.04); }
+        .ach-icon { font-size: 1.4rem; width: 36px; text-align: center; }
+        .ach-info { flex: 1; }
+        .ach-name { font-size: 0.8rem; font-weight: 700; color: white; }
+        .ach-name.locked { color: #64748b; }
+        .ach-desc { font-size: 0.65rem; color: #64748b; margin-top: 1px; }
+        .ach-badge { font-size: 0.58rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
+        .ach-badge.done { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
+        .ach-badge.todo { background: rgba(255,255,255,0.04); color: #64748b; border: 1px solid rgba(255,255,255,0.08); }
+
+        /* Język */
+        .lang-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .lang-btn { padding: 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 11px; color: #64748b; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+        .lang-btn.active-lang { background: #2563eb; color: white; border-color: #2563eb; }
     </style>
 </head>
 <body class="text-white">
 
-    <!-- ===== RICKROLL OVERLAY ===== -->
-    <div id="rickrollOverlay">
-        <h2>💀 ULTIMATE DESTRUCTION 💀</h2>
-        <iframe id="rickrollFrame"
-            src=""
-            allow="autoplay; encrypted-media"
-            allowfullscreen>
-        </iframe>
-        <p id="rickrollTimer">Zamyka się za <span id="rrCount">10</span> sekund...</p>
-    </div>
+<!-- TOAST -->
+<div id="toast"></div>
 
-    <!-- ===== AUTH ===== -->
-    <div id="authScreen">
-        <div class="auth-card">
-            <div class="auth-logo">
-                <span class="logo-icon">💬</span>
-                <h1>CzatSZKOLA</h1>
-                <p>Zaloguj się, aby rozmawiać</p>
-            </div>
-            <div class="auth-tabs">
-                <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Logowanie</button>
-                <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Rejestracja</button>
-            </div>
-            <div class="auth-form" id="loginForm">
-                <input type="email" id="loginEmail" class="auth-input" placeholder="Adres e-mail">
-                <input type="password" id="loginPassword" class="auth-input" placeholder="Hasło">
-                <div class="auth-error" id="loginError"></div>
-                <button class="auth-btn" id="loginBtn" onclick="doLogin()">Zaloguj się →</button>
-            </div>
-            <div class="auth-form gone" id="registerForm">
-                <input type="text" id="regNick" class="auth-input" placeholder="Nick (wyświetlana nazwa)">
-                <input type="email" id="regEmail" class="auth-input" placeholder="Adres e-mail">
-                <input type="password" id="regPassword" class="auth-input" placeholder="Hasło (min. 6 znaków)">
-                <input type="password" id="regPassword2" class="auth-input" placeholder="Powtórz hasło">
-                <div class="auth-error" id="registerError"></div>
-                <button class="auth-btn" id="registerBtn" onclick="doRegister()">Utwórz konto →</button>
+<!-- RICKROLL -->
+<div id="rickrollOverlay">
+    <h2>💀 ULTIMATE DESTRUCTION 💀</h2>
+    <iframe id="rickrollFrame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <p id="rickrollTimer">Zamyka się za <span id="rrCount">10</span> sekund...</p>
+</div>
+
+<!-- KONFETTI -->
+<div id="confettiOverlay">
+    <div id="confettiName"></div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div id="profileModal" onclick="if(event.target===this)closeProfileModal()">
+    <div class="modal-card">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+            <img class="modal-avatar" id="modalAvatar" src="">
+            <div>
+                <div class="modal-nick" id="modalNick"></div>
+                <div class="modal-sub" id="modalSub"></div>
             </div>
         </div>
+        <div class="modal-stats">
+            <div class="modal-stat"><div class="modal-stat-val" id="modalCoins">–</div><div class="modal-stat-label">Monety</div></div>
+            <div class="modal-stat"><div class="modal-stat-val" id="modalMsgs">–</div><div class="modal-stat-label">Wiadomości</div></div>
+            <div class="modal-stat"><div class="modal-stat-val" id="modalHearts">–</div><div class="modal-stat-label">Serduszka</div></div>
+        </div>
+        <div class="ach-title">Osiągnięcia</div>
+        <div class="ach-list" id="achList"></div>
     </div>
+</div>
 
-    <!-- ===== APP ===== -->
-    <div id="appScreen" class="gone">
+<!-- AUTH -->
+<div id="authScreen">
+    <div class="auth-card">
+        <div class="auth-logo">
+            <span class="logo-icon">💬</span>
+            <h1>CzatSZKOLA</h1>
+            <p>Komunikator bez reklam</p>
+        </div>
+        <div class="auth-tabs">
+            <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Logowanie</button>
+            <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Rejestracja</button>
+        </div>
+        <div class="auth-form" id="loginForm">
+            <input type="email" id="loginEmail" class="auth-input" placeholder="Adres e-mail">
+            <input type="password" id="loginPassword" class="auth-input" placeholder="Hasło">
+            <div class="auth-error" id="loginError"></div>
+            <div class="verify-notice" id="verifyNotice">📧 Sprawdź swoją skrzynkę i kliknij link weryfikacyjny, a potem się zaloguj.</div>
+            <button class="auth-btn" id="loginBtn" onclick="doLogin()">Zaloguj się →</button>
+        </div>
+        <div class="auth-form gone" id="registerForm">
+            <input type="text" id="regNick" class="auth-input" placeholder="Nick (wyświetlana nazwa)">
+            <input type="email" id="regEmail" class="auth-input" placeholder="Adres e-mail">
+            <input type="password" id="regPassword" class="auth-input" placeholder="Hasło (min. 6 znaków)">
+            <input type="password" id="regPassword2" class="auth-input" placeholder="Powtórz hasło">
+            <div class="auth-error" id="registerError"></div>
+            <button class="auth-btn" id="registerBtn" onclick="doRegister()">Utwórz konto →</button>
+        </div>
+    </div>
+</div>
 
-        <header class="h-[70px] border-b border-gray-800 flex justify-between items-center px-4 glass sticky top-0 z-[150]">
-            <div class="flex items-center gap-3">
-                <img id="headerAvatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-10 h-10 rounded-full border-2 border-blue-500 object-cover">
-                <h1 id="headerNick" class="text-sm font-bold text-blue-400 italic truncate max-w-[120px]">...</h1>
+<!-- APP -->
+<div id="appScreen" class="gone">
+
+    <header class="h-[70px] border-b border-gray-800 flex justify-between items-center px-4 glass sticky top-0 z-[150]">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="openOwnProfile()">
+            <img id="headerAvatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-10 h-10 rounded-full border-2 border-blue-500 object-cover hover:border-purple-400 transition-colors">
+            <h1 id="headerNick" class="text-sm font-bold text-blue-400 italic truncate max-w-[120px]">...</h1>
+        </div>
+        <span id="coinCount" class="text-yellow-400 font-bold text-[13px] bg-yellow-400/10 px-3 py-1 rounded-full border border-yellow-400/30">0 🪙</span>
+    </header>
+
+    <main class="relative h-full w-full">
+
+        <!-- CZAT -->
+        <section id="chatTab" class="tab-content active">
+            <div id="messages"></div>
+            <div class="input-area glass">
+                <div class="flex gap-2 max-w-5xl mx-auto">
+                    <input type="text" id="userInput" placeholder="Twoja wiadomość..." class="flex-1 bg-gray-800 p-4 rounded-2xl outline-none border border-gray-700">
+                    <button id="sendBtn" class="bg-blue-600 px-6 py-4 rounded-2xl font-bold text-lg">›</button>
+                </div>
             </div>
-            <span id="coinCount" class="text-yellow-400 font-bold text-[13px] bg-yellow-400/10 px-3 py-1 rounded-full border border-yellow-400/30">0 🪙</span>
-        </header>
+        </section>
 
-        <main class="relative h-full w-full">
+        <!-- SKLEP -->
+        <section id="shopTab" class="tab-content p-6">
+            <h2 class="text-2xl font-black text-blue-400 mb-6 uppercase italic tracking-wider">Sklep Monet</h2>
+            <div class="grid gap-4">
 
-            <!-- CZAT -->
-            <section id="chatTab" class="tab-content active">
-                <div id="messages"></div>
-                <div class="input-area glass">
-                    <div class="flex gap-2 max-w-5xl mx-auto">
-                        <input type="text" id="userInput" placeholder="Twoja wiadomość..." class="flex-1 bg-gray-800 p-4 rounded-2xl outline-none border border-gray-700">
-                        <button id="sendBtn" class="bg-blue-600 px-6 py-4 rounded-2xl font-bold text-lg">›</button>
+                <div class="bg-gray-800/80 p-5 rounded-3xl border border-blue-500/50 flex justify-between items-center" id="card-vip">
+                    <div>
+                        <p class="font-bold text-lg text-blue-300">💎 Ranga VIP</p>
+                        <p class="text-[10px] text-gray-400">Świecące niebieskie dymki + odznaka VIP pod nickiem</p>
+                    </div>
+                    <button id="btn-vip" onclick="buyItem('vip',5000,'Ranga VIP')" class="bg-blue-600 px-5 py-2 rounded-xl text-xs font-bold whitespace-nowrap">5,000 🪙</button>
+                </div>
+
+                <div class="bg-gray-800/80 p-5 rounded-3xl border border-yellow-500/50 flex justify-between items-center" id="card-gold_nick">
+                    <div>
+                        <p class="font-bold text-lg text-yellow-400">✨ Złoty Nick</p>
+                        <p class="text-[10px] text-gray-400">Twój nick świeci złotem wszędzie</p>
+                    </div>
+                    <button id="btn-gold_nick" onclick="buyItem('gold_nick',2500,'Złoty Nick')" class="bg-yellow-600 px-5 py-2 rounded-xl text-xs font-bold whitespace-nowrap">2,500 🪙</button>
+                </div>
+
+                <div class="bg-gray-800/80 p-5 rounded-3xl border border-purple-500/50 flex justify-between items-center" id="card-confetti">
+                    <div>
+                        <p class="font-bold text-lg text-purple-300">🎉 Konfetti Explosion</p>
+                        <p class="text-[10px] text-gray-400">Twój nick w globalnym konfetti przez 2s. Użyj <b>!funevent</b> na czacie.</p>
+                    </div>
+                    <button id="btn-confetti" onclick="buyItem('confetti',1000,'Konfetti Explosion')" class="bg-purple-600 px-5 py-2 rounded-xl text-xs font-bold whitespace-nowrap">1,000 🪙</button>
+                </div>
+
+                <div class="bg-gray-900/90 p-5 rounded-3xl border-2 border-red-500/70 flex justify-between items-center relative overflow-hidden" id="card-rickroll">
+                    <div class="absolute inset-0 bg-gradient-to-r from-red-900/20 to-transparent pointer-events-none"></div>
+                    <div class="relative">
+                        <p class="font-black text-lg text-red-400 uppercase tracking-wide">☠️ Rickroll Ultimate Destruction</p>
+                        <p class="text-[10px] text-gray-400 mt-0.5">Odpala Rickrolla WSZYSTKIM na 10 sekund. Użyj <b>!rickrollevent</b> na czacie.</p>
+                        <p class="text-[9px] text-red-400/60 mt-1 italic">⚠️ Wpisz !rickrollevent na czacie żeby użyć</p>
+                    </div>
+                    <button id="btn-rickroll" onclick="buyItem('rickroll',10000,'Rickroll Ultimate Destruction')" class="relative bg-red-700 hover:bg-red-600 px-4 py-2 rounded-xl text-xs font-black border border-red-500 shadow-lg shadow-red-900/50 whitespace-nowrap ml-3">10,000 🪙</button>
+                </div>
+
+                <div class="p-4 text-center text-gray-500 text-[10px] uppercase font-bold">Więcej przedmiotów wkrótce...</div>
+            </div>
+        </section>
+
+        <!-- PROFIL / USTAWIENIA -->
+        <section id="profileTab" class="tab-content p-6">
+            <div class="max-w-sm mx-auto space-y-6">
+                <div class="space-y-3 bg-gray-900/50 p-5 rounded-3xl border border-gray-800">
+                    <p class="text-[10px] font-bold text-gray-500 uppercase text-center tracking-widest">Twoje Dane</p>
+                    <input type="text" id="nickInput" placeholder="Zmień Nick" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700 text-sm">
+                    <input type="text" id="avatarInput" placeholder="Link do zdjęcia (Avatar)" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700 text-sm">
+                    <button onclick="updateProfile()" class="w-full bg-blue-600 py-4 rounded-2xl font-bold uppercase text-xs">Zapisz Zmiany</button>
+                </div>
+
+                <div class="space-y-3">
+                    <p class="text-[10px] font-bold text-gray-500 uppercase text-center">Styl Czcionki</p>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="setFont('font-modern')" class="p-2 bg-gray-800 rounded-xl text-[9px] border border-gray-600">MODERN</button>
+                        <button onclick="setFont('font-classic')" class="p-2 bg-gray-800 rounded-xl text-[9px] border border-gray-600">CLASSIC</button>
+                        <button onclick="setFont('font-gaming')" class="p-2 bg-gray-800 rounded-xl text-[9px] border border-gray-600">GAMER</button>
                     </div>
                 </div>
-            </section>
 
-            <!-- SKLEP -->
-            <section id="shopTab" class="tab-content p-6">
-                <h2 class="text-2xl font-black text-blue-400 mb-6 uppercase italic tracking-wider">Sklep Monet</h2>
-                <div class="grid gap-4">
-
-                    <div class="bg-gray-800/80 p-5 rounded-3xl border border-purple-500/50 flex justify-between items-center">
-                        <div>
-                            <p class="font-bold text-lg text-purple-300">💎 Ranga VIP</p>
-                            <p class="text-[10px] text-gray-400">Specjalna odznaka przy nicku</p>
-                        </div>
-                        <button onclick="buyItem('vip',5000,'Ranga VIP')" class="bg-purple-600 px-5 py-2 rounded-xl text-xs font-bold">5,000 🪙</button>
-                    </div>
-
-                    <div class="bg-gray-800/80 p-5 rounded-3xl border border-yellow-500/50 flex justify-between items-center">
-                        <div>
-                            <p class="font-bold text-lg text-yellow-400">✨ Złoty Nick</p>
-                            <p class="text-[10px] text-gray-400">Twój nick świeci złotem</p>
-                        </div>
-                        <button onclick="buyItem('gold_nick',2500,'Złoty Nick')" class="bg-yellow-600 px-5 py-2 rounded-xl text-xs font-bold">2,500 🪙</button>
-                    </div>
-
-                    <!-- RICKROLL -->
-                    <div class="bg-gray-900/90 p-5 rounded-3xl border-2 border-red-500/70 flex justify-between items-center relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-r from-red-900/20 to-transparent pointer-events-none"></div>
-                        <div class="relative">
-                            <p class="font-black text-lg text-red-400 uppercase tracking-wide">☠️ Rickroll Ultimate Destruction</p>
-                            <p class="text-[10px] text-gray-400 mt-0.5">Odpala Rickrolla WSZYSTKIM użytkownikom na 10 sekund</p>
-                        </div>
-                        <button onclick="buyItem('rickroll',10000,'Rickroll Ultimate Destruction')" class="relative bg-red-700 hover:bg-red-600 px-4 py-2 rounded-xl text-xs font-black border border-red-500 shadow-lg shadow-red-900/50 whitespace-nowrap ml-3">10,000 🪙</button>
-                    </div>
-
-                    <div class="p-4 text-center text-gray-500 text-[10px] uppercase font-bold">Więcej przedmiotów wkrótce...</div>
-                </div>
-            </section>
-
-            <!-- PROFIL -->
-            <section id="profileTab" class="tab-content p-6">
-                <div class="max-w-sm mx-auto space-y-6">
-                    <div class="space-y-3 bg-gray-900/50 p-5 rounded-3xl border border-gray-800">
-                        <p class="text-[10px] font-bold text-gray-500 uppercase text-center tracking-widest">Twoje Dane</p>
-                        <input type="text" id="nickInput" placeholder="Zmień Nick" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700 text-sm">
-                        <input type="text" id="avatarInput" placeholder="Link do zdjęcia (Avatar)" class="w-full p-4 bg-gray-800 rounded-2xl outline-none border border-gray-700 text-sm">
-                        <button onclick="updateProfile()" class="w-full bg-blue-600 py-4 rounded-2xl font-bold uppercase text-xs">Zapisz Zmiany</button>
-                    </div>
-                    <div class="space-y-3">
-                        <p class="text-[10px] font-bold text-gray-500 uppercase text-center">Styl Czcionki</p>
-                        <div class="grid grid-cols-3 gap-2">
-                            <button onclick="setFont('font-modern')" class="p-2 bg-gray-800 rounded-xl text-[9px] border border-gray-600">MODERN</button>
-                            <button onclick="setFont('font-classic')" class="p-2 bg-gray-800 rounded-xl text-[9px] border border-gray-600">CLASSIC</button>
-                            <button onclick="setFont('font-gaming')" class="p-2 bg-gray-800 rounded-xl text-[9px] border border-gray-600">GAMER</button>
-                        </div>
-                    </div>
-                    <div class="space-y-3">
-                        <p class="text-[10px] font-bold text-gray-500 uppercase text-center">Tapeta Czatu</p>
-                        <div class="grid grid-cols-2 gap-3">
-                            <button onclick="setTheme(0)" class="p-3 bg-slate-800 rounded-xl text-[10px]">DOMYŚLNA</button>
-                            <button onclick="setTheme(1)" class="p-3 bg-blue-900/40 border border-blue-500 rounded-xl text-[10px]">TAPETA 1</button>
-                            <button onclick="setTheme(2)" class="p-3 bg-purple-900/40 border border-purple-500 rounded-xl text-[10px]">TAPETA 2</button>
-                            <button onclick="setTheme(3)" class="p-3 bg-green-900/40 border border-green-500 rounded-xl text-[10px]">TAPETA 3</button>
-                        </div>
-                    </div>
-                    <!-- Konto -->
-                    <div class="space-y-3 pt-2 border-t border-gray-800">
-                        <p class="text-[10px] font-bold text-gray-500 uppercase text-center">Konto</p>
-                        <button class="logout-btn" onclick="doLogout()">🚪 Wyloguj się</button>
-                        <button class="delete-btn" onclick="doDeleteAccount()">🗑️ Usuń konto na zawsze</button>
+                <div class="space-y-3">
+                    <p class="text-[10px] font-bold text-gray-500 uppercase text-center">Tapeta Czatu</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="setTheme(0)" class="p-3 bg-slate-800 rounded-xl text-[10px]">DOMYŚLNA</button>
+                        <button onclick="setTheme(1)" class="p-3 bg-blue-900/40 border border-blue-500 rounded-xl text-[10px]">TAPETA 1</button>
+                        <button onclick="setTheme(2)" class="p-3 bg-purple-900/40 border border-purple-500 rounded-xl text-[10px]">TAPETA 2</button>
+                        <button onclick="setTheme(3)" class="p-3 bg-green-900/40 border border-green-500 rounded-xl text-[10px]">TAPETA 3</button>
                     </div>
                 </div>
-            </section>
-        </main>
 
-        <nav class="glass border-t border-gray-800">
-            <button id="nav-chat" class="active-nav" onclick="showTab('chat')">💬</button>
-            <button id="nav-shop" onclick="showTab('shop')">🛒</button>
-            <button id="nav-profile" onclick="showTab('profile')">⚙️</button>
-        </nav>
-    </div>
+                <div class="space-y-3">
+                    <p class="text-[10px] font-bold text-gray-500 uppercase text-center">Język</p>
+                    <div class="lang-row">
+                        <button class="lang-btn active-lang" id="lang-pl" onclick="setLang('pl')">🇵🇱 Polski</button>
+                        <button class="lang-btn" id="lang-en" onclick="setLang('en')">🇬🇧 English</button>
+                    </div>
+                </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getDatabase, ref, push, onChildAdded, onChildRemoved, onChildChanged, remove, update, get, increment, onValue, set, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+                <div class="space-y-3 pt-2 border-t border-gray-800">
+                    <p class="text-[10px] font-bold text-gray-500 uppercase text-center">Konto</p>
+                    <button class="logout-btn" onclick="doLogout()">🚪 Wyloguj się</button>
+                    <button class="delete-btn" onclick="doDeleteAccount()">🗑️ Usuń konto na zawsze</button>
+                </div>
+            </div>
+        </section>
+    </main>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyCQXm-oMsOZg80gMrANDwxEbr2jWoV2I8A",
-            authDomain: "mojczat-d50e5.firebaseapp.com",
-            databaseURL: "https://mojczat-d50e5-default-rtdb.europe-west1.firebasedatabase.app/",
-            projectId: "mojczat-d50e5",
-            storageBucket: "mojczat-d50e5.appspot.com",
-            messagingSenderId: "278638325304",
-            appId: "1:278638325304:web:d9ad946d17835af66680cd"
-        };
+    <nav class="glass border-t border-gray-800">
+        <button id="nav-chat" class="active-nav" onclick="showTab('chat')">💬</button>
+        <button id="nav-shop" onclick="showTab('shop')">🛒</button>
+        <button id="nav-profile" onclick="showTab('profile')">⚙️</button>
+    </nav>
+</div>
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getDatabase(app);
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+    getAuth, onAuthStateChanged,
+    createUserWithEmailAndPassword, signInWithEmailAndPassword,
+    signOut, deleteUser, reauthenticateWithCredential, EmailAuthProvider,
+    sendEmailVerification
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+    getDatabase, ref, push, onChildAdded, onChildRemoved, onChildChanged,
+    remove, update, get, increment, onValue, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        const badWords = ["dupa","kurde","brzydkie"];
-        let userData = {}, myReactions = {}, messagesLoaded = false;
+const firebaseConfig = {
+    apiKey: "AIzaSyCQXm-oMsOZg80gMrANDwxEbr2jWoV2I8A",
+    authDomain: "mojczat-d50e5.firebaseapp.com",
+    databaseURL: "https://mojczat-d50e5-default-rtdb.europe-west1.firebasedatabase.app/",
+    projectId: "mojczat-d50e5",
+    storageBucket: "mojczat-d50e5.appspot.com",
+    messagingSenderId: "278638325304",
+    appId: "1:278638325304:web:d9ad946d17835af66680cd"
+};
 
-        // ===== BŁĘDY =====
-        function translateError(code) {
-            const m = {
-                'auth/invalid-email':'Nieprawidłowy adres e-mail.',
-                'auth/user-not-found':'Nie znaleziono konta z tym e-mailem.',
-                'auth/wrong-password':'Nieprawidłowe hasło.',
-                'auth/email-already-in-use':'Ten e-mail jest już zajęty.',
-                'auth/weak-password':'Hasło jest za słabe (min. 6 znaków).',
-                'auth/too-many-requests':'Za dużo prób. Spróbuj później.',
-                'auth/invalid-credential':'Nieprawidłowy e-mail lub hasło.',
-                'auth/network-request-failed':'Brak połączenia z siecią.',
-                'auth/requires-recent-login':'Wyloguj się i zaloguj ponownie, a potem spróbuj usunąć konto.',
-            };
-            return m[code] || 'Wystąpił błąd. Spróbuj ponownie.';
-        }
-        function showErr(id, msg) { const el=document.getElementById(id); el.textContent=msg; el.classList.add('show'); }
-        function setLoading(btnId, on) {
-            const btn=document.getElementById(btnId); btn.disabled=on;
-            btn.textContent = on ? 'Proszę czekać...' : (btnId==='loginBtn'?'Zaloguj się →':'Utwórz konto →');
-        }
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
 
-        // ===== AUTH TABS =====
-        window.switchAuthTab = (tab) => {
-            ['login','register'].forEach(t => {
-                document.getElementById('tab'+t.charAt(0).toUpperCase()+t.slice(1)).classList.toggle('active',t===tab);
-                document.getElementById(t+'Form').classList.toggle('gone',t!==tab);
-            });
-            ['loginError','registerError'].forEach(id=>document.getElementById(id).classList.remove('show'));
-        };
+const badWords = ["dupa","kurde","brzydkie"];
+let userData = {}, myReactions = {}, messagesLoaded = false;
+let confettiCooldown = false;
+let currentLang = localStorage.getItem('user_lang') || 'pl';
 
-        // ===== LOGOWANIE =====
-        window.doLogin = async () => {
-            const email=document.getElementById('loginEmail').value.trim();
-            const pass=document.getElementById('loginPassword').value;
-            document.getElementById('loginError').classList.remove('show');
-            if(!email||!pass) return showErr('loginError','Uzupełnij wszystkie pola.');
-            setLoading('loginBtn',true);
-            try { await signInWithEmailAndPassword(auth,email,pass); }
-            catch(e) { showErr('loginError',translateError(e.code)); setLoading('loginBtn',false); }
-        };
+// ===== BLOKADA DEVTOOLS =====
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+    if (e.key === 'F12') e.preventDefault();
+    if (e.ctrlKey && e.shiftKey && ['I','i','J','j','C','c'].includes(e.key)) e.preventDefault();
+});
 
-        // ===== REJESTRACJA =====
-        window.doRegister = async () => {
-            const nick=document.getElementById('regNick').value.trim();
-            const email=document.getElementById('regEmail').value.trim();
-            const pass=document.getElementById('regPassword').value;
-            const pass2=document.getElementById('regPassword2').value;
-            document.getElementById('registerError').classList.remove('show');
-            if(!nick||!email||!pass||!pass2) return showErr('registerError','Uzupełnij wszystkie pola.');
-            if(nick.length<2) return showErr('registerError','Nick musi mieć min. 2 znaki.');
-            if(pass!==pass2) return showErr('registerError','Hasła nie są takie same.');
-            if(pass.length<6) return showErr('registerError','Hasło musi mieć min. 6 znaków.');
-            setLoading('registerBtn',true);
-            try {
-                const cred=await createUserWithEmailAndPassword(auth,email,pass);
-                await update(ref(db,`users/${cred.user.uid}`),{nick,avatar:'',coins:100,createdAt:Date.now()});
-            } catch(e) { showErr('registerError',translateError(e.code)); setLoading('registerBtn',false); }
-        };
+// ===== I18N =====
+const TXT = {
+    pl: {
+        logout: 'Na pewno chcesz się wylogować?',
+        delConfirm: '⚠️ Czy na pewno chcesz TRWALE usunąć swoje konto?\nTej operacji nie można cofnąć!',
+        delPrompt: 'Podaj swoje hasło, aby potwierdzić usunięcie konta:',
+        delDone: 'Konto zostało usunięte.',
+        deleteMsg: 'Usunąć?',
+        saved: 'Profil zapisany! ✅',
+        bought: 'Kupiono! ✅',
+        noCoins: 'Masz za mało monet!',
+        noItem: 'Nie posiadasz tego przedmiotu!',
+        cooldown: 'Poczekaj na koniec eventu!',
+        fields: 'Uzupełnij wszystkie pola.',
+        nick2: 'Nick musi mieć min. 2 znaki.',
+        passMatch: 'Hasła nie są takie same.',
+        pass6: 'Hasło musi mieć min. 6 znaków.',
+        verifyMsg: 'Sprawdź swoją skrzynkę i kliknij link weryfikacyjny.',
+        owned: 'Posiadasz ✓',
+        ach_heart_name: 'Zbieracz Serc',
+        ach_heart_desc: 'Zdobądź 3 serduszka na jednej wiadomości',
+        ach_mil_name: 'Milioner',
+        ach_mil_desc: 'Zgromadź łącznie 1 000 000 monet',
+        unlocked: 'Zdobyte',
+        locked: 'Zablokowane',
+        coins_label: 'Monety',
+        msgs_label: 'Wiadomości',
+        hearts_label: 'Serduszka',
+        ach_label: 'Osiągnięcia',
+        wait: 'Proszę czekać...',
+        loginBtn: 'Zaloguj się →',
+        registerBtn: 'Utwórz konto →',
+    },
+    en: {
+        logout: 'Are you sure you want to log out?',
+        delConfirm: '⚠️ Permanently delete your account? This cannot be undone!',
+        delPrompt: 'Enter your password to confirm account deletion:',
+        delDone: 'Account deleted.',
+        deleteMsg: 'Delete?',
+        saved: 'Profile saved! ✅',
+        bought: 'Purchased! ✅',
+        noCoins: 'Not enough coins!',
+        noItem: 'You don\'t own this item!',
+        cooldown: 'Wait for the event to end!',
+        fields: 'Please fill in all fields.',
+        nick2: 'Nick must be at least 2 characters.',
+        passMatch: 'Passwords do not match.',
+        pass6: 'Password must be at least 6 characters.',
+        verifyMsg: 'Check your inbox and click the verification link.',
+        owned: 'Owned ✓',
+        ach_heart_name: 'Heart Collector',
+        ach_heart_desc: 'Receive 3 hearts on a single message',
+        ach_mil_name: 'Millionaire',
+        ach_mil_desc: 'Accumulate 1,000,000 coins total',
+        unlocked: 'Unlocked',
+        locked: 'Locked',
+        coins_label: 'Coins',
+        msgs_label: 'Messages',
+        hearts_label: 'Hearts',
+        ach_label: 'Achievements',
+        wait: 'Please wait...',
+        loginBtn: 'Log in →',
+        registerBtn: 'Create account →',
+    }
+};
+function t(k) { return TXT[currentLang]?.[k] || TXT.pl[k] || k; }
 
-        // ===== WYLOGOWANIE =====
-        window.doLogout = async () => {
-            if(!confirm('Na pewno chcesz się wylogować?')) return;
+window.setLang = (l) => {
+    currentLang = l;
+    localStorage.setItem('user_lang', l);
+    document.getElementById('lang-pl').classList.toggle('active-lang', l === 'pl');
+    document.getElementById('lang-en').classList.toggle('active-lang', l === 'en');
+};
+// Ustaw język z localStorage
+setLang(currentLang);
+
+// ===== TOAST =====
+function showToast(msg, ms = 2500) {
+    const el = document.getElementById('toast');
+    el.textContent = msg; el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), ms);
+}
+
+// ===== BŁĘDY =====
+function translateError(code) {
+    const m = {
+        'auth/invalid-email': currentLang==='en' ? 'Invalid email address.' : 'Nieprawidłowy adres e-mail.',
+        'auth/user-not-found': currentLang==='en' ? 'Account not found.' : 'Nie znaleziono konta.',
+        'auth/wrong-password': currentLang==='en' ? 'Wrong password.' : 'Nieprawidłowe hasło.',
+        'auth/email-already-in-use': currentLang==='en' ? 'Email already in use.' : 'Ten e-mail jest już zajęty.',
+        'auth/weak-password': currentLang==='en' ? 'Password too weak.' : 'Hasło jest za słabe.',
+        'auth/too-many-requests': currentLang==='en' ? 'Too many attempts. Try later.' : 'Za dużo prób. Spróbuj później.',
+        'auth/invalid-credential': currentLang==='en' ? 'Invalid email or password.' : 'Nieprawidłowy e-mail lub hasło.',
+        'auth/requires-recent-login': currentLang==='en' ? 'Please log out and log in again first.' : 'Wyloguj się i zaloguj ponownie.',
+        'auth/network-request-failed': currentLang==='en' ? 'No internet connection.' : 'Brak połączenia z siecią.',
+    };
+    return m[code] || (currentLang==='en' ? 'An error occurred.' : 'Wystąpił błąd.');
+}
+function showErr(id, msg) { const el=document.getElementById(id); el.textContent=msg; el.classList.add('show'); }
+function setLoading(btnId, on) {
+    const btn = document.getElementById(btnId); btn.disabled = on;
+    btn.textContent = on ? t('wait') : (btnId==='loginBtn' ? t('loginBtn') : t('registerBtn'));
+}
+
+// ===== AUTH TABS =====
+window.switchAuthTab = (tab) => {
+    ['login','register'].forEach(tt => {
+        document.getElementById('tab'+tt.charAt(0).toUpperCase()+tt.slice(1)).classList.toggle('active', tt===tab);
+        document.getElementById(tt+'Form').classList.toggle('gone', tt!==tab);
+    });
+    ['loginError','registerError'].forEach(id => document.getElementById(id).classList.remove('show'));
+    document.getElementById('verifyNotice').classList.remove('show');
+};
+
+// ===== LOGOWANIE =====
+window.doLogin = async () => {
+    const email = document.getElementById('loginEmail').value.trim();
+    const pass  = document.getElementById('loginPassword').value;
+    document.getElementById('loginError').classList.remove('show');
+    document.getElementById('verifyNotice').classList.remove('show');
+    if (!email || !pass) return showErr('loginError', t('fields'));
+    setLoading('loginBtn', true);
+    try {
+        const cred = await signInWithEmailAndPassword(auth, email, pass);
+        if (!cred.user.emailVerified) {
             await signOut(auth);
-        };
+            document.getElementById('verifyNotice').classList.add('show');
+            setLoading('loginBtn', false);
+        }
+    } catch(e) { showErr('loginError', translateError(e.code)); setLoading('loginBtn', false); }
+};
 
-        // ===== USUWANIE KONTA =====
-        window.doDeleteAccount = async () => {
-            const user = auth.currentUser; if(!user) return;
-            if(!confirm('⚠️ Czy na pewno chcesz TRWALE usunąć swoje konto?\nTej operacji nie można cofnąć!')) return;
-            const pass = prompt('Podaj swoje hasło, aby potwierdzić usunięcie konta:');
-            if(!pass) return;
-            try {
-                const cred = EmailAuthProvider.credential(user.email, pass);
-                await reauthenticateWithCredential(user, cred);
-                await remove(ref(db,`users/${user.uid}`));
-                await remove(ref(db,`reactions/${user.uid}`));
-                await deleteUser(user);
-                alert('Konto zostało usunięte.');
-            } catch(e) { alert(translateError(e.code)); }
-        };
+// ===== REJESTRACJA =====
+window.doRegister = async () => {
+    const nick  = document.getElementById('regNick').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const pass  = document.getElementById('regPassword').value;
+    const pass2 = document.getElementById('regPassword2').value;
+    document.getElementById('registerError').classList.remove('show');
+    if (!nick||!email||!pass||!pass2) return showErr('registerError', t('fields'));
+    if (nick.length < 2) return showErr('registerError', t('nick2'));
+    if (pass !== pass2)  return showErr('registerError', t('passMatch'));
+    if (pass.length < 6) return showErr('registerError', t('pass6'));
+    setLoading('registerBtn', true);
+    try {
+        const cred = await createUserWithEmailAndPassword(auth, email, pass);
+        await sendEmailVerification(cred.user);
+        await update(ref(db, `users/${cred.user.uid}`), {
+            nick, avatar: '', coins: 100, msgCount: 0, heartsReceived: 0, createdAt: Date.now()
+        });
+        await signOut(auth);
+        document.getElementById('verifyNotice').classList.add('show');
+        switchAuthTab('login');
+        setLoading('registerBtn', false);
+    } catch(e) { showErr('registerError', translateError(e.code)); setLoading('registerBtn', false); }
+};
 
-        document.getElementById('loginPassword').addEventListener('keypress',e=>{if(e.key==='Enter') doLogin();});
-        document.getElementById('regPassword2').addEventListener('keypress',e=>{if(e.key==='Enter') doRegister();});
+// ===== WYLOGOWANIE =====
+window.doLogout = async () => {
+    if (!confirm(t('logout'))) return;
+    await signOut(auth);
+};
 
-        // ===== STAN AUTH =====
-        onAuthStateChanged(auth, (user) => {
-            if(user) {
-                document.getElementById('authScreen').classList.add('gone');
-                document.getElementById('appScreen').classList.remove('gone');
-                const st=localStorage.getItem('user_theme'); if(st) setTheme(st);
-                const sf=localStorage.getItem('user_font');  if(sf) setFont(sf);
+// ===== USUWANIE KONTA =====
+window.doDeleteAccount = async () => {
+    const user = auth.currentUser; if (!user) return;
+    if (!confirm(t('delConfirm'))) return;
+    const pass = prompt(t('delPrompt')); if (!pass) return;
+    try {
+        const cred = EmailAuthProvider.credential(user.email, pass);
+        await reauthenticateWithCredential(user, cred);
+        await remove(ref(db, `users/${user.uid}`));
+        await remove(ref(db, `reactions/${user.uid}`));
+        await deleteUser(user);
+        alert(t('delDone'));
+    } catch(e) { alert(translateError(e.code)); }
+};
 
-                onValue(ref(db,`users/${user.uid}`),(s)=>{
-                    userData=s.val()||{};
-                    const nick = userData.nick || user.email;
-                    const headerNick = document.getElementById('headerNick');
-                    headerNick.innerText = nick;
-                    headerNick.className = `text-sm font-bold italic truncate max-w-[120px] ${userData.inventory?.gold_nick ? 'gold-nick' : 'text-blue-400'}`;
-                    document.getElementById('coinCount').innerText=`${(userData.coins||0).toLocaleString()} 🪙`;
-                    document.getElementById('headerAvatar').src=userData.avatar||'https://cdn-icons-png.flaticon.com/512/149/149071.png';
-                });
+document.getElementById('loginPassword').addEventListener('keypress', e => { if(e.key==='Enter') doLogin(); });
+document.getElementById('regPassword2').addEventListener('keypress', e => { if(e.key==='Enter') doRegister(); });
 
-                // Wczytaj moje reakcje
-                onValue(ref(db,`reactions/${user.uid}`),(s)=>{
-                    myReactions=s.val()||{};
-                    refreshAllReactions();
-                });
+// ===== STAN AUTH =====
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        if (!user.emailVerified) {
+            document.getElementById('verifyNotice').classList.add('show');
+            signOut(auth); return;
+        }
+        document.getElementById('authScreen').classList.add('gone');
+        document.getElementById('appScreen').classList.remove('gone');
 
-                // Nasłuchuj globalnego rickrolla
-                onValue(ref(db,'rickroll/active'),(s)=>{
-                    if(s.val()===true) showRickroll();
-                });
+        const st = localStorage.getItem('user_theme'); if (st != null) setTheme(st);
+        const sf = localStorage.getItem('user_font');  if (sf) setFont(sf);
 
-                if(!messagesLoaded){ loadMessages(); messagesLoaded=true; }
-            } else {
-                document.getElementById('authScreen').classList.remove('gone');
-                document.getElementById('appScreen').classList.add('gone');
-                messagesLoaded=false; myReactions={}; userData={};
-                document.getElementById('messages').innerHTML='';
-                setLoading('loginBtn',false); setLoading('registerBtn',false);
+        onValue(ref(db, `users/${user.uid}`), (s) => {
+            userData = s.val() || {};
+            const nick = userData.nick || user.email;
+            const hEl = document.getElementById('headerNick');
+            hEl.innerText = nick;
+            hEl.className = `text-sm font-bold italic truncate max-w-[120px] ${userData.inventory?.gold_nick ? 'gold-nick' : 'text-blue-400'}`;
+            document.getElementById('coinCount').innerText = `${(userData.coins||0).toLocaleString()} 🪙`;
+            document.getElementById('headerAvatar').src = userData.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+            updateShopOwned();
+            // Sprawdź osiągnięcie milionera
+            if ((userData.coins||0) >= 1000000 && !userData.achievements?.millionaire) {
+                update(ref(db, `users/${user.uid}`), {'achievements/millionaire': true});
             }
         });
 
-        // ===== RICKROLL =====
-        let rrInterval = null;
-        function showRickroll() {
-            const overlay = document.getElementById('rickrollOverlay');
-            if(overlay.classList.contains('active')) return; // już widoczny
-            const frame = document.getElementById('rickrollFrame');
-            // Wbuduj dokładnie ten film z autoplay
-            frame.src = "https://www.youtube.com/embed/QDia3e12czc?autoplay=1&controls=0&loop=1&playlist=QDia3e12czc";
-            overlay.classList.add('active');
-            let count = 10;
-            document.getElementById('rrCount').textContent = count;
-            rrInterval = setInterval(()=>{
-                count--;
-                document.getElementById('rrCount').textContent = count;
-                if(count <= 0){
-                    clearInterval(rrInterval);
-                    overlay.classList.remove('active');
-                    frame.src = ''; // zatrzymaj wideo
-                }
-            }, 1000);
-        }
+        onValue(ref(db, `reactions/${user.uid}`), (s) => {
+            myReactions = s.val() || {};
+            refreshAllReactions();
+        });
 
-        // ===== SKLEP – KUPOWANIE =====
-        window.buyItem = async (item, price, name) => {
-            if((userData.coins||0) < price) return alert(`Masz za mało monet! Potrzebujesz ${price.toLocaleString()} 🪙`);
-            if(!confirm(`Kupić "${name}" za ${price.toLocaleString()} 🪙?`)) return;
+        // Rickroll listener
+        onValue(ref(db, 'events/rickroll/active'), (s) => {
+            if (s.val() === true) showRickroll();
+        });
 
-            if(item === 'rickroll') {
-                // Odpal rickrolla globalnie
-                const updates = {};
-                updates[`users/${auth.currentUser.uid}/coins`] = increment(-price);
-                updates['rickroll/active'] = true;
-                updates['rickroll/triggeredBy'] = auth.currentUser.uid;
-                updates['rickroll/at'] = Date.now();
-                await update(ref(db), updates);
-                // Po 12 sekundach (+ bufor) wyłącz flagę
-                setTimeout(async ()=>{
-                    await update(ref(db,'rickroll'),{active: false});
-                }, 12000);
-                return;
+        // Konfetti listener
+        onValue(ref(db, 'events/confetti'), (s) => {
+            const d = s.val();
+            if (d && d.active === true) showConfetti(d.nick);
+        });
+
+        if (!messagesLoaded) { loadMessages(); messagesLoaded = true; }
+    } else {
+        document.getElementById('authScreen').classList.remove('gone');
+        document.getElementById('appScreen').classList.add('gone');
+        messagesLoaded = false; myReactions = {}; userData = {};
+        document.getElementById('messages').innerHTML = '';
+        setLoading('loginBtn', false); setLoading('registerBtn', false);
+    }
+});
+
+// ===== SHOP OWNED =====
+function updateShopOwned() {
+    ['vip','gold_nick'].forEach(item => {
+        if (userData.inventory?.[item]) {
+            const btn = document.getElementById(`btn-${item}`);
+            if (btn) {
+                btn.textContent = t('owned');
+                btn.className = 'bg-green-900/40 border border-green-500/40 text-green-400 px-5 py-2 rounded-xl text-xs font-bold cursor-not-allowed';
+                btn.onclick = null;
             }
-
-            const updates = {};
-            updates[`users/${auth.currentUser.uid}/coins`] = increment(-price);
-            updates[`users/${auth.currentUser.uid}/inventory/${item}`] = true;
-            await update(ref(db), updates);
-            alert(`✅ Kupiono: ${name}!`);
-        };
-
-        // ===== REAKCJE (limit 1 na typ na wiadomość) =====
-        function refreshAllReactions() {
-            // Dla każdej wiadomości i każdego typu zaznacz jeśli już zareagowano
-            Object.keys(myReactions).forEach(msgId => {
-                Object.keys(myReactions[msgId]||{}).forEach(type => {
-                    const btn = document.getElementById(`rxn-${msgId}-${type}`);
-                    if(btn) btn.classList.add('used');
-                });
-            });
         }
+    });
+}
 
-        window.addReaction = async (msgId, type) => {
-            const user = auth.currentUser; if(!user) return;
-            const btn = document.getElementById(`rxn-${msgId}-${type}`); if(!btn) return;
+// ===== SKLEP =====
+window.buyItem = async (item, price, name) => {
+    if ((userData.coins||0) < price) return showToast(t('noCoins'));
+    if (!confirm(`Kupić "${name}" za ${price.toLocaleString()} 🪙?`)) return;
 
-            // Już zareagowano – potrząśnij
-            if(myReactions[msgId]?.[type]) {
-                btn.classList.remove('shake'); void btn.offsetWidth; btn.classList.add('shake'); return;
+    if (item === 'rickroll' || item === 'confetti') {
+        const updates = {};
+        updates[`users/${auth.currentUser.uid}/coins`] = increment(-price);
+        updates[`users/${auth.currentUser.uid}/inventory/${item}`] = true;
+        await update(ref(db), updates);
+        showToast(t('bought'));
+        return;
+    }
+
+    const updates = {};
+    updates[`users/${auth.currentUser.uid}/coins`] = increment(-price);
+    updates[`users/${auth.currentUser.uid}/inventory/${item}`] = true;
+    await update(ref(db), updates);
+    showToast(t('bought'));
+};
+
+// ===== KOMENDY CZATU =====
+async function handleCommand(text) {
+    const low = text.trim().toLowerCase();
+    const uid = auth.currentUser.uid;
+
+    if (low === '!rickrollevent') {
+        if (!userData.inventory?.rickroll) { showToast(t('noItem')); return true; }
+        const updates = {};
+        updates['events/rickroll/active'] = true;
+        updates['events/rickroll/triggeredBy'] = uid;
+        updates['events/rickroll/at'] = Date.now();
+        await update(ref(db), updates);
+        setTimeout(async () => {
+            await update(ref(db, 'events/rickroll'), { active: false });
+        }, 13000);
+        return true;
+    }
+
+    if (low === '!funevent') {
+        if (!userData.inventory?.confetti) { showToast(t('noItem')); return true; }
+        if (confettiCooldown) { showToast(t('cooldown')); return true; }
+        const nick = userData.nick || auth.currentUser.email;
+        const updates = {};
+        updates['events/confetti/active'] = true;
+        updates['events/confetti/nick'] = nick;
+        updates['events/confetti/at'] = Date.now();
+        await update(ref(db), updates);
+        setTimeout(async () => {
+            await update(ref(db, 'events/confetti'), { active: false });
+        }, 12000);
+        return true;
+    }
+    return false;
+}
+
+// ===== RICKROLL =====
+let rrInterval = null;
+function showRickroll() {
+    const overlay = document.getElementById('rickrollOverlay');
+    if (overlay.classList.contains('active')) return;
+    document.getElementById('rickrollFrame').src = 'https://www.youtube.com/embed/QDia3e12czc?autoplay=1&controls=0&loop=1&playlist=QDia3e12czc';
+    overlay.classList.add('active');
+    let count = 10;
+    document.getElementById('rrCount').textContent = count;
+    rrInterval = setInterval(() => {
+        count--;
+        document.getElementById('rrCount').textContent = count;
+        if (count <= 0) {
+            clearInterval(rrInterval);
+            overlay.classList.remove('active');
+            document.getElementById('rickrollFrame').src = '';
+        }
+    }, 1000);
+}
+
+// ===== KONFETTI =====
+function showConfetti(nick) {
+    if (confettiCooldown) return;
+    confettiCooldown = true;
+    const overlay = document.getElementById('confettiOverlay');
+    document.getElementById('confettiName').textContent = '🎉 ' + nick + ' 🎉';
+    overlay.classList.add('active');
+    spawnConfetti(overlay);
+    setTimeout(() => {
+        overlay.classList.remove('active');
+        overlay.querySelectorAll('.confetti-piece').forEach(p => p.remove());
+        confettiCooldown = false;
+    }, 2000);
+}
+function spawnConfetti(container) {
+    const colors = ['#f87171','#fbbf24','#34d399','#60a5fa','#c084fc','#fb923c','#f472b6','#a78bfa'];
+    for (let i = 0; i < 80; i++) {
+        const p = document.createElement('div');
+        p.className = 'confetti-piece';
+        p.style.cssText = `left:${Math.random()*100}%;top:-20px;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${1.2+Math.random()*0.8}s;animation-delay:${Math.random()*0.4}s;width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;`;
+        container.appendChild(p);
+    }
+}
+
+// ===== PROFILE MODAL =====
+window.openOwnProfile = () => openUserProfile(auth.currentUser.uid);
+
+window.openUserProfile = async (uid) => {
+    const snap = await get(ref(db, `users/${uid}`));
+    const u = snap.val() || {};
+
+    document.getElementById('modalAvatar').src = u.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+    const nickEl = document.getElementById('modalNick');
+    nickEl.textContent = u.nick || 'Unknown';
+    nickEl.className = 'modal-nick' + (u.inventory?.gold_nick ? ' gold-nick' : '');
+
+    const sub = [];
+    if (u.inventory?.vip) sub.push('💎 VIP');
+    if (u.inventory?.gold_nick) sub.push('✨ Złoty Nick');
+    document.getElementById('modalSub').textContent = sub.join(' · ') || 'Zwykły użytkownik';
+
+    document.getElementById('modalCoins').textContent  = (u.coins||0).toLocaleString();
+    document.getElementById('modalMsgs').textContent   = (u.msgCount||0).toLocaleString();
+    document.getElementById('modalHearts').textContent = (u.heartsReceived||0).toLocaleString();
+
+    // Aktualizuj etykiety językiem
+    document.querySelectorAll('.modal-stat-label')[0].textContent = t('coins_label');
+    document.querySelectorAll('.modal-stat-label')[1].textContent = t('msgs_label');
+    document.querySelectorAll('.modal-stat-label')[2].textContent = t('hearts_label');
+    document.querySelector('.ach-title').textContent = t('ach_label');
+
+    const achs = [
+        { key: 'heartCollector', icon: '❤️', name: t('ach_heart_name'), desc: t('ach_heart_desc') },
+        { key: 'millionaire',    icon: '💰', name: t('ach_mil_name'),   desc: t('ach_mil_desc')   },
+    ];
+    const achList = document.getElementById('achList');
+    achList.innerHTML = '';
+    achs.forEach(a => {
+        const unlocked = !!(u.achievements?.[a.key]);
+        achList.innerHTML += `
+        <div class="ach-item ${unlocked?'unlocked':''}">
+            <div class="ach-icon">${a.icon}</div>
+            <div class="ach-info">
+                <div class="ach-name ${unlocked?'':'locked'}">${a.name}</div>
+                <div class="ach-desc">${a.desc}</div>
+            </div>
+            <div class="ach-badge ${unlocked?'done':'todo'}">${unlocked?t('unlocked'):t('locked')}</div>
+        </div>`;
+    });
+
+    document.getElementById('profileModal').classList.add('open');
+};
+window.closeProfileModal = () => document.getElementById('profileModal').classList.remove('open');
+
+// ===== REAKCJE =====
+function refreshAllReactions() {
+    Object.keys(myReactions).forEach(msgId => {
+        Object.keys(myReactions[msgId]||{}).forEach(type => {
+            const btn = document.getElementById(`rxn-${msgId}-${type}`);
+            if (btn) btn.classList.add('used');
+        });
+    });
+}
+
+window.addReaction = async (msgId, type) => {
+    const user = auth.currentUser; if (!user) return;
+    const btn = document.getElementById(`rxn-${msgId}-${type}`); if (!btn) return;
+
+    if (myReactions[msgId]?.[type]) {
+        btn.classList.remove('shake'); void btn.offsetWidth; btn.classList.add('shake'); return;
+    }
+    const snap = await get(ref(db, `reactions/${user.uid}/${msgId}/${type}`));
+    if (snap.exists()) {
+        if (!myReactions[msgId]) myReactions[msgId] = {};
+        myReactions[msgId][type] = true; btn.classList.add('used'); return;
+    }
+
+    const updates = {};
+    updates[`reactions/${user.uid}/${msgId}/${type}`] = true;
+    updates[`messages/${msgId}/reactions/${type}`] = increment(1);
+
+    if (type === 'heart') {
+        // Pobierz uid właściciela wiadomości i przyznaj serduszko
+        const ownerSnap = await get(ref(db, `messages/${msgId}/uid`));
+        if (ownerSnap.exists()) {
+            const ownerUid = ownerSnap.val();
+            updates[`users/${ownerUid}/heartsReceived`] = increment(1);
+            // Sprawdź czy wiadomość dostała już 3 serduszka → osiągnięcie
+            const hSnap = await get(ref(db, `messages/${msgId}/reactions/heart`));
+            if ((hSnap.val()||0) + 1 >= 3) {
+                updates[`users/${ownerUid}/achievements/heartCollector`] = true;
             }
-
-            // Sprawdź w Firebase (race condition)
-            const snap = await get(ref(db,`reactions/${user.uid}/${msgId}/${type}`));
-            if(snap.exists()) {
-                if(!myReactions[msgId]) myReactions[msgId]={};
-                myReactions[msgId][type]=true; btn.classList.add('used'); return;
-            }
-
-            const updates = {};
-            updates[`reactions/${user.uid}/${msgId}/${type}`] = true;
-            updates[`messages/${msgId}/reactions/${type}`] = increment(1);
-            try {
-                await update(ref(db), updates);
-                if(!myReactions[msgId]) myReactions[msgId]={};
-                myReactions[msgId][type]=true;
-                btn.classList.add('used','pop');
-            } catch(e){ console.error(e); }
-        };
-
-        // ===== ZAKŁADKI =====
-        window.showTab = (tab) => {
-            document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-            document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active-nav'));
-            document.getElementById(tab+'Tab').classList.add('active');
-            document.getElementById('nav-'+tab).classList.add('active-nav');
-        };
-
-        window.updateProfile = () => {
-            const nick=document.getElementById('nickInput').value.trim();
-            const avatar=document.getElementById('avatarInput').value.trim();
-            const up={}; if(nick) up.nick=nick; if(avatar) up.avatar=avatar;
-            update(ref(db,`users/${auth.currentUser.uid}`),up).then(()=>alert('Profil zapisany!'));
-        };
-
-        window.setFont = (f) => {
-            const el=document.getElementById('appScreen');
-            el.classList.remove('font-modern','font-classic','font-gaming');
-            el.classList.add(f); localStorage.setItem('user_font',f);
-        };
-
-        window.setTheme = (n) => {
-            const el=document.getElementById('appScreen');
-            el.style.backgroundImage = n==0?'':(`url('Assets/wall/${n}.png')`);
-            el.style.backgroundColor='#0f172a';
-            localStorage.setItem('user_theme',n);
-        };
-
-        // ===== WIADOMOŚCI =====
-        const sendMessage = async () => {
-            const input=document.getElementById('userInput');
-            let text=input.value.trim(); if(!text) return;
-            badWords.forEach(w=>{text=text.replace(new RegExp(w,'gi'),'***');});
-            await push(ref(db,'messages'),{
-                text, nick:userData.nick||auth.currentUser.email,
-                avatar:userData.avatar||'', uid:auth.currentUser.uid,
-                goldNick: !!(userData.inventory?.gold_nick),
-                reactions:{heart:0,funny:0,fire:0}, time:serverTimestamp()
-            });
-            update(ref(db,`users/${auth.currentUser.uid}`),{coins:increment(10)});
-            input.value='';
-        };
-
-        window.deleteMsg=(id)=>{if(confirm('Usunąć?')) remove(ref(db,`messages/${id}`));};
-
-        function buildRxnBtn(msgId, type, emoji, count) {
-            const used = !!(myReactions[msgId]?.[type]);
-            return `<button id="rxn-${msgId}-${type}" data-type="${type}" class="rxn-btn ${used?'used':''}" onclick="addReaction('${msgId}','${type}')"><span class="rxn-icon">${emoji}</span><span id="rc-${msgId}-${type}">${count||0}</span></button>`;
         }
+    }
 
-        function loadMessages() {
-            const mBox=document.getElementById('messages');
-            onChildAdded(ref(db,'messages'),(s)=>{
-                const d=s.val(); const id=s.key; const isMe=d.uid===auth.currentUser.uid;
-                const div=document.createElement('div');
-                div.id=`msg-${id}`; div.className=`msg-container ${isMe?'me':''}`;
-                const nickClass = d.goldNick ? 'text-[9px] font-bold gold-nick mb-1' : 'text-[9px] font-bold text-blue-400 mb-1';
-                div.innerHTML=`
-                    <img src="${d.avatar||'https://cdn-icons-png.flaticon.com/512/149/149071.png'}" class="w-8 h-8 rounded-full object-cover flex-shrink-0">
-                    <div class="msg-bubble shadow-xl">
-                        ${isMe?`<div class="del-btn" onclick="deleteMsg('${id}')">×</div>`:''}
-                        <p class="${nickClass}">${d.nick}</p>
-                        <p class="text-sm">${d.text}</p>
-                        <div class="reaction-bar" id="re-${id}">
-                            ${buildRxnBtn(id,'heart','❤️',d.reactions?.heart)}
-                            ${buildRxnBtn(id,'funny','😂',d.reactions?.funny)}
-                            ${buildRxnBtn(id,'fire','🔥',d.reactions?.fire)}
-                        </div>
-                    </div>`;
-                mBox.appendChild(div);
-                mBox.scrollTop=mBox.scrollHeight;
-            });
+    try {
+        await update(ref(db), updates);
+        if (!myReactions[msgId]) myReactions[msgId] = {};
+        myReactions[msgId][type] = true;
+        btn.classList.add('used', 'pop');
+    } catch(e) { console.error(e); }
+};
 
-            onChildChanged(ref(db,'messages'),(s)=>{
-                const d=s.val(); const id=s.key;
-                ['heart','funny','fire'].forEach(type=>{
-                    const el=document.getElementById(`rc-${id}-${type}`);
-                    if(el) el.textContent=d.reactions?.[type]||0;
-                });
-            });
+// ===== ZAKŁADKI =====
+window.showTab = (tab) => {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-nav'));
+    document.getElementById(tab+'Tab').classList.add('active');
+    document.getElementById('nav-'+tab).classList.add('active-nav');
+};
 
-            onChildRemoved(ref(db,'messages'),(s)=>document.getElementById(`msg-${s.key}`)?.remove());
-        }
+window.updateProfile = () => {
+    const nick   = document.getElementById('nickInput').value.trim();
+    const avatar = document.getElementById('avatarInput').value.trim();
+    const up = {}; if (nick) up.nick = nick; if (avatar) up.avatar = avatar;
+    update(ref(db, `users/${auth.currentUser.uid}`), up).then(() => showToast(t('saved')));
+};
 
-        document.getElementById('sendBtn').onclick=sendMessage;
-        document.getElementById('userInput').addEventListener('keypress',e=>{if(e.key==='Enter') sendMessage();});
-    </script>
+window.setFont = (f) => {
+    const el = document.getElementById('appScreen');
+    el.classList.remove('font-modern','font-classic','font-gaming');
+    el.classList.add(f); localStorage.setItem('user_font', f);
+};
+
+window.setTheme = (n) => {
+    const el = document.getElementById('appScreen');
+    el.style.backgroundImage = n==0 ? '' : `url('Assets/wall/${n}.png')`;
+    el.style.backgroundColor = '#0f172a';
+    localStorage.setItem('user_theme', n);
+};
+
+// ===== WIADOMOŚCI =====
+const sendMessage = async () => {
+    const input = document.getElementById('userInput');
+    let text = input.value.trim(); if (!text) return;
+    badWords.forEach(w => { text = text.replace(new RegExp(w,'gi'), '***'); });
+    input.value = '';
+
+    const isCmd = await handleCommand(text);
+    if (isCmd) return;
+
+    await push(ref(db, 'messages'), {
+        text,
+        nick: userData.nick || auth.currentUser.email,
+        avatar: userData.avatar || '',
+        uid: auth.currentUser.uid,
+        goldNick: !!(userData.inventory?.gold_nick),
+        isVip: !!(userData.inventory?.vip),
+        reactions: { heart: 0, funny: 0, fire: 0 },
+        time: serverTimestamp()
+    });
+    // +15 monet + licznik wiadomości
+    update(ref(db, `users/${auth.currentUser.uid}`), { coins: increment(15), msgCount: increment(1) });
+};
+
+window.deleteMsg = (id) => { if (confirm(t('deleteMsg'))) remove(ref(db, `messages/${id}`)); };
+
+function buildRxnBtn(msgId, type, emoji, count) {
+    const used = !!(myReactions[msgId]?.[type]);
+    return `<button id="rxn-${msgId}-${type}" data-type="${type}" class="rxn-btn ${used?'used':''}" onclick="addReaction('${msgId}','${type}')"><span class="rxn-icon">${emoji}</span><span id="rc-${msgId}-${type}">${count||0}</span></button>`;
+}
+
+function loadMessages() {
+    const mBox = document.getElementById('messages');
+
+    onChildAdded(ref(db, 'messages'), (s) => {
+        const d = s.val(); const id = s.key;
+        const isMe = d.uid === auth.currentUser.uid;
+        const div = document.createElement('div');
+        div.id = `msg-${id}`;
+        div.className = `msg-container ${isMe?'me':''} ${d.isVip?'vip-msg':''}`;
+
+        const nickClass = d.goldNick
+            ? 'text-[9px] font-bold gold-nick mb-1'
+            : 'text-[9px] font-bold text-blue-400 mb-1';
+        const vipBadge = d.isVip ? `<span class="vip-badge">VIP</span>` : '';
+
+        div.innerHTML = `
+            <img src="${d.avatar||'https://cdn-icons-png.flaticon.com/512/149/149071.png'}"
+                 class="msg-avatar" onclick="openUserProfile('${d.uid}')">
+            <div class="msg-bubble shadow-xl">
+                ${isMe ? `<div class="del-btn" onclick="deleteMsg('${id}')">×</div>` : ''}
+                <p class="${nickClass}">${d.nick}${vipBadge}</p>
+                <p class="text-sm">${d.text}</p>
+                <div class="reaction-bar" id="re-${id}">
+                    ${buildRxnBtn(id,'heart','❤️',d.reactions?.heart)}
+                    ${buildRxnBtn(id,'funny','😂',d.reactions?.funny)}
+                    ${buildRxnBtn(id,'fire','🔥',d.reactions?.fire)}
+                </div>
+            </div>`;
+        mBox.appendChild(div);
+        mBox.scrollTop = mBox.scrollHeight;
+    });
+
+    onChildChanged(ref(db, 'messages'), (s) => {
+        const d = s.val(); const id = s.key;
+        ['heart','funny','fire'].forEach(type => {
+            const el = document.getElementById(`rc-${id}-${type}`);
+            if (el) el.textContent = d.reactions?.[type] || 0;
+        });
+    });
+
+    onChildRemoved(ref(db, 'messages'), (s) => document.getElementById(`msg-${s.key}`)?.remove());
+}
+
+document.getElementById('sendBtn').onclick = sendMessage;
+document.getElementById('userInput').addEventListener('keypress', e => { if(e.key==='Enter') sendMessage(); });
+</script>
 </body>
 </html>
