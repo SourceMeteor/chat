@@ -340,6 +340,7 @@
                         <p class="text-[10px] text-gray-400">Twój nick w globalnym konfetti przez 2s. Użyj <b>!funevent</b> na czacie.</p>
                     </div>
                     <button id="btn-confetti" onclick="buyItem('confetti',1000,'Konfetti Explosion')" class="bg-purple-600 px-5 py-2 rounded-xl text-xs font-bold whitespace-nowrap">1,000 🪙</button>
+                    <span id="count-confetti" class="hidden"></span>
                 </div>
 
                 <div class="bg-gray-900/90 p-5 rounded-3xl border-2 border-red-500/70 flex justify-between items-center relative overflow-hidden" id="card-rickroll">
@@ -350,6 +351,7 @@
                         <p class="text-[9px] text-red-400/60 mt-1 italic">⚠️ Wpisz !rickrollevent na czacie żeby użyć</p>
                     </div>
                     <button id="btn-rickroll" onclick="buyItem('rickroll',10000,'Rickroll Ultimate Destruction')" class="relative bg-red-700 hover:bg-red-600 px-4 py-2 rounded-xl text-xs font-black border border-red-500 shadow-lg shadow-red-900/50 whitespace-nowrap ml-3">10,000 🪙</button>
+                    <span id="count-rickroll" class="hidden"></span>
                 </div>
 
                 <div class="p-4 text-center text-gray-500 text-[10px] uppercase font-bold">Więcej przedmiotów wkrótce...</div>
@@ -518,8 +520,81 @@ function t(k) { return TXT[currentLang]?.[k] || TXT.pl[k] || k; }
 window.setLang = (l) => {
     currentLang = l;
     localStorage.setItem('user_lang', l);
+
+    // Przyciski języka
     document.getElementById('lang-pl').classList.toggle('active-lang', l === 'pl');
     document.getElementById('lang-en').classList.toggle('active-lang', l === 'en');
+
+    const pl = l === 'pl';
+
+    // AUTH
+    document.getElementById('tabLogin').textContent    = pl ? 'Logowanie'    : 'Login';
+    document.getElementById('tabRegister').textContent = pl ? 'Rejestracja'  : 'Register';
+    document.getElementById('loginEmail').placeholder  = pl ? 'Adres e-mail' : 'E-mail address';
+    document.getElementById('loginPassword').placeholder = pl ? 'Hasło'      : 'Password';
+    document.getElementById('loginBtn').textContent    = pl ? 'Zaloguj się →': 'Log in →';
+    document.getElementById('regNick').placeholder     = pl ? 'Nick (wyświetlana nazwa)' : 'Display name (nick)';
+    document.getElementById('regEmail').placeholder    = pl ? 'Adres e-mail' : 'E-mail address';
+    document.getElementById('regPassword').placeholder = pl ? 'Hasło (min. 6 znaków)' : 'Password (min. 6 chars)';
+    document.getElementById('regPassword2').placeholder= pl ? 'Powtórz hasło': 'Confirm password';
+    document.getElementById('registerBtn').textContent = pl ? 'Utwórz konto →' : 'Create account →';
+    document.getElementById('verifyNotice').textContent= pl
+        ? '📧 Sprawdź swoją skrzynkę i kliknij link weryfikacyjny, a potem się zaloguj.'
+        : '📧 Check your inbox and click the verification link, then log in.';
+
+    // PROFIL – sekcje
+    const sectionLabels = document.querySelectorAll('#profileTab .text-\\[10px\\].font-bold.text-gray-500');
+    const sLabels = pl
+        ? ['Twoje Dane','Styl Czcionki','Tapeta Czatu','Język','Konto']
+        : ['Your Profile','Font Style','Chat Wallpaper','Language','Account'];
+    sectionLabels.forEach((el, i) => { if (sLabels[i]) el.textContent = sLabels[i]; });
+
+    document.getElementById('nickInput').placeholder   = pl ? 'Zmień Nick'            : 'Change nick';
+    document.getElementById('avatarInput').placeholder = pl ? 'Link do zdjęcia (Avatar)' : 'Avatar URL (image link)';
+    const saveBtn = document.querySelector('#profileTab button[onclick="updateProfile()"]');
+    if (saveBtn) saveBtn.textContent = pl ? 'Zapisz Zmiany' : 'Save Changes';
+
+    const logoutBtn = document.querySelector('.logout-btn');
+    const deleteBtn = document.querySelector('.delete-btn');
+    if (logoutBtn) logoutBtn.textContent = pl ? '🚪 Wyloguj się'         : '🚪 Log out';
+    if (deleteBtn) deleteBtn.textContent = pl ? '🗑️ Usuń konto na zawsze' : '🗑️ Delete account permanently';
+
+    // SKLEP – tytuł i tapety
+    const shopTitle = document.querySelector('#shopTab h2');
+    if (shopTitle) shopTitle.textContent = pl ? 'Sklep Monet' : 'Coin Shop';
+    const themeButtons = document.querySelectorAll('#profileTab .grid.grid-cols-2 button');
+    const tLabels = pl ? ['DOMYŚLNA','TAPETA 1','TAPETA 2','TAPETA 3'] : ['DEFAULT','WALLPAPER 1','WALLPAPER 2','WALLPAPER 3'];
+    themeButtons.forEach((b, i) => { if (tLabels[i]) b.textContent = tLabels[i]; });
+
+    // INPUT placeholder
+    document.getElementById('userInput').placeholder = pl ? 'Twoja wiadomość...' : 'Your message...';
+
+    // Przyciski sklepu – opisy (tylko tekst w <p class="text-[10px]">)
+    const shopDescs = document.querySelectorAll('#shopTab .text-\\[10px\\].text-gray-400');
+    const dLabels = pl ? [
+        'Świecące niebieskie dymki + odznaka VIP pod nickiem',
+        'Twój nick świeci złotem wszędzie',
+        'Twój nick w globalnym konfetti przez 2s. Użyj !funevent na czacie.',
+        'Odpala Rickrolla WSZYSTKIM na 10 sekund. Użyj !rickrollevent na czacie.',
+    ] : [
+        'Glowing blue messages + VIP badge under your nick',
+        'Your name shines in gold everywhere',
+        'Your nick in global confetti for 2s. Type !funevent in chat.',
+        'Launches Rickroll for ALL users for 10s. Type !rickrollevent in chat.',
+    ];
+    shopDescs.forEach((el, i) => { if (dLabels[i]) el.textContent = dLabels[i]; });
+
+    // rickroll hint
+    const rrHint = document.querySelector('.text-\\[9px\\].text-red-400\\/60');
+    if (rrHint) rrHint.textContent = pl ? '⚠️ Wpisz !rickrollevent na czacie żeby użyć' : '⚠️ Type !rickrollevent in chat to trigger';
+
+    // rickroll timer
+    document.getElementById('rickrollTimer').childNodes[0].textContent = pl ? 'Zamyka się za ' : 'Closes in ';
+    const rrTimerSuffix = document.getElementById('rickrollTimer').childNodes[2];
+    if (rrTimerSuffix) rrTimerSuffix.textContent = pl ? ' sekund...' : ' seconds...';
+
+    // Odśwież sklep żeby napisy "Posiadasz/Owned" też się zmieniły
+    updateShopOwned();
 };
 // Ustaw język z localStorage
 setLang(currentLang);
@@ -685,14 +760,31 @@ onAuthStateChanged(auth, (user) => {
 
 // ===== SHOP OWNED =====
 function updateShopOwned() {
+    const inv = userData.inventory || {};
+    const pl = currentLang === 'pl';
+
+    // VIP i GoldNick – jednorazowe
     ['vip','gold_nick'].forEach(item => {
-        if (userData.inventory?.[item]) {
-            const btn = document.getElementById(`btn-${item}`);
-            if (btn) {
-                btn.textContent = t('owned');
-                btn.className = 'bg-green-900/40 border border-green-500/40 text-green-400 px-5 py-2 rounded-xl text-xs font-bold cursor-not-allowed';
-                btn.onclick = null;
-            }
+        const btn = document.getElementById(`btn-${item}`);
+        if (!btn) return;
+        if (inv[item] === true) {
+            btn.textContent = pl ? 'Posiadasz ✓' : 'Owned ✓';
+            btn.className = 'bg-green-900/40 border border-green-500/40 text-green-400 px-5 py-2 rounded-xl text-xs font-bold cursor-not-allowed whitespace-nowrap';
+            btn.onclick = null;
+        }
+    });
+
+    // Konfetti i Rickroll – licznik sztuk
+    ['confetti','rickroll'].forEach(item => {
+        const badge = document.getElementById(`count-${item}`);
+        if (!badge) return;
+        const qty = typeof inv[item] === 'number' ? inv[item] : (inv[item] ? 1 : 0);
+        if (qty > 0) {
+            badge.textContent = `×${qty}`;
+            badge.className = 'inline-flex items-center justify-center min-w-[24px] h-6 bg-white/10 text-white text-[11px] font-black px-2 rounded-full border border-white/20 ml-2';
+        } else {
+            badge.textContent = '';
+            badge.className = 'hidden';
         }
     });
 }
@@ -700,20 +792,19 @@ function updateShopOwned() {
 // ===== SKLEP =====
 window.buyItem = async (item, price, name) => {
     if ((userData.coins||0) < price) return showToast(t('noCoins'));
-    if (!confirm(`Kupić "${name}" za ${price.toLocaleString()} 🪙?`)) return;
-
-    if (item === 'rickroll' || item === 'confetti') {
-        const updates = {};
-        updates[`users/${auth.currentUser.uid}/coins`] = increment(-price);
-        updates[`users/${auth.currentUser.uid}/inventory/${item}`] = true;
-        await update(ref(db), updates);
-        showToast(t('bought'));
-        return;
-    }
+    if (!confirm(`${currentLang==='pl'?'Kupić':'Buy'} "${name}" ${currentLang==='pl'?'za':'for'} ${price.toLocaleString()} 🪙?`)) return;
 
     const updates = {};
     updates[`users/${auth.currentUser.uid}/coins`] = increment(-price);
-    updates[`users/${auth.currentUser.uid}/inventory/${item}`] = true;
+
+    if (item === 'rickroll' || item === 'confetti') {
+        // Wielokrotne – przechowuj jako licznik
+        updates[`users/${auth.currentUser.uid}/inventory/${item}`] = increment(1);
+    } else {
+        // Jednorazowe (vip, gold_nick)
+        updates[`users/${auth.currentUser.uid}/inventory/${item}`] = true;
+    }
+
     await update(ref(db), updates);
     showToast(t('bought'));
 };
@@ -724,11 +815,12 @@ async function handleCommand(text) {
     const uid = auth.currentUser.uid;
 
     if (low === '!rickrollevent') {
-        if (!userData.inventory?.rickroll) { showToast(t('noItem')); return true; }
+        if (!userData.inventory?.rickroll || userData.inventory.rickroll < 1) { showToast(t('noItem')); return true; }
         const updates = {};
         updates['events/rickroll/active'] = true;
         updates['events/rickroll/triggeredBy'] = uid;
         updates['events/rickroll/at'] = Date.now();
+        updates[`users/${uid}/inventory/rickroll`] = increment(-1);
         await update(ref(db), updates);
         setTimeout(async () => {
             await update(ref(db, 'events/rickroll'), { active: false });
@@ -737,13 +829,14 @@ async function handleCommand(text) {
     }
 
     if (low === '!funevent') {
-        if (!userData.inventory?.confetti) { showToast(t('noItem')); return true; }
+        if (!userData.inventory?.confetti || userData.inventory.confetti < 1) { showToast(t('noItem')); return true; }
         if (confettiCooldown) { showToast(t('cooldown')); return true; }
         const nick = userData.nick || auth.currentUser.email;
         const updates = {};
         updates['events/confetti/active'] = true;
         updates['events/confetti/nick'] = nick;
         updates['events/confetti/at'] = Date.now();
+        updates[`users/${uid}/inventory/confetti`] = increment(-1);
         await update(ref(db), updates);
         setTimeout(async () => {
             await update(ref(db, 'events/confetti'), { active: false });
